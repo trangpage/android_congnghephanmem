@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:background="#ffffff"
+        android:id="@+id/main_layout"
+        android:weightSum="1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="247dp"
+            android:id="@+id/imageView"
+            android:background="@drawable/logozalo"
+            android:src="@drawable/logozalo" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="333dp"
+            android:layout_height="wrap_content"
+            android:text="Đăng nhập"
+            android:id="@+id/btnDangNhap"
+            android:layout_margin="20dp"
+            android:layout_gravity="center_horizontal"
+            android:background="#007ba7"
+            android:backgroundTintMode="multiply"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Đăng nhập bằng mật khẩu"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.08" />
+
+        <Button
+            android:layout_width="332dp"
+            android:layout_height="wrap_content"
+            android:text="Đăng ký"
+            android:id="@+id/btnDangKy"
+            android:layout_margin="20dp"
+            android:layout_gravity="center_horizontal"
+            android:background="#808080"
+            android:textColor="#ffffff"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Đăng ký tài khoản mới bằng số điện thoại"
+            android:id="@+id/textView3"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.08"/>
+
+    </LinearLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
+
+        </android.support.v4.view.ViewPager>
+
+
+</LinearLayout>
