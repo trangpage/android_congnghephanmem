@@ -41,4 +41,5 @@ dependencies {
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
     compile files('E:/thuchanh/project - android/MyApp/lib/Java-WebSocket.jar')
+    compile files('E:/thuchanh/project - android/MyApp/lib/CHAT.jar')
 }

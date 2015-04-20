@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.nhuocquy.model.Message;
+
 import java.util.List;
 
 /**
@@ -54,7 +56,8 @@ public class MessagesListAdapter extends BaseAdapter {
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
         // Identifying the message owner
-        if (messagesItems.get(position).isSelf()) {
+//        if (messagesItems.get(position).isSelf()) {
+        if (true){
             // message belongs to you, so load the right aligned layout
             convertView = mInflater.inflate(R.layout.list_item_message_right,
                     null);
@@ -67,8 +70,8 @@ public class MessagesListAdapter extends BaseAdapter {
         TextView lblFrom = (TextView) convertView.findViewById(R.id.lblMsgFrom);
         TextView txtMsg = (TextView) convertView.findViewById(R.id.txtMsg);
 
-        txtMsg.setText(m.getMessage());
-        lblFrom.setText(m.getFromName());
+        txtMsg.setText(m.getText());
+        lblFrom.setText(m.getfromName());
 
         return convertView;
     }

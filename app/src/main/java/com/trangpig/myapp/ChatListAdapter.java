@@ -7,19 +7,21 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.trangpig.model.Conversation;
+
+import com.nhuocquy.model.Conversation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by TrangPig on 04/18/2015.
  */
 public class ChatListAdapter extends ArrayAdapter<Conversation>{
         Activity contex;
-        ArrayList<Conversation> arr = null;
+        List<Conversation> arr = null;
         int id;
 
-        public ChatListAdapter(Activity context, ArrayList<Conversation> arr, int id) {
+        public ChatListAdapter(Activity context, List<Conversation> arr, int id) {
             super(context, id, arr);
             this.contex = context;
             this.arr = arr;
@@ -37,7 +39,7 @@ public class ChatListAdapter extends ArrayAdapter<Conversation>{
                 final TextView tvLastSMS = (TextView)convertView.findViewById(R.id.tvLastSMS);
                 final TextView tvDate = (TextView)convertView.findViewById(R.id.tvDate);
                 final Conversation con = arr.get(position);
-                tvTen.setText(con.getTen());
+                tvTen.setText(con.toString());
                 tvLastSMS.setText(con.getListMes().get(0).getText());
                 tvDate.setText(con.getListMes().get(0).getDate().toString());
             }

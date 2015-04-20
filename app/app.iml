@@ -93,6 +93,7 @@
     <orderEntry type="library" exported="" name="sv" level="project" />
     <orderEntry type="library" exported="" name="jackson-core-2.3.2" level="project" />
     <orderEntry type="library" exported="" name="Java-WebSocket" level="project" />
+    <orderEntry type="library" exported="" name="CHAT" level="project" />
   </component>
 </module>
 

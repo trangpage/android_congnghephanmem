@@ -23,9 +23,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nhuoc.quy.dto.SinhVien;
-import com.trangpig.model.Conversation;
-import com.trangpig.model.Friend;
-import com.trangpig.model.MessageChat;
+import com.nhuocquy.model.Account;
+import com.nhuocquy.model.Conversation;
+import com.nhuocquy.model.Friend;
+import com.nhuocquy.model.Message;
 import com.trangpig.until.Utils;
 import com.trangpig.until.WsConfig;
 
@@ -57,6 +58,7 @@ public class MainActivity extends FragmentActivity
     private Button btnSend;
     private EditText inputMsg;
 
+    private Account account;
     private WebSocketClient client;
 
     // Chat messages list adapter
@@ -64,9 +66,9 @@ public class MainActivity extends FragmentActivity
     private List<Message> listMessages;
     private ListView listViewMessages;
     private  ListView listViewChat;
-    ArrayList<Conversation> arrCon;
+    List<Conversation> arrCon;
     ArrayList<Friend> arrFrs;
-    ArrayList<MessageChat> arrMes;
+    ArrayList<Message> arrMes;
     EditText edit;
 
     private Utils utils;
@@ -196,15 +198,8 @@ public class MainActivity extends FragmentActivity
         setContentView(R.layout.chatlist);
         edit = (EditText)findViewById(R.id.txtBanBe);
         listViewChat = (ListView)findViewById(R.id.lvChat);
-        arrCon=new ArrayList<Conversation>();
-        arrFrs = new ArrayList<Friend>();
-        arrMes = new ArrayList<MessageChat>();
-        arrFrs.add(new Friend(1, "Trang, Tuyet"));
-        arrMes.add(new MessageChat(1,1,"Trang, Tuyet","hello",new Date()));
-        arrCon.add(new Conversation(1,arrFrs,arrMes));
-        arrCon.add(new Conversation(1,arrFrs,arrMes));
-        arrCon.add(new Conversation(1,arrFrs,arrMes));
-
+        account = (Account) getIntent().getSerializableExtra("acc");
+        arrCon = account.getConversations();
         adapter = new ChatListAdapter(this, arrCon, R.layout.myitemlayout);
         listViewChat.setAdapter(adapter);
     }
@@ -257,8 +252,12 @@ public class MainActivity extends FragmentActivity
                     isSelf = false;
                 }
 
-                Message m = new Message(fromName, message, isSelf);
-
+//                Message m = new Message(fromName, message, isSelf);
+                Message m = new Message();
+                m.setfromName(fromName);
+                m.setText(message);
+//                m.set
+//
                 // Appending the message to chat list
                 appendMessage(m);
 
