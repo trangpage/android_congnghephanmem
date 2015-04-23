@@ -21,10 +21,10 @@ public class Logo extends FragmentActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.logo);
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        FragmentManager fm = getSupportFragmentManager();
-        ZaloFragmentPagerAdapter zaloAdapter = new ZaloFragmentPagerAdapter(fm,getApplicationContext());
-        pager.setAdapter(zaloAdapter);
+//        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+//        FragmentManager fm = getSupportFragmentManager();
+//        FriendAdapter zaloAdapter = new FriendAdapter(fm,getApplicationContext());
+//        pager.setAdapter(zaloAdapter);
 
         btnDangNhap = (Button) findViewById(R.id.btnDangNhap);
         btnDangKy = (Button) findViewById(R.id.btnDangKy);
@@ -37,6 +37,8 @@ public class Logo extends FragmentActivity{
                 startActivity(intent);
             }
         });
+
+
 
     }
 }

@@ -20,6 +20,7 @@ public class ChatListAdapter extends ArrayAdapter<Conversation>{
         Activity contex;
         List<Conversation> arr = null;
         int id;
+        int size;
 
         public ChatListAdapter(Activity context, List<Conversation> arr, int id) {
             super(context, id, arr);
@@ -39,9 +40,15 @@ public class ChatListAdapter extends ArrayAdapter<Conversation>{
                 final TextView tvLastSMS = (TextView)convertView.findViewById(R.id.tvLastSMS);
                 final TextView tvDate = (TextView)convertView.findViewById(R.id.tvDate);
                 final Conversation con = arr.get(position);
-                tvTen.setText(con.toString());
-                tvLastSMS.setText(con.getListMes().get(0).getText());
-                tvDate.setText(con.getListMes().get(0).getDate().toString());
+                tvTen.setText(con.selectNames());
+                if((size = con.getListMes().size() -1) > 0)
+                tvLastSMS.setText(con.getListMes().get(size).getText());
+                else
+                tvLastSMS.setText("...");
+                if(size > 0)
+                tvDate.setText(con.getListMes().get(size).getDate().toString());
+                else
+                tvDate.setText("...");
             }
             return convertView;
         }

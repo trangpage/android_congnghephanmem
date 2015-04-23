@@ -4,18 +4,18 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/txtBanBe"
+        android:id="@+id/txtFr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Danh sach tin nhan"
+        android:hint="Danh sach ban be"
         android:inputType="textPersonName" />
 
     <ListView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/lvChat"
-    />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvFr"
+        />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
@@ -25,5 +25,3 @@
     </android.support.v4.view.ViewPager>
 
 </LinearLayout>
-
-
