@@ -37,9 +37,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
-    compile files('E:/thuchanh/project - android/MyApp/lib/sv.jar')
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
-    compile files('E:/thuchanh/project - android/MyApp/lib/Java-WebSocket.jar')
-    compile files('E:/thuchanh/project - android/MyApp/lib/tuyensinh-model-1.0.jar')
+    compile files('libs/tuyensinh-model-1.0.jar')
+    compile files('libs/Java-WebSocket.jar')
 }

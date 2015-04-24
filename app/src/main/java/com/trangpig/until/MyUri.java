@@ -5,7 +5,9 @@ package com.trangpig.until;
  */
 public class MyUri {
 
-    public static final String IP = "";
+    public static final String IP = "192.168.137.1";
     public static final String LOGIN = "http://%s:8080/tuyensinh/login";
+    public static final String CONVERSATION = "http://%s:8080/tuyensinh/getconversation";
+    public static final String URL_WEBSOCKET = "ws://%s:8080/WebMobileGroupChatServer/chat?id=%s";
 
 }

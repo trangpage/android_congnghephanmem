@@ -1,9 +1,6 @@
-package com.trangpig.myapp;
+package com.trangpig.myapp.adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nhuocquy.model.*;
+import com.nhuocquy.model.Friend;
+import com.trangpig.myapp.R;
 
 import java.util.List;
 
@@ -19,13 +17,13 @@ import java.util.List;
 /**
  * Created by TrangPig on 04/06/2015.
  */
-public class FriendAdapter extends ArrayAdapter<Friend> {
+public class ListFriendAdapter extends ArrayAdapter<Friend> {
 
     Activity context;
     List<Friend> listFriend;
     int cur;
 
-    public FriendAdapter(Activity context, List<Friend> listFriend, int cur) {
+    public ListFriendAdapter(Activity context, List<Friend> listFriend, int cur) {
         super(context, cur, listFriend);
         this.context = context;
         this.listFriend = listFriend;

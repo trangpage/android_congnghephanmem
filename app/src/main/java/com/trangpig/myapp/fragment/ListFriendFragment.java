@@ -1,6 +1,5 @@
-package com.trangpig.myapp;
+package com.trangpig.myapp.fragment;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,16 +12,18 @@ import android.widget.ListView;
 import com.nhuocquy.model.Friend;
 import com.nhuocquy.model.Account;
 import com.trangpig.data.Data;
+import com.trangpig.myapp.R;
+import com.trangpig.myapp.adapter.ListFriendAdapter;
 
 import java.util.List;
 
 /**
  * Created by TrangPig on 04/06/2015.
  */
-public class FriendFragment extends Fragment {
+public class ListFriendFragment extends Fragment {
 
     private Account account;
-    private FriendAdapter frAdapter;
+    private ListFriendAdapter frAdapter;
     private ListView listViewFriend;
     List<Friend> arrFr;
     EditText edit;
@@ -42,7 +43,7 @@ public class FriendFragment extends Fragment {
         arrFr = account.getListFrs();
         listViewFriend =(ListView) v.findViewById(R.id.lvFr);
         edit = (EditText) v.findViewById(R.id.txtFr);
-        frAdapter = new FriendAdapter(getActivity(),arrFr,R.layout.my_item_layout_friend);
+        frAdapter = new ListFriendAdapter(getActivity(),arrFr,R.layout.my_item_layout_friend);
         listViewFriend.setAdapter(frAdapter);
 
         // su kien cho listview

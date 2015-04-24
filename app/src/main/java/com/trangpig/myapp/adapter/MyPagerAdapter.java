@@ -1,4 +1,4 @@
-package com.trangpig.myapp;
+package com.trangpig.myapp.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
+
+import com.trangpig.myapp.R;
 
 import java.util.List;
 

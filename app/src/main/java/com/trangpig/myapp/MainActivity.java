@@ -16,6 +16,9 @@ import android.view.MenuItem;
 import com.nhuocquy.model.Account;
 
 import com.trangpig.data.Data;
+import com.trangpig.myapp.adapter.MyPagerAdapter;
+import com.trangpig.myapp.fragment.ListConversationFragment;
+import com.trangpig.myapp.fragment.ListFriendFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +37,9 @@ public class MainActivity extends FragmentActivity
         sharedPreferences = this.getSharedPreferences(
                 getString(R.string.accountXML), Context.MODE_PRIVATE);
         account = (Account) Data.getInstance().getAttribute(getString(R.string.account));
-        int id = -1;
+        long id = -1;
         if(account==null){
-             id = sharedPreferences.getInt(getString(R.string.accountid),-1);
+             id = sharedPreferences.getLong(getString(R.string.accountid), -1);
             if(id != -1){
             //load account
             }else{
@@ -47,8 +50,8 @@ public class MainActivity extends FragmentActivity
             //chuan bi cho fragment
             ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
             fragmentList = new ArrayList<>();
-            fragmentList.add(new FriendFragment());
-            fragmentList.add(new ChatFragment());
+            fragmentList.add(new ListFriendFragment());
+            fragmentList.add(new ListConversationFragment());
             myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),fragmentList,this);
             viewPager.setAdapter(myPagerAdapter);
             viewPager.setCurrentItem(0);
