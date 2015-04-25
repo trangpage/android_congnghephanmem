@@ -3,19 +3,16 @@ package com.trangpig.myapp;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nhuocquy.model.Account;
 import com.nhuocquy.model.MessageChat;
 import com.trangpig.data.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 //import com.nhuocquy.model.Message;
@@ -80,7 +77,7 @@ public class MessagesListAdapter
          txtMsg = (TextView) convertView.findViewById(R.id.txtMsg);
 
         txtMsg.setText(m.getText());
-        lblFrom.setText(m.getfromName());
+        lblFrom.setText(m.getFromName());
 
         return convertView;
     }

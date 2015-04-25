@@ -13,15 +13,12 @@ import android.widget.Toast;
 
 import com.nhuocquy.model.Account;
 import com.trangpig.data.Data;
+import com.trangpig.myapp.service.MyService;
 import com.trangpig.until.MyUri;
 
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.net.URI;
 
 
 /**
@@ -53,28 +50,9 @@ public class Login extends Activity {
                         if (account != null) {
                             instanceData = Data.getInstance();
                             instanceData.setAttribute(Data.ACOUNT, account);
-                            WebSocketClient webSocketClient = new WebSocketClient(URI.create(String.format(MyUri.URL_WEBSOCKET, MyUri.IP, account.getIdAcc()))) {
-                                @Override
-                                public void onOpen(ServerHandshake serverHandshake) {
 
-                                }
-
-                                @Override
-                                public void onMessage(String s) {
-
-                                }
-
-                                @Override
-                                public void onClose(int i, String s, boolean b) {
-
-                                }
-
-                                @Override
-                                public void onError(Exception e) {
-
-                                }
-                            };
                             Intent intent = new Intent(Login.this, MainActivity.class);
+                            startService(new Intent(Login.this, MyService.class));
                             startActivity(intent);
 
                         } else {
