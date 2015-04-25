@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.nhuocquy.model.Account;
 import com.trangpig.data.Data;
+import com.trangpig.until.MyUri;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -26,7 +27,7 @@ public class MyService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(getApplicationContext(), "start service", Toast.LENGTH_SHORT).show();
         try {
-            webSocketClient = new WebSocketClient(URI.create("ws://192.168.137.1:8080/tuyensinhchat/chat?id="+((Account) Data.getInstance().getAttribute(Data.ACOUNT)).getIdAcc())) {
+            webSocketClient = new WebSocketClient(URI.create(String.format(MyUri.URL_WEBSOCKET,MyUri.IP,((Account)Data.getInstance().getAttribute(Data.ACOUNT)).getIdAcc() + ""))){
                 @Override
                 public void onOpen(ServerHandshake serverHandshake) {
                     Toast.makeText(getApplicationContext(), "Open", Toast.LENGTH_SHORT).show();

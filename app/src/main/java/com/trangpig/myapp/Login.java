@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -77,18 +78,20 @@ public class Login extends Activity {
                 final ProgressDialog ringProgressDialog = ProgressDialog.show(Login.this, "Xin chờ ...", "Đang kết nối ...", true);
                 new Thread(new Runnable() {
                     Message message = handler.obtainMessage();
+
                     @Override
                     public void run() {
                         try {
                             RestTemplate rest = new RestTemplate();
                             rest.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
-                            Account account = rest.getForObject(String.format(MyUri.LOGIN, edtIp.getText().toString()) +
-                                    "?username=" + edtSdt.getText().toString() + "&password=" + edtPass.getText().toString(), Account.class);
+                            MyUri.IP = edtIp.getText().toString();
+                            Log.v("Nhuoc Quy",String.format(MyUri.LOGIN, MyUri.IP, edtSdt.getText().toString(), edtPass.getText().toString()));
+                            Account account = rest.getForObject(String.format(MyUri.LOGIN, MyUri.IP, edtSdt.getText().toString(), edtPass.getText().toString()), Account.class);
                             message.obj = account;
                             message.what = success;
 
                         } catch (RestClientException e) {
+                            e.printStackTrace();
                             message.what = failure;
                         } finally {
                             ringProgressDialog.dismiss();

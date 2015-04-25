@@ -15,8 +15,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhuocquy.model.Account;
 import com.nhuocquy.model.Conversation;
 import com.nhuocquy.model.MessageChat;
@@ -25,6 +23,8 @@ import com.trangpig.myapp.fragment.ListConversationFragment;
 import com.trangpig.myapp.service.MyService;
 import com.trangpig.until.MyUri;
 
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.java_websocket.client.WebSocketClient;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClientException;
@@ -89,6 +89,8 @@ public class ConversationChat extends ActionBarActivity {
 
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
                 // Clearing the input filed once message was sent
                 inputMsg.setText("");
@@ -134,12 +136,12 @@ public class ConversationChat extends ActionBarActivity {
         acc = (Account)Data.getInstance().getAttribute(Data.ACOUNT);
         listNewMes = new ArrayList<MessageChat>();
 
+        newMes = new MessageChat();
         newMes.setFromName(acc.getName());
         newMes.setIdSender(acc.getIdAcc());
         listNewMes.add(newMes);
 
-        contmp.setIdCon(con.getIdCon());
-        contmp.setFriends(con.getFriends());
+        contmp = new Conversation();
         contmp.setListMes(listNewMes);
 
       new Thread(new Runnable() {
@@ -147,10 +149,11 @@ public class ConversationChat extends ActionBarActivity {
           public void run() {
               try {
                   con = restTemplate.postForObject(String.format(MyUri.CONVERSATION, MyUri.IP), new long[]{idCon}, Conversation.class);
-                  if(con.getListMes() != null) {
+                  if( con != null && con.getListMes() != null) {
                       listMessageChat = con.getListMes();
                       adapter.setListMes(listMessageChat);
-                      handler.sendEmptyMessage(1);
+                      contmp.setIdCon(con.getIdCon());
+                      contmp.setFriends(con.getFriends());
                   }
               } catch (RestClientException e) {
 
