@@ -3,6 +3,7 @@ package com.trangpig.myapp;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,11 +27,13 @@ import com.trangpig.until.MyUri;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +53,7 @@ public class ConversationChat extends ActionBarActivity {
     private long idCon = -1;
     private RestTemplate restTemplate;
     private Conversation con;
-    private Handler handler;
+    private Handler handler, handler2;
     List<MessageChat> listMessageChat;
     // chat new mes
     private Conversation contmp;
@@ -75,11 +78,11 @@ public class ConversationChat extends ActionBarActivity {
         inputMsg = (EditText) findViewById(R.id.inputMsg);
         listViewMessages = (ListView) findViewById(R.id.list_view_messages);
         objectMapper = new ObjectMapper();
-        handler = new Handler(){
+        handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                if(webSocketClient == null){
+                if (webSocketClient == null) {
                     webSocketClient = (WebSocketClient) Data.getInstance().getAttribute(MyService.WEB);
                 }
                 newMes.setText(msg.obj.toString());
@@ -97,43 +100,51 @@ public class ConversationChat extends ActionBarActivity {
             }
 
         };
-
-        broadcastReceiver = new BroadcastReceiver() {
+        handler2 = new Handler(){
             @Override
-            public void onReceive(Context context, Intent intent) {
-                mesBroadCast = intent.getStringExtra(MyService.MES);
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                mesBroadCast = msg.obj.toString();
+                showTost("Receive Message");
                 try {
-
-                     receiveMes = objectMapper.readValue(mesBroadCast, MessageChat.class);
-                    if(contmp.getIdCon()==newMes.getIdConversation()) {
-                        listMessageChat.add(newMes);
-                    }else{
-                        for (int i= 0; i < acc.getConversations().size(); i++){
-                            if(receiveMes.getIdConversation()== acc.getConversations().get(i).getIdCon()){
+                    receiveMes = objectMapper.readValue(mesBroadCast, MessageChat.class);
+                    if (con.getIdCon() == receiveMes.getIdConversation()) {
+                        listMessageChat.add(receiveMes);
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        for (int i = 0; i < acc.getConversations().size(); i++) {
+                            if (receiveMes.getIdConversation() == acc.getConversations().get(i).getIdCon()) {
                                 acc.getConversations().get(i).setReaded(false);
+                                acc.getConversations().get(i).addMessageChat(receiveMes);
                             }
                         }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                adapter.notifyDataSetChanged();
-
-
             }
         };
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+//                Toast.makeText(ConversationChat.this, "Receive message from service", Toast.LENGTH_LONG).show();
+                mesHandel = handler2.obtainMessage();
+                mesHandel.obj =intent.getStringExtra(MyService.MES);
+                handler2.sendMessage(mesHandel);
+            }
+        };
+
         restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-        intent  = getIntent();
+        intent = getIntent();
         idCon = intent.getLongExtra(ListConversationFragment.ID_CON, -1);
         listMessageChat = new ArrayList<>();
         adapter = new MessagesListAdapter(ConversationChat.this, listMessageChat);
         listViewMessages.setAdapter(adapter);
 
         // chat mes mới
-        acc = (Account)Data.getInstance().getAttribute(Data.ACOUNT);
+        acc = (Account) Data.getInstance().getAttribute(Data.ACOUNT);
         listNewMes = new ArrayList<MessageChat>();
 
         newMes = new MessageChat();
@@ -144,26 +155,26 @@ public class ConversationChat extends ActionBarActivity {
         contmp = new Conversation();
         contmp.setListMes(listNewMes);
 
-      new Thread(new Runnable() {
-          @Override
-          public void run() {
-              try {
-                  con = restTemplate.postForObject(String.format(MyUri.CONVERSATION, MyUri.IP), new long[]{idCon}, Conversation.class);
-                  if( con != null && con.getListMes() != null) {
-                      listMessageChat = con.getListMes();
-                      adapter.setListMes(listMessageChat);
-                      contmp.setIdCon(con.getIdCon());
-                      contmp.setFriends(con.getFriends());
-                  }
-              } catch (RestClientException e) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    con = restTemplate.postForObject(String.format(MyUri.CONVERSATION, MyUri.IP), new long[]{idCon}, Conversation.class);
+                    if (con != null && con.getListMes() != null) {
+                        listMessageChat = con.getListMes();
+                        adapter.setListMes(listMessageChat);
+                        contmp.setIdCon(con.getIdCon());
+                        contmp.setFriends(con.getFriends());
+                    }
+                } catch (RestClientException e) {
 
-                  Toast.makeText(ConversationChat.this,"Khong the ket noi Internet",Toast.LENGTH_SHORT).show();
-                  e.printStackTrace();
-              }finally {
+                    Toast.makeText(ConversationChat.this, "Khong the ket noi Internet", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                } finally {
 
-              }
-          }
-      }).start();
+                }
+            }
+        }).start();
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,5 +206,20 @@ public class ConversationChat extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(broadcastReceiver, new IntentFilter("my-event"));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
+    }
+    private void showTost(String mes){
+        Toast.makeText(this,mes, Toast.LENGTH_SHORT).show();
     }
 }
