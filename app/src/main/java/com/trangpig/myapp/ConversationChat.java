@@ -21,19 +21,18 @@ import com.nhuocquy.model.Conversation;
 import com.nhuocquy.model.MessageChat;
 import com.trangpig.data.Data;
 import com.trangpig.myapp.fragment.ListConversationFragment;
+import com.trangpig.myapp.fragment.ListFriendFragment;
 import com.trangpig.myapp.service.MyService;
 import com.trangpig.until.MyUri;
 
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +50,7 @@ public class ConversationChat extends ActionBarActivity {
     private MessagesListAdapter adapter;
 
     private long idCon = -1;
+    private long[] idFriends;
     private RestTemplate restTemplate;
     private Conversation con;
     private Handler handler, handler2;
@@ -68,11 +68,16 @@ public class ConversationChat extends ActionBarActivity {
     ObjectMapper objectMapper;
     String mesBroadCast;
     Intent intent;
+    private Account account;
+    List<Conversation> arrCon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_chat);
+
+        account =(Account) Data.getInstance().getAttribute(Data.ACOUNT);
+        arrCon = account.getConversations();
 
         btnSend = (Button) findViewById(R.id.btnSend);
         inputMsg = (EditText) findViewById(R.id.inputMsg);
@@ -139,6 +144,9 @@ public class ConversationChat extends ActionBarActivity {
 
         intent = getIntent();
         idCon = intent.getLongExtra(ListConversationFragment.ID_CON, -1);
+        if(idCon == -1){
+            idFriends = intent.getLongArrayExtra(ListFriendFragment.ID_FRIENDS);
+        }
         listMessageChat = new ArrayList<>();
         adapter = new MessagesListAdapter(ConversationChat.this, listMessageChat);
         listViewMessages.setAdapter(adapter);
@@ -159,8 +167,14 @@ public class ConversationChat extends ActionBarActivity {
             @Override
             public void run() {
                 try {
-                    con = restTemplate.postForObject(String.format(MyUri.CONVERSATION, MyUri.IP), new long[]{idCon}, Conversation.class);
+                   con = restTemplate.postForObject(String.format(MyUri.CONVERSATION, MyUri.IP),(idCon != -1) ? new long[]{idCon} : idFriends, Conversation.class);
                     if (con != null && con.getListMes() != null) {
+                        for(int i=0;i<arrCon.size();i++) {
+                            if (con.getIdCon() != arrCon.get(i).getIdCon()) {
+                                account.getConversations().add(0, con);
+                                Data.getInstance().setAttribute(Data.ACOUNT,account);
+                            }
+                        }
                         listMessageChat = con.getListMes();
                         adapter.setListMes(listMessageChat);
                         contmp.setIdCon(con.getIdCon());
