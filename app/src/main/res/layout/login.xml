@@ -60,7 +60,7 @@
             android:textSize="25dp"
             android:layout_marginTop="15dp"
             android:paddingBottom="10dp"
-            android:text="192.168.137.1" />
+            android:text="192.168.117.191" />
 
         <EditText
             android:layout_width="match_parent"
@@ -69,10 +69,10 @@
             android:ems="10"
             android:id="@+id/edtSdt"
             android:layout_gravity="center_horizontal"
-            android:text="nhuocquy"
             android:textSize="25dp"
             android:layout_marginTop="15dp"
-            android:paddingBottom="10dp"/>
+            android:paddingBottom="10dp"
+            android:text="nhuocquy" />
 
         <EditText
             android:layout_width="match_parent"

@@ -4,10 +4,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ImageSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +30,7 @@ import com.trangpig.myapp.fragment.ListConversationFragment;
 import com.trangpig.myapp.fragment.ListFriendFragment;
 import com.trangpig.myapp.service.MyService;
 import com.trangpig.until.MyUri;
+import com.trangpig.until.Utils;
 
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -34,7 +41,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 //import com.nhuocquy.model.Message;
 
@@ -71,6 +81,8 @@ public class ConversationChat extends ActionBarActivity {
     private Account account;
     List<Conversation> arrCon;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +95,7 @@ public class ConversationChat extends ActionBarActivity {
         inputMsg = (EditText) findViewById(R.id.inputMsg);
         listViewMessages = (ListView) findViewById(R.id.list_view_messages);
         objectMapper = new ObjectMapper();
+
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -169,6 +182,7 @@ public class ConversationChat extends ActionBarActivity {
                 try {
                    con = restTemplate.postForObject(String.format(MyUri.CONVERSATION, MyUri.IP),(idCon != -1) ? new long[]{idCon} : idFriends, Conversation.class);
                     if (con != null && con.getListMes() != null) {
+                        // tao conversation trong list conversation
                         for(int i=0;i<arrCon.size();i++) {
                             if (con.getIdCon() != arrCon.get(i).getIdCon()) {
                                 account.getConversations().add(0, con);

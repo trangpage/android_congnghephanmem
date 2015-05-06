@@ -3,9 +3,13 @@ package com.trangpig.myapp;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -71,6 +75,8 @@ public class Login extends Activity {
         btnDangNhap = (Button) findViewById(R.id.btnDangNhapLogin);
         edtIp = (EditText) findViewById(R.id.edtIp);
         edtSdt = (EditText) findViewById(R.id.edtSdt);
+        //
+        //
         edtPass = (EditText) findViewById(R.id.edtPass);
         btnDangNhap.setOnClickListener(new View.OnClickListener() {
             @Override
