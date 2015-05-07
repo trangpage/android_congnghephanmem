@@ -1,24 +1,19 @@
-package com.trangpig.myapp;
+package com.trangpig.myapp.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.style.ImageSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -26,11 +21,12 @@ import com.nhuocquy.model.Account;
 import com.nhuocquy.model.Conversation;
 import com.nhuocquy.model.MessageChat;
 import com.trangpig.data.Data;
+import com.trangpig.myapp.R;
+import com.trangpig.myapp.adapter.MessagesListAdapter;
 import com.trangpig.myapp.fragment.ListConversationFragment;
 import com.trangpig.myapp.fragment.ListFriendFragment;
 import com.trangpig.myapp.service.MyService;
 import com.trangpig.until.MyUri;
-import com.trangpig.until.Utils;
 
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -41,18 +37,20 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 //import com.nhuocquy.model.Message;
 
 
 public class ConversationChat extends ActionBarActivity {
+    public static final int ACTIVITY_ICON = 1;
+    public static final int ICON_BIG = 2;
+    public static final int ICON_SMALL = 3;
 
+    public static final String KEY_ICON_STRING = "icon";
 
     private Button btnSend;
+    private ImageButton btnIcon;
     private EditText inputMsg;
 
     private WebSocketClient client;
@@ -82,16 +80,15 @@ public class ConversationChat extends ActionBarActivity {
     List<Conversation> arrCon;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_chat);
-
-        account =(Account) Data.getInstance().getAttribute(Data.ACOUNT);
+        setContentView(R.layout.activity_conversation_chat);
+        account = (Account) Data.getInstance().getAttribute(Data.ACOUNT);
         arrCon = account.getConversations();
 
         btnSend = (Button) findViewById(R.id.btnSend);
+        btnIcon = (ImageButton) findViewById(R.id.btnIcon);
         inputMsg = (EditText) findViewById(R.id.inputMsg);
         listViewMessages = (ListView) findViewById(R.id.list_view_messages);
         objectMapper = new ObjectMapper();
@@ -113,12 +110,19 @@ public class ConversationChat extends ActionBarActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                switch (msg.what) {
+                    case ICON_BIG:
+                    case ICON_SMALL:
+                        break;
+                    default:
+                        inputMsg.setText("");
+                        break;
+                }
                 // Clearing the input filed once message was sent
-                inputMsg.setText("");
             }
 
         };
-        handler2 = new Handler(){
+        handler2 = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -147,7 +151,7 @@ public class ConversationChat extends ActionBarActivity {
             public void onReceive(Context context, Intent intent) {
 //                Toast.makeText(ConversationChat.this, "Receive message from service", Toast.LENGTH_LONG).show();
                 mesHandel = handler2.obtainMessage();
-                mesHandel.obj =intent.getStringExtra(MyService.MES);
+                mesHandel.obj = intent.getStringExtra(MyService.MES);
                 handler2.sendMessage(mesHandel);
             }
         };
@@ -157,7 +161,7 @@ public class ConversationChat extends ActionBarActivity {
 
         intent = getIntent();
         idCon = intent.getLongExtra(ListConversationFragment.ID_CON, -1);
-        if(idCon == -1){
+        if (idCon == -1) {
             idFriends = intent.getLongArrayExtra(ListFriendFragment.ID_FRIENDS);
         }
         listMessageChat = new ArrayList<>();
@@ -180,13 +184,13 @@ public class ConversationChat extends ActionBarActivity {
             @Override
             public void run() {
                 try {
-                   con = restTemplate.postForObject(String.format(MyUri.CONVERSATION, MyUri.IP),(idCon != -1) ? new long[]{idCon} : idFriends, Conversation.class);
+                    con = restTemplate.postForObject(String.format(MyUri.CONVERSATION, MyUri.IP), (idCon != -1) ? new long[]{idCon} : idFriends, Conversation.class);
                     if (con != null && con.getListMes() != null) {
                         // tao conversation trong list conversation
-                        for(int i=0;i<arrCon.size();i++) {
+                        for (int i = 0; i < arrCon.size(); i++) {
                             if (con.getIdCon() != arrCon.get(i).getIdCon()) {
                                 account.getConversations().add(0, con);
-                                Data.getInstance().setAttribute(Data.ACOUNT,account);
+                                Data.getInstance().setAttribute(Data.ACOUNT, account);
                             }
                         }
                         listMessageChat = con.getListMes();
@@ -212,6 +216,37 @@ public class ConversationChat extends ActionBarActivity {
                 handler.sendMessage(mesHandel);
             }
         });
+        btnIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(ConversationChat.this, IconActivity.class), ACTIVITY_ICON);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case ACTIVITY_ICON:
+                switch (resultCode) {
+                    case ICON_SMALL:
+                        if (data.getStringExtra(KEY_ICON_STRING) != null)
+                            inputMsg.append(data.getStringExtra(KEY_ICON_STRING));
+                        break;
+                    case ICON_BIG:
+                        if (data.getStringExtra(KEY_ICON_STRING) != null) {
+                            mesHandel = handler.obtainMessage();
+                            mesHandel.obj = data.getStringExtra(KEY_ICON_STRING);
+                            mesHandel.what = ICON_BIG;
+                            handler.sendMessage(mesHandel);
+                        }
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -247,7 +282,8 @@ public class ConversationChat extends ActionBarActivity {
         super.onPause();
         unregisterReceiver(broadcastReceiver);
     }
-    private void showTost(String mes){
-        Toast.makeText(this,mes, Toast.LENGTH_SHORT).show();
+
+    private void showTost(String mes) {
+        Toast.makeText(this, mes, Toast.LENGTH_SHORT).show();
     }
 }

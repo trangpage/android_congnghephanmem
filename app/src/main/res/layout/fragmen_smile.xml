@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridView
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/lvImg"
+    android:numColumns="5"
+        style="@style/AppTheme"
+        android:background="@android:color/darker_gray"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+    </GridView>
+</LinearLayout>

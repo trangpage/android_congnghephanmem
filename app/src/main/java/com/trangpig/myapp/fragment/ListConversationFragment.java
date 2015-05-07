@@ -13,7 +13,7 @@ import android.widget.ListView;
 import com.nhuocquy.model.Account;
 import com.nhuocquy.model.Conversation;
 import com.trangpig.data.Data;
-import com.trangpig.myapp.ConversationChat;
+import com.trangpig.myapp.activity.ConversationChat;
 import com.trangpig.myapp.R;
 import com.trangpig.myapp.adapter.ListConversationAdapter;
 

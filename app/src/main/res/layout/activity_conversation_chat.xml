@@ -18,9 +18,15 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="horizontal"
     android:weightSum="3">
-<EditText
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/btnIcon"
+        android:src="@drawable/icon_smile" />
+
+    <EditText
     android:id="@+id/inputMsg"
     android:layout_width="0dp"
     android:layout_height="fill_parent"

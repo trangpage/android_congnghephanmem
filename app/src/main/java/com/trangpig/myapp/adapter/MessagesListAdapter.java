@@ -1,4 +1,4 @@
-package com.trangpig.myapp;
+package com.trangpig.myapp.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.nhuocquy.model.Account;
 import com.nhuocquy.model.MessageChat;
 import com.trangpig.data.Data;
+import com.trangpig.myapp.R;
+import com.trangpig.until.AnimatedGifImageView;
 import com.trangpig.until.Utils;
 
 import java.util.Iterator;
@@ -29,7 +31,8 @@ import java.util.Set;
  */
 public class MessagesListAdapter
         extends BaseAdapter {
-
+    public static final String CHAR_ZERO = String.valueOf((char) 0);
+    public static final String GIF = "gif";
     private Context context;
     private List<MessageChat> messagesItems;
     Account account;
@@ -40,7 +43,7 @@ public class MessagesListAdapter
     SpannableString spannableString;
     ImageSpan imageSpan;
     Drawable drawable;
-
+    private AnimatedGifImageView animatedGifImageView;
     public MessagesListAdapter(Context context, List<MessageChat> navDrawerItems) {
         this.context = context;
         this.messagesItems = navDrawerItems;
@@ -74,39 +77,57 @@ public class MessagesListAdapter
 
          mInflater = (LayoutInflater) context
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        m = messagesItems.get(position);
+            m = messagesItems.get(position);
+        if(m.getText().indexOf(CHAR_ZERO) != 0) {
             if (m.getIdSender() == account.getIdAcc()) {
                 convertView = mInflater.inflate(R.layout.list_item_message_right,
                         null);
             } else {
                 convertView = mInflater.inflate(R.layout.list_item_message_left,
                         null);
-        }
+            }
 
-         lblFrom = (TextView) convertView.findViewById(R.id.lblMsgFrom);
-         txtMsg = (TextView) convertView.findViewById(R.id.txtMsg);
+
+            txtMsg = (TextView) convertView.findViewById(R.id.txtMsg);
 
         /*txtMsg.setText(m.getText());*/
 //        kiem tra icon
-        String textMes = m.getText();
-        Set<String> keys = Utils.MAP_ICON.keySet();
-        Iterator<String> iterKey = keys.iterator();
-        String next = "";
-        spannableString = new SpannableString(textMes);
-        while(iterKey.hasNext()){
-            next = iterKey.next();
-            if(textMes.contains(next)){
-                drawable = context.getResources().getDrawable(Utils.MAP_ICON.get(next));
-                drawable.setBounds(0,-10,40,40);
-                imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
-                int index = textMes.indexOf(next);
-                spannableString.setSpan(imageSpan,index,index + next.length(),Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                textMes.replace(next,getSpace(next.length()));
+            String textMes = m.getText();
+            Set<String> keys = Utils.MAP_ICON_DRABLE.keySet();
+            Iterator<String> iterKey = keys.iterator();
+            String next = "";
+            spannableString = new SpannableString(textMes);
+            while (iterKey.hasNext()) {
+                next = iterKey.next();
+                if (textMes.contains(next)) {
+                    drawable = context.getResources().getDrawable(Utils.MAP_ICON_DRABLE.get(next));
+                    drawable.setBounds(0, -10, 40, 40);
+                    imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
+                    int index = textMes.indexOf(next);
+                    spannableString.setSpan(imageSpan, index, index + next.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                    textMes.replace(next, getSpace(next.length()));
+                }
             }
-        }
-        txtMsg.setText(spannableString);
-        lblFrom.setText(m.getFromName());
+            txtMsg.setText(spannableString);
 
+        }else{
+            if (m.getIdSender() == account.getIdAcc()) {
+                convertView = mInflater.inflate(R.layout.list_item_message_right_image,
+                        null);
+            } else {
+                convertView = mInflater.inflate(R.layout.list_item_message_left_image,
+                        null);
+            }
+            animatedGifImageView = (AnimatedGifImageView) convertView.findViewById(R.id.animatedGifImageView);
+            if(m.getText().contains(GIF)){
+                animatedGifImageView.setAnimatedGif(Utils.MAP_ICON_RAW.get(m.getText()), AnimatedGifImageView.TYPE.STREACH_TO_FIT);
+            }else{
+                animatedGifImageView.setImageResource(Utils.MAP_ICON_DRABLE.get(new String(":)")));
+            }
+
+        }
+        lblFrom = (TextView) convertView.findViewById(R.id.lblMsgFrom);
+        lblFrom.setText(m.getFromName());
         return convertView;
     }
     private String getSpace(int len){

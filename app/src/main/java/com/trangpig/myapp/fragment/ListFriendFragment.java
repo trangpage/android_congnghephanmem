@@ -10,16 +10,13 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.nhuocquy.model.Conversation;
 import com.nhuocquy.model.Friend;
 import com.nhuocquy.model.Account;
-import com.nhuocquy.model.MessageChat;
 import com.trangpig.data.Data;
-import com.trangpig.myapp.ConversationChat;
+import com.trangpig.myapp.activity.ConversationChat;
 import com.trangpig.myapp.R;
 import com.trangpig.myapp.adapter.ListFriendAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -65,7 +65,7 @@ ADDED from AndroidManifest.xml:40:9
 		ADDED from AndroidManifest.xml:42:13
 	android:name
 		ADDED from AndroidManifest.xml:41:13
-activity#com.trangpig.myapp.MainActivity
+
 ADDED from AndroidManifest.xml:44:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:46:13
@@ -87,19 +87,18 @@ ADDED from AndroidManifest.xml:55:9
 		ADDED from AndroidManifest.xml:57:13
 	android:name
 		ADDED from AndroidManifest.xml:56:13
-activity#com.trangpig.myapp.Login
+
 ADDED from AndroidManifest.xml:60:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:62:13
 	android:name
 		ADDED from AndroidManifest.xml:61:13
-activity#com.trangpig.myapp.Logo
+
 ADDED from AndroidManifest.xml:71:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:73:13
 	android:name
 		ADDED from AndroidManifest.xml:72:13
-activity#com.trangpig.myapp.ConversationChat
 ADDED from AndroidManifest.xml:80:9
 	android:label
 		ADDED from AndroidManifest.xml:82:13

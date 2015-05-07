@@ -1,15 +1,11 @@
-package com.trangpig.myapp;
+package com.trangpig.myapp.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +14,7 @@ import android.widget.Toast;
 
 import com.nhuocquy.model.Account;
 import com.trangpig.data.Data;
+import com.trangpig.myapp.R;
 import com.trangpig.myapp.service.MyService;
 import com.trangpig.until.MyUri;
 

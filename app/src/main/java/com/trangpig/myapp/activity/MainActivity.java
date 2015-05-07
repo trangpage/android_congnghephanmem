@@ -1,4 +1,4 @@
-package com.trangpig.myapp;
+package com.trangpig.myapp.activity;
 
 
 import android.content.Context;
@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import com.nhuocquy.model.Account;
 
 import com.trangpig.data.Data;
+import com.trangpig.myapp.R;
 import com.trangpig.myapp.adapter.MyPagerAdapter;
 import com.trangpig.myapp.fragment.ListConversationFragment;
 import com.trangpig.myapp.fragment.ListFriendFragment;
