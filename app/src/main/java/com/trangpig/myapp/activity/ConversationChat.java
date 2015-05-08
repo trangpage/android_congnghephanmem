@@ -187,12 +187,12 @@ public class ConversationChat extends ActionBarActivity {
                     con = restTemplate.postForObject(String.format(MyUri.CONVERSATION, MyUri.IP), (idCon != -1) ? new long[]{idCon} : idFriends, Conversation.class);
                     if (con != null && con.getListMes() != null) {
                         // tao conversation trong list conversation
-                        for (int i = 0; i < arrCon.size(); i++) {
-                            if (con.getIdCon() != arrCon.get(i).getIdCon()) {
-                                account.getConversations().add(0, con);
-                                Data.getInstance().setAttribute(Data.ACOUNT, account);
-                            }
-                        }
+//                        for (int i = 0; i < arrCon.size(); i++) {
+//                            if (con.getIdCon() != arrCon.get(i).getIdCon()) {
+//                                account.getConversations().add(0, con);
+//                                Data.getInstance().setAttribute(Data.ACOUNT, account);
+//                            }
+//                        }
                         listMessageChat = con.getListMes();
                         adapter.setListMes(listMessageChat);
                         contmp.setIdCon(con.getIdCon());

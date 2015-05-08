@@ -120,7 +120,7 @@ public class MessagesListAdapter
             }
             animatedGifImageView = (AnimatedGifImageView) convertView.findViewById(R.id.animatedGifImageView);
             if(m.getText().contains(GIF)){
-                animatedGifImageView.setAnimatedGif(Utils.MAP_ICON_RAW.get(m.getText()), AnimatedGifImageView.TYPE.STREACH_TO_FIT);
+                animatedGifImageView.setAnimatedGif(Utils.MAP_ICON_RAWS.get(m.getText()), AnimatedGifImageView.TYPE.STREACH_TO_FIT);
             }else{
                 animatedGifImageView.setImageResource(Utils.MAP_ICON_DRABLE.get(new String(":)")));
             }

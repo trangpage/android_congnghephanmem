@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import com.trangpig.myapp.R;
 import com.trangpig.myapp.adapter.IconPagerAdapter;
 import com.trangpig.myapp.fragment.SmileBigFragment;
-import com.trangpig.myapp.fragment.SmileFragment;
+import com.trangpig.myapp.fragment.SmileSmallFragment;
+import com.trangpig.myinterface.SmileFragment;
+import com.trangpig.until.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,17 +26,20 @@ public class IconActivity extends FragmentActivity {
     public List<Fragment> getFragments() {
         list = new ArrayList<Fragment>();
         //
-        SmileFragment smileFragment = new SmileFragment();
+        SmileFragment smileFragment = new SmileSmallFragment();
+        smileFragment.setListIcon(Utils.MAP_ICON_DRABLE);
         smileFragment.setParentActivity(this);
-        list.add(smileFragment);
+        list.add((Fragment)smileFragment);
         //
-        smileFragment = new SmileFragment();
+        smileFragment = new SmileBigFragment();
+        smileFragment.setListIcon(Utils.MAP_ICON_RAW1);
         smileFragment.setParentActivity(this);
-        list.add(smileFragment);
+        list.add((Fragment)smileFragment);
         //
-        SmileBigFragment smileBigFragment = new SmileBigFragment();
-        smileBigFragment.setParentActivity(this);
-        list.add(smileBigFragment);
+        smileFragment = new SmileBigFragment();
+        smileFragment.setListIcon(Utils.MAP_ICON_RAW);
+        smileFragment.setParentActivity(this);
+        list.add((Fragment)smileFragment);
         return list;
     }
 
@@ -55,5 +60,6 @@ public class IconActivity extends FragmentActivity {
         setResult(typeIcon, intent);
         finish();
     }
+
 
 }

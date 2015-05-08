@@ -13,22 +13,24 @@ import android.widget.ImageView;
 import com.trangpig.myapp.R;
 import com.trangpig.myapp.activity.ConversationChat;
 import com.trangpig.myapp.activity.IconActivity;
+import com.trangpig.myinterface.SmileFragment;
 import com.trangpig.until.Utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by user on 4/6/2015.
  */
-public class SmileBigFragment extends android.support.v4.app.Fragment {
-    List<Integer> image;
-    List<String> stringIcon;
+public class SmileBigFragment extends android.support.v4.app.Fragment implements SmileFragment{
+    List<Integer> image =new ArrayList<>();
+    List<String> stringIcon   = new ArrayList<>();
     GridView listView;
     GridIconAdapter adapterImag;
     IconActivity parentActivity;
-
+@Override
    public void setParentActivity(IconActivity parent){
        this.parentActivity = parent;
    }
@@ -40,16 +42,9 @@ public class SmileBigFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmen_smile, container, false);
-        image = new ArrayList<>();
-        stringIcon = new ArrayList<>();
+
 //        //
-        String sIcon ="";
-        Iterator<String> iterator = Utils.MAP_ICON_RAW.keySet().iterator();
-        while (iterator.hasNext()){
-            sIcon = iterator.next();
-            image.add(Utils.MAP_ICON_DRABLE.get(sIcon));
-            stringIcon.add(sIcon);
-        }
+//      setListIcon(Utils.MAP_ICON_RAW);
 
         listView = (GridView) view.findViewById(R.id.lvImg);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -62,6 +57,19 @@ public class SmileBigFragment extends android.support.v4.app.Fragment {
         listView.setAdapter(adapterImag);
         return view;
     }
+
+    @Override
+    public void setListIcon(Map<String,Integer> mapIcon){
+        String sIcon ="";
+        Iterator<String> iterator = mapIcon.keySet().iterator();
+        while (iterator.hasNext()){
+            sIcon = iterator.next();
+            image.add(mapIcon.get(sIcon));
+            stringIcon.add(sIcon);
+        }
+
+    }
+
     class GridIconAdapter extends ArrayAdapter<Integer> {
         Activity context;
         List<Integer> listImage;
