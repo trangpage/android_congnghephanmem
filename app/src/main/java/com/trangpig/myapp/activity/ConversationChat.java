@@ -1,13 +1,18 @@
 package com.trangpig.myapp.activity;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +25,7 @@ import android.widget.Toast;
 import com.nhuocquy.model.Account;
 import com.nhuocquy.model.Conversation;
 import com.nhuocquy.model.MessageChat;
+import com.nhuocquy.myfile.MyFile;
 import com.trangpig.data.Data;
 import com.trangpig.myapp.R;
 import com.trangpig.myapp.adapter.MessagesListAdapter;
@@ -46,6 +52,7 @@ public class ConversationChat extends ActionBarActivity {
     public static final int ACTIVITY_ICON = 1;
     public static final int ICON_BIG = 2;
     public static final int ICON_SMALL = 3;
+    static final int PICK_PHOTO_FOR_AVATAR = 4;
 
     public static final String KEY_ICON_STRING = "icon";
 
@@ -53,7 +60,6 @@ public class ConversationChat extends ActionBarActivity {
     private ImageButton btnIcon;
     private EditText inputMsg;
 
-    private WebSocketClient client;
     private ListView listViewMessages;
     private MessagesListAdapter adapter;
 
@@ -61,7 +67,7 @@ public class ConversationChat extends ActionBarActivity {
     private long[] idFriends;
     private RestTemplate restTemplate;
     private Conversation con;
-    private Handler handler, handler2;
+    private Handler handlerSend, handlerRecive, handlerSentImg;
     List<MessageChat> listMessageChat;
     // chat new mes
     private Conversation contmp;
@@ -69,7 +75,7 @@ public class ConversationChat extends ActionBarActivity {
     MessageChat newMes;
     MessageChat receiveMes;
     Account acc;
-    Message mesHandel;
+    Message mesHandler;
     WebSocketClient webSocketClient;
     BroadcastReceiver broadcastReceiver;
     String json;
@@ -78,6 +84,7 @@ public class ConversationChat extends ActionBarActivity {
     Intent intent;
     private Account account;
     List<Conversation> arrCon;
+    ImageButton bntImg;
 
 
     @Override
@@ -90,10 +97,11 @@ public class ConversationChat extends ActionBarActivity {
         btnSend = (Button) findViewById(R.id.btnSend);
         btnIcon = (ImageButton) findViewById(R.id.btnIcon);
         inputMsg = (EditText) findViewById(R.id.inputMsg);
+        bntImg = (ImageButton) findViewById(R.id.btnImg);
         listViewMessages = (ListView) findViewById(R.id.list_view_messages);
         objectMapper = new ObjectMapper();
 
-        handler = new Handler() {
+        handlerSend = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -122,7 +130,7 @@ public class ConversationChat extends ActionBarActivity {
             }
 
         };
-        handler2 = new Handler() {
+        handlerRecive = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -146,13 +154,39 @@ public class ConversationChat extends ActionBarActivity {
                 }
             }
         };
+        handlerSentImg = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                String fileName = msg.obj.toString();
+                MyFile myFile = new MyFile(fileName);
+                try {
+                    String value = new ObjectMapper().writeValueAsString(myFile);
+                    Log.e("tuyet......", myFile.getFileName());
+                    Log.e("tuyet......", value);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String result = restTemplate.postForObject("http://192.168.137.1:8080/tuyensinh/image", myFile, String.class);
+                if (result == null) {
+                    Toast.makeText(ConversationChat.this, "Gửi file không thành công", Toast.LENGTH_LONG).show();
+                } else {
+                    if (webSocketClient == null) {
+                        webSocketClient = (WebSocketClient) Data.getInstance().getAttribute(MyService.WEB);
+                    }
+                    webSocketClient.send(MessagesListAdapter.CHAR_ZERO + "image:" + result);
+                }
+            }
+        };
+
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
 //                Toast.makeText(ConversationChat.this, "Receive message from service", Toast.LENGTH_LONG).show();
-                mesHandel = handler2.obtainMessage();
-                mesHandel.obj = intent.getStringExtra(MyService.MES);
-                handler2.sendMessage(mesHandel);
+                mesHandler = handlerRecive.obtainMessage();
+                mesHandler.obj = intent.getStringExtra(MyService.MES);
+                handlerRecive.sendMessage(mesHandler);
+
             }
         };
 
@@ -211,9 +245,9 @@ public class ConversationChat extends ActionBarActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mesHandel = handler.obtainMessage();
-                mesHandel.obj = inputMsg.getText().toString();
-                handler.sendMessage(mesHandel);
+                mesHandler = handlerSend.obtainMessage();
+                mesHandler.obj = inputMsg.getText().toString();
+                handlerSend.sendMessage(mesHandler);
             }
         });
         btnIcon.setOnClickListener(new View.OnClickListener() {
@@ -222,6 +256,15 @@ public class ConversationChat extends ActionBarActivity {
                 startActivityForResult(new Intent(ConversationChat.this, IconActivity.class), ACTIVITY_ICON);
             }
         });
+        bntImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent, PICK_PHOTO_FOR_AVATAR);
+            }
+        });
+
     }
 
     @Override
@@ -236,13 +279,37 @@ public class ConversationChat extends ActionBarActivity {
                         break;
                     case ICON_BIG:
                         if (data.getStringExtra(KEY_ICON_STRING) != null) {
-                            mesHandel = handler.obtainMessage();
-                            mesHandel.obj = data.getStringExtra(KEY_ICON_STRING);
-                            mesHandel.what = ICON_BIG;
-                            handler.sendMessage(mesHandel);
+                            mesHandler = handlerSend.obtainMessage();
+                            mesHandler.obj = data.getStringExtra(KEY_ICON_STRING);
+                            mesHandler.what = ICON_BIG;
+                            handlerSend.sendMessage(mesHandler);
                         }
                         break;
                 }
+                break;
+            case PICK_PHOTO_FOR_AVATAR:
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data == null) {
+                        //Display an error
+                        return;
+                    }
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                    Cursor cursor = getContentResolver().query(selectedImage,
+                            filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    if (picturePath == null)
+                        Log.e("tuyet.................", "null");
+                    cursor.close();
+                    mesHandler = handlerSentImg.obtainMessage();
+                    mesHandler.obj = picturePath;
+                    handlerSentImg.sendMessage(mesHandler);
+                }
+
                 break;
             default:
                 break;

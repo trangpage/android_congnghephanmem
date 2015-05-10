@@ -25,6 +25,12 @@
         android:layout_height="50dp"
         android:id="@+id/btnIcon"
         android:src="@drawable/icon_smile" />
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/btnImg"
+        android:src="@drawable/icon_smilebig" />
+
 
     <EditText
     android:id="@+id/inputMsg"

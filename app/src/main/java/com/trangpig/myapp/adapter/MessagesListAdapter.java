@@ -3,7 +3,10 @@ package com.trangpig.myapp.adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
@@ -15,11 +18,20 @@ import android.widget.TextView;
 
 import com.nhuocquy.model.Account;
 import com.nhuocquy.model.MessageChat;
+import com.nhuocquy.myfile.MyFile;
+import com.nhuocquy.myfile.MyFileException;
 import com.trangpig.data.Data;
 import com.trangpig.myapp.R;
 import com.trangpig.until.AnimatedGifImageView;
+import com.trangpig.until.MyUri;
 import com.trangpig.until.Utils;
 
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
+import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -39,6 +51,10 @@ public class MessagesListAdapter
     MessageChat m;
     LayoutInflater mInflater;
     TextView lblFrom,txtMsg;
+    //
+    Handler handlerReciveImage;
+    RestTemplate restTemplate;
+    MyFile myFile;
     //for set icon
     SpannableString spannableString;
     ImageSpan imageSpan;
@@ -47,8 +63,34 @@ public class MessagesListAdapter
     public MessagesListAdapter(Context context, List<MessageChat> navDrawerItems) {
         this.context = context;
         this.messagesItems = navDrawerItems;
+
 //        this.messagesItems = new ArrayList<>();
         account = (Account) Data.getInstance().getAttribute(Data.ACOUNT);
+        ///
+        restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+        handlerReciveImage = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                HashMap<String,Object> hashMap = (HashMap<String, Object>) msg.obj;
+                String fileName = (String) hashMap.get("fileName");
+                AnimatedGifImageView animatedGif = (AnimatedGifImageView) hashMap.get("imageView");
+                try {
+                    animatedGif.setImageResource(R.drawable.wait);
+                    myFile = restTemplate.getForObject(String.format(MyUri.URL_DOWN_IMAGE,MyUri.IP, fileName), MyFile.class);
+                    if(fileName.contains(GIF)) {
+                        animatedGif.setAnimatedGif(myFile.getData(), AnimatedGifImageView.TYPE.STREACH_TO_FIT);
+                    }
+                    else{
+                        animatedGif.setImageBitmap(BitmapFactory.decodeByteArray(myFile.getData(),0,myFile.getData().length));
+                    }
+                }catch(RestClientException |MyFileException|FileNotFoundException e){
+                    animatedGif.setImageResource(R.drawable.error);
+                }
+            }
+        };
     }
 
     @Override
@@ -119,6 +161,19 @@ public class MessagesListAdapter
                         null);
             }
             animatedGifImageView = (AnimatedGifImageView) convertView.findViewById(R.id.animatedGifImageView);
+            if(m.getText().contains(CHAR_ZERO+"image:")){
+                try {
+                    animatedGifImageView.setAnimatedGif(new byte[1],AnimatedGifImageView.TYPE.STREACH_TO_FIT);
+                    HashMap<String,Object> hashMap=new HashMap<>();
+                    hashMap.put("fileName",m.getText().substring(':'));
+                    hashMap.put("imageView",animatedGifImageView);
+                    Message messageHandler = handlerReciveImage.obtainMessage();
+                    messageHandler.obj = hashMap;
+                    handlerReciveImage.sendMessage(messageHandler);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
             if(m.getText().contains(GIF)){
                 animatedGifImageView.setAnimatedGif(Utils.MAP_ICON_RAWS.get(m.getText()), AnimatedGifImageView.TYPE.STREACH_TO_FIT);
             }else{

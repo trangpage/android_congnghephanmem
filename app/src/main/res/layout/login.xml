@@ -60,7 +60,7 @@
             android:textSize="25dp"
             android:layout_marginTop="15dp"
             android:paddingBottom="10dp"
-            android:text="192.168.117.191" />
+            android:text="192.168.137.1" />
 
         <EditText
             android:layout_width="match_parent"
