@@ -26,6 +26,7 @@ import com.nhuocquy.model.Account;
 import com.nhuocquy.model.Conversation;
 import com.nhuocquy.model.MessageChat;
 import com.nhuocquy.myfile.MyFile;
+import com.nhuocquy.myfile.MyStatus;
 import com.trangpig.data.Data;
 import com.trangpig.myapp.R;
 import com.trangpig.myapp.adapter.MessagesListAdapter;
@@ -139,8 +140,8 @@ public class ConversationChat extends ActionBarActivity {
                 try {
                     receiveMes = objectMapper.readValue(mesBroadCast, MessageChat.class);
                     if (con.getIdCon() == receiveMes.getIdConversation()) {
-                        listMessageChat.add(receiveMes);
-                        adapter.notifyDataSetChanged();
+                            listMessageChat.add(receiveMes);
+                            adapter.notifyDataSetChanged();
                     } else {
                         for (int i = 0; i < acc.getConversations().size(); i++) {
                             if (receiveMes.getIdConversation() == acc.getConversations().get(i).getIdCon()) {
@@ -161,20 +162,17 @@ public class ConversationChat extends ActionBarActivity {
                 String fileName = msg.obj.toString();
                 MyFile myFile = new MyFile(fileName);
                 try {
-                    String value = new ObjectMapper().writeValueAsString(myFile);
-                    Log.e("tuyet......", myFile.getFileName());
-                    Log.e("tuyet......", value);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                String result = restTemplate.postForObject("http://192.168.137.1:8080/tuyensinh/image", myFile, String.class);
-                if (result == null) {
-                    Toast.makeText(ConversationChat.this, "Gửi file không thành công", Toast.LENGTH_LONG).show();
-                } else {
-                    if (webSocketClient == null) {
-                        webSocketClient = (WebSocketClient) Data.getInstance().getAttribute(MyService.WEB);
+                    MyStatus status = restTemplate.postForObject(String.format(MyUri.URL_UP_IMAGE, MyUri.IP), myFile, MyStatus.class);
+                    if (status == null) {
+                        Toast.makeText(ConversationChat.this, "Gửi file không thành công", Toast.LENGTH_LONG).show();
+                    } else {
+                        mesHandler = handlerSend.obtainMessage();
+                        mesHandler.obj = MessagesListAdapter.CHAR_ZERO + "image:" + status.getObj().toString();
+                        handlerSend.sendMessage(mesHandler);
                     }
-                    webSocketClient.send(MessagesListAdapter.CHAR_ZERO + "image:" + result);
+                }catch (RestClientException e){
+                    Log.e(ConversationChat.class.getName(),e.getMessage());
+                    Toast.makeText(ConversationChat.this,"Không thể upload Image!!",Toast.LENGTH_LONG).show();
                 }
             }
         };
