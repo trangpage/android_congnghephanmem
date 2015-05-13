@@ -7,10 +7,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -42,8 +46,12 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.DataInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 //import com.nhuocquy.model.Message;
@@ -140,8 +148,8 @@ public class ConversationChat extends ActionBarActivity {
                 try {
                     receiveMes = objectMapper.readValue(mesBroadCast, MessageChat.class);
                     if (con.getIdCon() == receiveMes.getIdConversation()) {
-                            listMessageChat.add(receiveMes);
-                            adapter.notifyDataSetChanged();
+                        listMessageChat.add(receiveMes);
+                        adapter.notifyDataSetChanged();
                     } else {
                         for (int i = 0; i < acc.getConversations().size(); i++) {
                             if (receiveMes.getIdConversation() == acc.getConversations().get(i).getIdCon()) {
@@ -159,21 +167,34 @@ public class ConversationChat extends ActionBarActivity {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                String fileName = msg.obj.toString();
-                MyFile myFile = new MyFile(fileName);
-                try {
-                    MyStatus status = restTemplate.postForObject(String.format(MyUri.URL_UP_IMAGE, MyUri.IP), myFile, MyStatus.class);
-                    if (status == null) {
-                        Toast.makeText(ConversationChat.this, "Gửi file không thành công", Toast.LENGTH_LONG).show();
-                    } else {
-                        mesHandler = handlerSend.obtainMessage();
-                        mesHandler.obj = MessagesListAdapter.CHAR_ZERO + "image:" + status.getObj().toString();
-                        handlerSend.sendMessage(mesHandler);
+                //nhan Uri
+                Uri uri = (Uri) msg.obj;
+                MyFile myFile = getMyFileFromUri(uri);
+                new AsyncTask<MyFile, Void, MyStatus>() {
+                    @Override
+                    protected MyStatus doInBackground(MyFile... myFiles) {
+                        MyStatus status = null;
+                        try {
+                            status = restTemplate.postForObject(String.format(MyUri.URL_UP_IMAGE, MyUri.IP), myFiles[0], MyStatus.class);
+                        } catch (RestClientException e) {
+                            Log.e(ConversationChat.class.getName(), e.getMessage());
+                            Toast.makeText(ConversationChat.this, "Không thể upload Image!!", Toast.LENGTH_LONG).show();
+                        }
+                        return status;
                     }
-                }catch (RestClientException e){
-                    Log.e(ConversationChat.class.getName(),e.getMessage());
-                    Toast.makeText(ConversationChat.this,"Không thể upload Image!!",Toast.LENGTH_LONG).show();
-                }
+
+                    @Override
+                    protected void onPostExecute(MyStatus status) {
+                        super.onPostExecute(status);
+                        if (status == null) {
+                            Toast.makeText(ConversationChat.this, "Gửi file không thành công", Toast.LENGTH_LONG).show();
+                        } else {
+                            mesHandler = handlerSend.obtainMessage();
+                            mesHandler.obj = MessagesListAdapter.CHAR_ZERO + "image:" + status.getObj().toString();
+                            handlerSend.sendMessage(mesHandler);
+                        }
+                    }
+                }.execute(myFile);
             }
         };
 
@@ -257,9 +278,17 @@ public class ConversationChat extends ActionBarActivity {
         bntImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                startActivityForResult(intent, PICK_PHOTO_FOR_AVATAR);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                    startActivityForResult(Intent.createChooser(intent,
+                            "Select Picture"), PICK_PHOTO_FOR_AVATAR);
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, PICK_PHOTO_FOR_AVATAR);
+                }
             }
         });
 
@@ -291,23 +320,11 @@ public class ConversationChat extends ActionBarActivity {
                         //Display an error
                         return;
                     }
-                    Uri selectedImage = data.getData();
-                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-                    Cursor cursor = getContentResolver().query(selectedImage,
-                            filePathColumn, null, null, null);
-                    cursor.moveToFirst();
-
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor.getString(columnIndex);
-                    if (picturePath == null)
-                        Log.e("tuyet.................", "null");
-                    cursor.close();
+                    Uri selectedImageUri = data.getData();
                     mesHandler = handlerSentImg.obtainMessage();
-                    mesHandler.obj = picturePath;
+                    mesHandler.obj = selectedImageUri;
                     handlerSentImg.sendMessage(mesHandler);
                 }
-
                 break;
             default:
                 break;
@@ -351,4 +368,77 @@ public class ConversationChat extends ActionBarActivity {
     private void showTost(String mes) {
         Toast.makeText(this, mes, Toast.LENGTH_SHORT).show();
     }
+/**
+ * Just for API before KITKAT
+ */
+    private String getPath(Uri uri) {
+        if (uri == null) {
+            return null;
+        }
+        String path = null;
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        try {
+            if (cursor != null) {
+                int column_index = cursor
+                        .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                path = cursor.getString(column_index);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+        }
+
+        Log.i("nhuocquy..quy....", path);
+
+        return path;
+    }
+
+    private MyFile getMyFileFromUri(Uri uri) {
+        String TAG = "nhuoc..quy....";
+        MyFile myFile = new MyFile();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            String fileName = getPath(uri);
+            myFile = new MyFile(fileName);
+        } else {
+            Cursor cursor = getContentResolver()
+                    .query(uri, null, null, null, null, null);
+            DataInputStream dis = null;
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    String displayName = cursor.getString(
+                            cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    Log.i(TAG, "Display Name: " + displayName);
+                    int size = 0;
+                    int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
+                    if (!cursor.isNull(sizeIndex)) {
+                        // Technically the column stores an int, but cursor.getString()
+                        // will do the conversion automatically.
+                        size = cursor.getInt(sizeIndex);
+                    }
+                    Log.i(TAG, "Size: " + size);
+                    InputStream inputStream = getContentResolver().openInputStream(uri);
+                    dis = new DataInputStream(inputStream);
+                    byte[] data = new byte[size];
+                    dis.readFully(data);
+                    myFile.setFileName(displayName);
+                    myFile.setData(data);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                cursor.close();
+                if (dis != null)
+                    try {
+                        dis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+            }
+        }
+        return myFile;
+    }
+
 }

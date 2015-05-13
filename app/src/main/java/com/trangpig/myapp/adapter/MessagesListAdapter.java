@@ -55,7 +55,6 @@ public class MessagesListAdapter
     LayoutInflater mInflater;
     TextView lblFrom, txtMsg;
     //
-    Handler handlerReciveImage;
     RestTemplate restTemplate;
     MyFile myFile;
     //for set icon
@@ -77,23 +76,6 @@ public class MessagesListAdapter
         restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-        handlerReciveImage = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-//                super.handleMessage(msg);
-//                HashMap<String, Object> hashMap = (HashMap<String, Object>) msg.obj;
-//                 fileName = (String) hashMap.get("fileName");
-//                 imageView = (ImageView) hashMap.get("imageView");
-//                try {
-//                    imageView.setImageResource(R.drawable.wait);
-//                    myFile = restTemplate.getForObject(String.format(MyUri.URL_DOWN_IMAGE,MyUri.IP,fileName),MyFile.class);
-//                    imageView.setImageBitmap(BitmapFactory.decodeByteArray(myFile.getData(), 0, myFile.getData().length));
-//                } catch (RestClientException | MyFileException e) {
-//                    imageView.setImageResource(R.drawable.error);
-//                    Toast.makeText(context,"Không thể load Image", Toast.LENGTH_LONG).show();
-//                }
-            }
-        };
     }
 
     @Override
@@ -176,12 +158,6 @@ public class MessagesListAdapter
             }
             if (textMes.contains(CHAR_ZERO + "image:")) {
                final ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
-//                HashMap<String, Object> hashMap = new HashMap<>();
-//                hashMap.put("fileName", m.getText().substring(m.getText().indexOf(':') + 1));
-//                hashMap.put("imageView", imageView);
-//                Message messageHandler = handlerReciveImage.obtainMessage();
-//                messageHandler.obj = hashMap;
-//                handlerReciveImage.sendMessage(messageHandler);
                 new AsyncTask<String, Void, MyFile>() {
                     @Override
                     protected void onPreExecute() {
