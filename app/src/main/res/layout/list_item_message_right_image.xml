@@ -15,6 +15,7 @@
     android:paddingTop="5dp" >
 
     <ImageView
+        android:id="@+id/imAvatar"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/right"/>
@@ -28,7 +29,7 @@
         android:textSize="12dp"
         android:textStyle="italic" />
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imMes"
         android:layout_width="200dp"
         android:layout_height="200dp"
 

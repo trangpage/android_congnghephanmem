@@ -10,12 +10,14 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +25,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.nhuocquy.model.Account;
@@ -47,11 +48,9 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.DataInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 //import com.nhuocquy.model.Message;
@@ -69,8 +68,9 @@ public class ConversationChat extends ActionBarActivity {
     private ImageButton btnIcon;
     private EditText inputMsg;
 
-    private ListView listViewMessages;
+//    private ListView listViewMessages;
     private MessagesListAdapter adapter;
+    private RecyclerView listViewMessages;
 
     private long idCon = -1;
     private long[] idFriends;
@@ -94,7 +94,7 @@ public class ConversationChat extends ActionBarActivity {
     private Account account;
     List<Conversation> arrCon;
     ImageButton bntImg;
-
+    int post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,9 +107,48 @@ public class ConversationChat extends ActionBarActivity {
         btnIcon = (ImageButton) findViewById(R.id.btnIcon);
         inputMsg = (EditText) findViewById(R.id.inputMsg);
         bntImg = (ImageButton) findViewById(R.id.btnImg);
-        listViewMessages = (ListView) findViewById(R.id.list_view_messages);
+        listViewMessages = (RecyclerView) findViewById(R.id.list_view_messages);
         objectMapper = new ObjectMapper();
 
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+//                Toast.makeText(ConversationChat.this, "Receive message from service", Toast.LENGTH_LONG).show();
+                mesHandler = handlerRecive.obtainMessage();
+                mesHandler.obj = intent.getStringExtra(MyService.MES);
+                handlerRecive.sendMessage(mesHandler);
+
+            }
+        };
+
+        restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+        intent = getIntent();
+        idCon = intent.getLongExtra(ListConversationFragment.ID_CON, -1);
+        if (idCon == -1) {
+            idFriends = intent.getLongArrayExtra(ListFriendFragment.ID_FRIENDS);
+        }
+        listMessageChat = new ArrayList<>();
+        adapter = new MessagesListAdapter(ConversationChat.this, listMessageChat);
+        listViewMessages.setAdapter(adapter);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        listViewMessages.setLayoutManager(linearLayoutManager);
+        linearLayoutManager.scrollToPosition(listMessageChat.size());
+        listViewMessages.setItemAnimator(new DefaultItemAnimator());
+        // chat mes mới
+        acc = (Account) Data.getInstance().getAttribute(Data.ACOUNT);
+        listNewMes = new ArrayList<MessageChat>();
+
+        newMes = new MessageChat();
+        newMes.setFromName(acc.getName());
+        newMes.setIdSender(acc.getIdAcc());
+        listNewMes.add(newMes);
+
+        contmp = new Conversation();
+        contmp.setListMes(listNewMes);
         handlerSend = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -149,7 +188,9 @@ public class ConversationChat extends ActionBarActivity {
                     receiveMes = objectMapper.readValue(mesBroadCast, MessageChat.class);
                     if (con.getIdCon() == receiveMes.getIdConversation()) {
                         listMessageChat.add(receiveMes);
-                        adapter.notifyDataSetChanged();
+                        post = listMessageChat.size()-1;
+                        adapter.notifyItemInserted(post);
+                        linearLayoutManager.scrollToPosition(post);
                     } else {
                         for (int i = 0; i < acc.getConversations().size(); i++) {
                             if (receiveMes.getIdConversation() == acc.getConversations().get(i).getIdCon()) {
@@ -197,41 +238,6 @@ public class ConversationChat extends ActionBarActivity {
                 }.execute(myFile);
             }
         };
-
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-//                Toast.makeText(ConversationChat.this, "Receive message from service", Toast.LENGTH_LONG).show();
-                mesHandler = handlerRecive.obtainMessage();
-                mesHandler.obj = intent.getStringExtra(MyService.MES);
-                handlerRecive.sendMessage(mesHandler);
-
-            }
-        };
-
-        restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
-        intent = getIntent();
-        idCon = intent.getLongExtra(ListConversationFragment.ID_CON, -1);
-        if (idCon == -1) {
-            idFriends = intent.getLongArrayExtra(ListFriendFragment.ID_FRIENDS);
-        }
-        listMessageChat = new ArrayList<>();
-        adapter = new MessagesListAdapter(ConversationChat.this, listMessageChat);
-        listViewMessages.setAdapter(adapter);
-
-        // chat mes mới
-        acc = (Account) Data.getInstance().getAttribute(Data.ACOUNT);
-        listNewMes = new ArrayList<MessageChat>();
-
-        newMes = new MessageChat();
-        newMes.setFromName(acc.getName());
-        newMes.setIdSender(acc.getIdAcc());
-        listNewMes.add(newMes);
-
-        contmp = new Conversation();
-        contmp.setListMes(listNewMes);
 
         new Thread(new Runnable() {
             @Override
