@@ -122,8 +122,8 @@ public class ConversationChat extends ActionBarActivity {
             }
         };
 
-        restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
         intent = getIntent();
         idCon = intent.getLongExtra(ListConversationFragment.ID_CON, -1);

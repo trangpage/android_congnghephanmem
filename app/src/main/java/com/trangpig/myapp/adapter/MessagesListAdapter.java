@@ -1,6 +1,8 @@
 package com.trangpig.myapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -22,6 +24,7 @@ import com.nhuocquy.myfile.MyFile;
 import com.nhuocquy.myfile.MyFileException;
 import com.trangpig.data.Data;
 import com.trangpig.myapp.R;
+import com.trangpig.myapp.activity.ImageDetailActivity;
 import com.trangpig.until.AnimatedGifImageView;
 import com.trangpig.until.MyUri;
 import com.trangpig.until.Utils;
@@ -152,6 +155,7 @@ public class MessagesListAdapter
                 protected void onPreExecute() {
                     super.onPreExecute();
                     imageView.setImageResource(R.drawable.wait);
+                    imageView.setOnClickListener(null);
                 }
 
                 @Override
@@ -167,11 +171,20 @@ public class MessagesListAdapter
                 }
 
                 @Override
-                protected void onPostExecute(MyFile myFile) {
+                protected void onPostExecute(final MyFile myFile) {
                     super.onPostExecute(myFile);
                     if (myFile != null) {
                         try {
-                            imageView.setImageBitmap(BitmapFactory.decodeByteArray(myFile.getData(), 0, myFile.getData().length));
+//                            imageView.setImageBitmap(BitmapFactory.decodeByteArray(myFile.getData(), 0, myFile.getData().length));
+                            imageView.setImageBitmap(decodeSampledBitmapFromResource(myFile.getData(), 450, 450));
+                            imageView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(context, ImageDetailActivity.class);
+                                    intent.putExtra(ImageDetailActivity.FILE_NAME, myFile.getFileName());
+                                    context.startActivity(intent);
+                                }
+                            });
                         } catch (MyFileException e) {
                             e.printStackTrace();
                             imageView.setImageResource(R.drawable.error);
@@ -255,151 +268,7 @@ public class MessagesListAdapter
         Log.e("tuyet....char0", m.getText() + " : " + type);
         return type;
     }
-    //    @Override
-//    public int getCount() {
-//        return messagesItems.size();
-//    }
-//
-//    @Override
-//    public Object getItem(int position) {
-//        return messagesItems.get(position);
-//    }
-//
-//    @Override
-//    public long getItemId(int position) {
-//        return position;
-//    }
 
-//    @SuppressLint("InflateParams")
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//
-//        /**
-//         * The following list not implemented reusable list items as list items
-//         * are showing incorrect data Add the solution if you have one
-//         * */
-//
-//        mInflater = (LayoutInflater) context
-//                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-//        m = messagesItems.get(position);
-//        textMes = m.getText();
-//        if (textMes.indexOf(CHAR_ZERO) != 0) {
-//            if (m.getIdSender() == account.getIdAcc()) {
-//                convertView = mInflater.inflate(R.layout.list_item_message_right,
-//                        null);
-//            } else {
-//                convertView = mInflater.inflate(R.layout.list_item_message_left,
-//                        null);
-//            }
-//
-//
-//            txtMsg = (TextView) convertView.findViewById(R.id.txtMsg);
-
-        /*txtMsg.setText(m.getText());*/
-//        kiem tra icon
-
-    //            Set<String> keys = Utils.MAP_ICON_DRABLE.keySet();
-//            Iterator<String> iterKey = keys.iterator();
-//            String next = "";
-//            spannableString = new SpannableString(textMes);
-//            while (iterKey.hasNext()) {
-//                next = iterKey.next();
-//                if (textMes.contains(next)) {
-//                    drawable = context.getResources().getDrawable(Utils.MAP_ICON_DRABLE.get(next));
-//                    drawable.setBounds(0, -10, 40, 40);
-//                    imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
-//                    int index = textMes.indexOf(next);
-//                    spannableString.setSpan(imageSpan, index, index + next.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-//                    textMes.replace(next, getSpace(next.length()));
-//                }
-//            }
-//            txtMsg.setText(spannableString);
-//
-//        } else { // co chua ky tu CHAR_ZERO
-//            if (m.getIdSender() == account.getIdAcc()) {
-//                if (textMes.contains(CHAR_ZERO + "image:")) {
-//                    convertView = mInflater.inflate(R.layout.list_item_message_right_image,
-//                            null);
-//                } else if (textMes.contains(GIF)) {
-//                    convertView = mInflater.inflate(R.layout.list_item_message_right_imagegif,
-//                            null);
-//                }
-//            } else {
-//                if (textMes.contains(CHAR_ZERO + "image:")) {
-//                    convertView = mInflater.inflate(R.layout.list_item_message_left_image,
-//                            null);
-//                } else if (textMes.contains(GIF)) {
-//                    convertView = mInflater.inflate(R.layout.list_item_message_left_imagegif,
-//                            null);
-//                }
-//            }
-//            if (textMes.contains(CHAR_ZERO + "image:")) {
-//               final ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
-//                new AsyncTask<String, Void, MyFile>() {
-//                    @Override
-//                    protected void onPreExecute() {
-//                        super.onPreExecute();
-//                        imageView.setImageResource(R.drawable.wait);
-//                    }
-//
-//                    @Override
-//                    protected MyFile doInBackground(String... params) {
-//                        MyFile myFile = null;
-//                        try {
-//                            myFile = restTemplate.getForObject(String.format(MyUri.URL_DOWN_IMAGE, MyUri.IP, params[0]), MyFile.class);
-//                        }catch (RestClientException e){
-//                            e.printStackTrace();
-//
-//                        }
-//                        return myFile;
-//                    }
-//
-//                    @Override
-//                    protected void onPostExecute(MyFile myFile) {
-//                        super.onPostExecute(myFile);
-//                        if(myFile != null){
-//                            try {
-//                                imageView.setImageBitmap(BitmapFactory.decodeByteArray(myFile.getData(), 0, myFile.getData().length));
-//                            } catch (MyFileException e) {
-//                                e.printStackTrace();
-//                                imageView.setImageResource(R.drawable.error);
-//                                Toast.makeText(context,"Không thể load Image", Toast.LENGTH_LONG).show();
-//                            }
-//                        }else{
-//                            imageView.setImageResource(R.drawable.error);
-//                            Toast.makeText(context,"Không thể load Image", Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//                }.execute(m.getText().substring(m.getText().indexOf(':') + 1));
-//            } else if (textMes.contains(GIF)) {
-//                animatedGifImageView = (AnimatedGifImageView) convertView.findViewById(R.id.animatedGifImageView);
-//                animatedGifImageView.setAnimatedGif(Utils.MAP_ICON_RAWS.get(m.getText()), AnimatedGifImageView.TYPE.STREACH_TO_FIT);
-//            }
-//            animatedGifImageView = (AnimatedGifImageView) convertView.findViewById(R.id.animatedGifImageView);
-//            animatedGifImageView.setImageResource(R.drawable.icon_hinhb);
-//                animatedGifImageView.setAnimatedGif(R.raw.loading, AnimatedGifImageView.TYPE.STREACH_TO_FIT);
-//            if (m.getText().contains(CHAR_ZERO + "image:")) {
-//                ImageView imageView = new ImageView(context);
-//                imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//                imageView.setImageResource(R.drawable.wait);
-//                parent.addView(imageView);
-//                animatedGifImageView.setAnimatedGif(R.drawable.wait, AnimatedGifImageView.TYPE.STREACH_TO_FIT);
-//                HashMap<String, Object> hashMap = new HashMap<>();
-//                Log.i(MessagesListAdapter.class.getName(), m.getText());
-//                hashMap.put("fileName", m.getText().substring(m.getText().indexOf(':') + 1));
-//                hashMap.put("imageView", animatedGifImageView);
-//                Message messageHandler = handlerReciveImage.obtainMessage();
-//                messageHandler.obj = hashMap;
-//                handlerReciveImage.sendMessage(messageHandler);
-//            } else if (m.getText().contains(GIF)) {
-//                animatedGifImageView.setAnimatedGif(Utils.MAP_ICON_RAWS.get(m.getText()), AnimatedGifImageView.TYPE.STREACH_TO_FIT);
-//            }
-//        }
-//        lblFrom = (TextView) convertView.findViewById(R.id.lblMsgFrom);
-//        lblFrom.setText(m.getFromName());
-//        return convertView;
-//    }
-//
     private String getSpace(int len) {
         StringBuilder sb = new StringBuilder();
         while (--len < 0) {
@@ -410,6 +279,71 @@ public class MessagesListAdapter
 
     public void setListMes(List<MessageChat> list) {
         this.messagesItems = list;
+    }
+
+
+
+
+
+
+
+    public static Bitmap decodeSampledBitmapFromResource(byte[] data, int reqWidth, int reqHeight) {
+
+        // BEGIN_INCLUDE (read_bitmap_dimensions)
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeByteArray(data, 0, data.length, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        // END_INCLUDE (read_bitmap_dimensions)
+
+        // If we're running on Honeycomb or newer, try to use inBitmap
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+       return BitmapFactory.decodeByteArray(data, 0, data.length, options);
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options,
+                                            int reqWidth, int reqHeight) {
+        // BEGIN_INCLUDE (calculate_sample_size)
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+
+            // This offers some additional logic in case the image has a strange
+            // aspect ratio. For example, a panorama may have a much larger
+            // width than height. In these cases the total pixels might still
+            // end up being too large to fit comfortably in memory, so we should
+            // be more aggressive with sample down the image (=larger inSampleSize).
+
+            long totalPixels = width * height / inSampleSize;
+
+            // Anything more than 2x the requested pixels we'll sample down further
+            final long totalReqPixelsCap = reqWidth * reqHeight * 2;
+
+            while (totalPixels > totalReqPixelsCap) {
+                inSampleSize *= 2;
+                totalPixels /= 2;
+            }
+        }
+        return inSampleSize;
+        // END_INCLUDE (calculate_sample_size)
     }
 }
 

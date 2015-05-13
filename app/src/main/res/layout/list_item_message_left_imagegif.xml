@@ -29,8 +29,8 @@
         android:padding="5dp"/>
     <com.trangpig.until.AnimatedGifImageView
         android:id="@+id/gifMes"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
 
         />
 
