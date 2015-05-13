@@ -45,7 +45,7 @@ public class Utils {
        MAP_ICON_DRABLE.put("O.o", R.drawable.icon_hinha);
        MAP_ICON_DRABLE.put(":*", R.drawable.icon_hinhb);
        MAP_ICON_DRABLE.put("-_-", R.drawable.a7);
-       MAP_ICON_DRABLE.put("3:)", R.drawable.a7);
+       MAP_ICON_DRABLE.put("3:", R.drawable.a7);
 
        MAP_ICON_RAW1.put(MessagesListAdapter.CHAR_ZERO + "a1gif)", R.raw.a1);
        MAP_ICON_RAW1.put(MessagesListAdapter.CHAR_ZERO + "a2gif)", R.raw.a2);

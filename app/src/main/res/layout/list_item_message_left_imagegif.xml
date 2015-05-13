@@ -7,31 +7,32 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:gravity="right"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingBottom="5dp"
-    android:paddingRight="10dp"
-    android:paddingTop="5dp" >
+    android:paddingTop="5dp"
+    android:paddingLeft="10dp">
 
     <ImageView
         android:id="@+id/imAvatar"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:background="@drawable/right"/>
+        android:background="@drawable/left"/>
 
     <TextView
         android:id="@+id/lblMsgFrom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:textColor="@color/lblFromName"
         android:textSize="12dp"
-        android:textStyle="italic" />
-    <ImageView
-        android:id="@+id/imMes"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:textColor="@color/lblFromName"
+        android:textStyle="italic"
+        android:padding="5dp"/>
+    <com.trangpig.until.AnimatedGifImageView
+        android:id="@+id/gifMes"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
 
         />
+
+
 </LinearLayout>

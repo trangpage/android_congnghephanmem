@@ -28,10 +28,10 @@
         android:textColor="@color/lblFromName"
         android:textSize="12dp"
         android:textStyle="italic" />
-    <ImageView
-        android:id="@+id/imMes"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+    <com.trangpig.until.AnimatedGifImageView
+        android:id="@+id/gifMes"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
 
         />
 </LinearLayout>

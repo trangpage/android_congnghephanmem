@@ -1,25 +1,37 @@
 package com.trangpig.myapp.activity;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.nhuocquy.model.Account;
 import com.nhuocquy.model.Conversation;
 import com.nhuocquy.model.MessageChat;
+import com.nhuocquy.myfile.MyFile;
+import com.nhuocquy.myfile.MyStatus;
 import com.trangpig.data.Data;
 import com.trangpig.myapp.R;
 import com.trangpig.myapp.adapter.MessagesListAdapter;
@@ -35,7 +47,9 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +60,7 @@ public class ConversationChat extends ActionBarActivity {
     public static final int ACTIVITY_ICON = 1;
     public static final int ICON_BIG = 2;
     public static final int ICON_SMALL = 3;
+    static final int PICK_PHOTO_FOR_AVATAR = 4;
 
     public static final String KEY_ICON_STRING = "icon";
 
@@ -53,15 +68,15 @@ public class ConversationChat extends ActionBarActivity {
     private ImageButton btnIcon;
     private EditText inputMsg;
 
-    private WebSocketClient client;
-    private ListView listViewMessages;
+//    private ListView listViewMessages;
     private MessagesListAdapter adapter;
+    private RecyclerView listViewMessages;
 
     private long idCon = -1;
     private long[] idFriends;
     private RestTemplate restTemplate;
     private Conversation con;
-    private Handler handler, handler2;
+    private Handler handlerSend, handlerRecive, handlerSentImg;
     List<MessageChat> listMessageChat;
     // chat new mes
     private Conversation contmp;
@@ -69,7 +84,7 @@ public class ConversationChat extends ActionBarActivity {
     MessageChat newMes;
     MessageChat receiveMes;
     Account acc;
-    Message mesHandel;
+    Message mesHandler;
     WebSocketClient webSocketClient;
     BroadcastReceiver broadcastReceiver;
     String json;
@@ -78,7 +93,8 @@ public class ConversationChat extends ActionBarActivity {
     Intent intent;
     private Account account;
     List<Conversation> arrCon;
-
+    ImageButton bntImg;
+    int post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,10 +106,50 @@ public class ConversationChat extends ActionBarActivity {
         btnSend = (Button) findViewById(R.id.btnSend);
         btnIcon = (ImageButton) findViewById(R.id.btnIcon);
         inputMsg = (EditText) findViewById(R.id.inputMsg);
-        listViewMessages = (ListView) findViewById(R.id.list_view_messages);
+        bntImg = (ImageButton) findViewById(R.id.btnImg);
+        listViewMessages = (RecyclerView) findViewById(R.id.list_view_messages);
         objectMapper = new ObjectMapper();
 
-        handler = new Handler() {
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+//                Toast.makeText(ConversationChat.this, "Receive message from service", Toast.LENGTH_LONG).show();
+                mesHandler = handlerRecive.obtainMessage();
+                mesHandler.obj = intent.getStringExtra(MyService.MES);
+                handlerRecive.sendMessage(mesHandler);
+
+            }
+        };
+
+            restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+        intent = getIntent();
+        idCon = intent.getLongExtra(ListConversationFragment.ID_CON, -1);
+        if (idCon == -1) {
+            idFriends = intent.getLongArrayExtra(ListFriendFragment.ID_FRIENDS);
+        }
+        listMessageChat = new ArrayList<>();
+        adapter = new MessagesListAdapter(ConversationChat.this, listMessageChat);
+        listViewMessages.setAdapter(adapter);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        listViewMessages.setLayoutManager(linearLayoutManager);
+        linearLayoutManager.scrollToPosition(listMessageChat.size());
+        listViewMessages.setItemAnimator(new DefaultItemAnimator());
+        // chat mes mới
+        acc = (Account) Data.getInstance().getAttribute(Data.ACOUNT);
+        listNewMes = new ArrayList<MessageChat>();
+
+        newMes = new MessageChat();
+        newMes.setFromName(acc.getName());
+        newMes.setIdSender(acc.getIdAcc());
+        listNewMes.add(newMes);
+
+        contmp = new Conversation();
+        contmp.setListMes(listNewMes);
+        handlerSend = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -122,7 +178,7 @@ public class ConversationChat extends ActionBarActivity {
             }
 
         };
-        handler2 = new Handler() {
+        handlerRecive = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -132,7 +188,9 @@ public class ConversationChat extends ActionBarActivity {
                     receiveMes = objectMapper.readValue(mesBroadCast, MessageChat.class);
                     if (con.getIdCon() == receiveMes.getIdConversation()) {
                         listMessageChat.add(receiveMes);
-                        adapter.notifyDataSetChanged();
+                        post = listMessageChat.size()-1;
+                        adapter.notifyItemInserted(post);
+                        linearLayoutManager.scrollToPosition(post);
                     } else {
                         for (int i = 0; i < acc.getConversations().size(); i++) {
                             if (receiveMes.getIdConversation() == acc.getConversations().get(i).getIdCon()) {
@@ -146,39 +204,40 @@ public class ConversationChat extends ActionBarActivity {
                 }
             }
         };
-        broadcastReceiver = new BroadcastReceiver() {
+        handlerSentImg = new Handler() {
             @Override
-            public void onReceive(Context context, Intent intent) {
-//                Toast.makeText(ConversationChat.this, "Receive message from service", Toast.LENGTH_LONG).show();
-                mesHandel = handler2.obtainMessage();
-                mesHandel.obj = intent.getStringExtra(MyService.MES);
-                handler2.sendMessage(mesHandel);
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                //nhan Uri
+                Uri uri = (Uri) msg.obj;
+                MyFile myFile = getMyFileFromUri(uri);
+                new AsyncTask<MyFile, Void, MyStatus>() {
+                    @Override
+                    protected MyStatus doInBackground(MyFile... myFiles) {
+                        MyStatus status = null;
+                        try {
+                            status = restTemplate.postForObject(String.format(MyUri.URL_UP_IMAGE, MyUri.IP), myFiles[0], MyStatus.class);
+                        } catch (RestClientException e) {
+                            Log.e(ConversationChat.class.getName(), e.getMessage());
+                            Toast.makeText(ConversationChat.this, "Không thể upload Image!!", Toast.LENGTH_LONG).show();
+                        }
+                        return status;
+                    }
+
+                    @Override
+                    protected void onPostExecute(MyStatus status) {
+                        super.onPostExecute(status);
+                        if (status == null) {
+                            Toast.makeText(ConversationChat.this, "Gửi file không thành công", Toast.LENGTH_LONG).show();
+                        } else {
+                            mesHandler = handlerSend.obtainMessage();
+                            mesHandler.obj = MessagesListAdapter.CHAR_ZERO + "image:" + status.getObj().toString();
+                            handlerSend.sendMessage(mesHandler);
+                        }
+                    }
+                }.execute(myFile);
             }
         };
-
-        restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
-        intent = getIntent();
-        idCon = intent.getLongExtra(ListConversationFragment.ID_CON, -1);
-        if (idCon == -1) {
-            idFriends = intent.getLongArrayExtra(ListFriendFragment.ID_FRIENDS);
-        }
-        listMessageChat = new ArrayList<>();
-        adapter = new MessagesListAdapter(ConversationChat.this, listMessageChat);
-        listViewMessages.setAdapter(adapter);
-
-        // chat mes mới
-        acc = (Account) Data.getInstance().getAttribute(Data.ACOUNT);
-        listNewMes = new ArrayList<MessageChat>();
-
-        newMes = new MessageChat();
-        newMes.setFromName(acc.getName());
-        newMes.setIdSender(acc.getIdAcc());
-        listNewMes.add(newMes);
-
-        contmp = new Conversation();
-        contmp.setListMes(listNewMes);
 
         new Thread(new Runnable() {
             @Override
@@ -211,9 +270,9 @@ public class ConversationChat extends ActionBarActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mesHandel = handler.obtainMessage();
-                mesHandel.obj = inputMsg.getText().toString();
-                handler.sendMessage(mesHandel);
+                mesHandler = handlerSend.obtainMessage();
+                mesHandler.obj = inputMsg.getText().toString();
+                handlerSend.sendMessage(mesHandler);
             }
         });
         btnIcon.setOnClickListener(new View.OnClickListener() {
@@ -222,6 +281,23 @@ public class ConversationChat extends ActionBarActivity {
                 startActivityForResult(new Intent(ConversationChat.this, IconActivity.class), ACTIVITY_ICON);
             }
         });
+        bntImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                    startActivityForResult(Intent.createChooser(intent,
+                            "Select Picture"), PICK_PHOTO_FOR_AVATAR);
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, PICK_PHOTO_FOR_AVATAR);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -236,12 +312,24 @@ public class ConversationChat extends ActionBarActivity {
                         break;
                     case ICON_BIG:
                         if (data.getStringExtra(KEY_ICON_STRING) != null) {
-                            mesHandel = handler.obtainMessage();
-                            mesHandel.obj = data.getStringExtra(KEY_ICON_STRING);
-                            mesHandel.what = ICON_BIG;
-                            handler.sendMessage(mesHandel);
+                            mesHandler = handlerSend.obtainMessage();
+                            mesHandler.obj = data.getStringExtra(KEY_ICON_STRING);
+                            mesHandler.what = ICON_BIG;
+                            handlerSend.sendMessage(mesHandler);
                         }
                         break;
+                }
+                break;
+            case PICK_PHOTO_FOR_AVATAR:
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data == null) {
+                        //Display an error
+                        return;
+                    }
+                    Uri selectedImageUri = data.getData();
+                    mesHandler = handlerSentImg.obtainMessage();
+                    mesHandler.obj = selectedImageUri;
+                    handlerSentImg.sendMessage(mesHandler);
                 }
                 break;
             default:
@@ -286,4 +374,77 @@ public class ConversationChat extends ActionBarActivity {
     private void showTost(String mes) {
         Toast.makeText(this, mes, Toast.LENGTH_SHORT).show();
     }
+/**
+ * Just for API before KITKAT
+ */
+    private String getPath(Uri uri) {
+        if (uri == null) {
+            return null;
+        }
+        String path = null;
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        try {
+            if (cursor != null) {
+                int column_index = cursor
+                        .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                path = cursor.getString(column_index);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+        }
+
+        Log.i("nhuocquy..quy....", path);
+
+        return path;
+    }
+
+    private MyFile getMyFileFromUri(Uri uri) {
+        String TAG = "nhuoc..quy....";
+        MyFile myFile = new MyFile();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            String fileName = getPath(uri);
+            myFile = new MyFile(fileName);
+        } else {
+            Cursor cursor = getContentResolver()
+                    .query(uri, null, null, null, null, null);
+            DataInputStream dis = null;
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    String displayName = cursor.getString(
+                            cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    Log.i(TAG, "Display Name: " + displayName);
+                    int size = 0;
+                    int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
+                    if (!cursor.isNull(sizeIndex)) {
+                        // Technically the column stores an int, but cursor.getString()
+                        // will do the conversion automatically.
+                        size = cursor.getInt(sizeIndex);
+                    }
+                    Log.i(TAG, "Size: " + size);
+                    InputStream inputStream = getContentResolver().openInputStream(uri);
+                    dis = new DataInputStream(inputStream);
+                    byte[] data = new byte[size];
+                    dis.readFully(data);
+                    myFile.setFileName(displayName);
+                    myFile.setData(data);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                cursor.close();
+                if (dis != null)
+                    try {
+                        dis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+            }
+        }
+        return myFile;
+    }
+
 }

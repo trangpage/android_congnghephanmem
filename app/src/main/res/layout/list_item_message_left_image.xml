@@ -14,6 +14,7 @@
     android:paddingLeft="10dp">
 
     <ImageView
+        android:id="@+id/imAvatar"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/left"/>
@@ -26,8 +27,8 @@
         android:textColor="@color/lblFromName"
         android:textStyle="italic"
         android:padding="5dp"/>
-    <com.trangpig.until.AnimatedGifImageView
-        android:id="@+id/animatedGifImageView"
+    <ImageView
+        android:id="@+id/imMes"
         android:layout_width="200dp"
         android:layout_height="200dp"
 
