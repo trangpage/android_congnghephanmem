@@ -1,8 +1,8 @@
 package com.trangpig.myapp.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 
@@ -11,7 +11,7 @@ import com.trangpig.myapp.R;
 /**
  * Created by TrangPig on 04/19/2015.
  */
-public class Logo extends FragmentActivity{
+public class Logo extends Activity {
 
     Button btnDangNhap, btnDangKy ;
     //    View viewDangNhap;

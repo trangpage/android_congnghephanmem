@@ -1,16 +1,19 @@
 package com.trangpig.myapp.adapter;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
 import android.util.Log;
+import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +61,7 @@ public class MessagesListAdapter
     Account account;
     MessageChat m;
     LayoutInflater mInflater;
-
+    LruCache mMemoryCache;
     //
     RestTemplate restTemplate;
     MyFile myFile;
@@ -74,13 +77,21 @@ public class MessagesListAdapter
     public MessagesListAdapter(final Context context, List<MessageChat> navDrawerItems) {
         this.context = context;
         this.messagesItems = navDrawerItems;
-
 //        this.messagesItems = new ArrayList<>();
         account = (Account) Data.getInstance().getAttribute(Data.ACOUNT);
         ///
         restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
+        //
+        if (Build.VERSION.SDK_INT >= 12) {
+            final int memClass = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
+            final int cacheSize = 1024 * 1024 * memClass / 8;
+            mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
+                protected int sizeOf(String key, Bitmap bitmap) {
+                    return bitmap.getByteCount();
+                }
+            };
+        }
     }
     // view holer
 
@@ -150,7 +161,9 @@ public class MessagesListAdapter
         } else if (viewHolder instanceof ViewHolderImg) {
             ViewHolderImg viewHolderImg = (ViewHolderImg) viewHolder;
             final ImageView imageView = viewHolderImg.imMes;
-            new AsyncTask<String, Void, MyFile>() {
+            new AsyncTask<String, Void, Bitmap>() {
+                String fileName;
+
                 @Override
                 protected void onPreExecute() {
                     super.onPreExecute();
@@ -159,41 +172,42 @@ public class MessagesListAdapter
                 }
 
                 @Override
-                protected MyFile doInBackground(String... params) {
+                protected Bitmap doInBackground(String... params) {
                     MyFile myFile = null;
-                    try {
-                        myFile = restTemplate.getForObject(String.format(MyUri.URL_DOWN_IMAGE, MyUri.IP, params[0]), MyFile.class);
-                    } catch (RestClientException e) {
-                        e.printStackTrace();
-
-                    }
-                    return myFile;
+                    Bitmap bitmap = getBitMapFromCache(params[0]);
+                    if (bitmap == null)
+                        try {
+                            Log.e("tuyet....server", params[0]);
+                            myFile = restTemplate.getForObject(String.format(MyUri.URL_DOWN_IMAGE, MyUri.IP, params[0]), MyFile.class);
+                            if (myFile != null) {
+                                bitmap = decodeSampledBitmapFromResource(myFile.getData(), 450, 450);
+                                fileName = myFile.getFileName();
+                            }
+                            addBitMapToCache(fileName,bitmap);
+                        } catch (RestClientException | MyFileException e) {
+                            e.printStackTrace();
+                        }
+                    return bitmap;
                 }
 
                 @Override
-                protected void onPostExecute(final MyFile myFile) {
+                protected void onPostExecute(final Bitmap myFile) {
                     super.onPostExecute(myFile);
                     if (myFile != null) {
-                        try {
-//                            imageView.setImageBitmap(BitmapFactory.decodeByteArray(myFile.getData(), 0, myFile.getData().length));
-                            imageView.setImageBitmap(decodeSampledBitmapFromResource(myFile.getData(), 450, 450));
-                            imageView.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(context, ImageDetailActivity.class);
-                                    intent.putExtra(ImageDetailActivity.FILE_NAME, myFile.getFileName());
-                                    context.startActivity(intent);
-                                }
-                            });
-                        } catch (MyFileException e) {
-                            e.printStackTrace();
-                            imageView.setImageResource(R.drawable.error);
-                            Toast.makeText(context, "Không thể load Image", Toast.LENGTH_LONG).show();
-                        }
+                        imageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, ImageDetailActivity.class);
+                                intent.putExtra(ImageDetailActivity.FILE_NAME, fileName);
+                                context.startActivity(intent);
+                            }
+                        });
+                        imageView.setImageBitmap(myFile);
                     } else {
                         imageView.setImageResource(R.drawable.error);
                         Toast.makeText(context, "Không thể load Image", Toast.LENGTH_LONG).show();
                     }
+
                 }
             }.execute(m.getText().replace(KEY_IMAGE, ""));
         } else if (viewHolder instanceof ViewHolderGif) {
@@ -282,11 +296,6 @@ public class MessagesListAdapter
     }
 
 
-
-
-
-
-
     public static Bitmap decodeSampledBitmapFromResource(byte[] data, int reqWidth, int reqHeight) {
 
         // BEGIN_INCLUDE (read_bitmap_dimensions)
@@ -303,7 +312,7 @@ public class MessagesListAdapter
 
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
-       return BitmapFactory.decodeByteArray(data, 0, data.length, options);
+        return BitmapFactory.decodeByteArray(data, 0, data.length, options);
     }
 
     public static int calculateInSampleSize(BitmapFactory.Options options,
@@ -343,7 +352,19 @@ public class MessagesListAdapter
             }
         }
         return inSampleSize;
-        // END_INCLUDE (calculate_sample_size)
+    }
+
+    private Bitmap getBitMapFromCache(String fileName) {
+        if (mMemoryCache != null) {
+            return (Bitmap) mMemoryCache.get(fileName);
+        }
+        return null;
+    }
+
+    private void addBitMapToCache(String fileName, Bitmap value) {
+        if (mMemoryCache != null) {
+            mMemoryCache.put(fileName, value);
+        }
     }
 }
 

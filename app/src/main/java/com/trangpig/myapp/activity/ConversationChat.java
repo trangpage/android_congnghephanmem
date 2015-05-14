@@ -135,6 +135,7 @@ public class ConversationChat extends ActionBarActivity {
         listViewMessages.setAdapter(adapter);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
         listViewMessages.setLayoutManager(linearLayoutManager);
         linearLayoutManager.scrollToPosition(listMessageChat.size());
         listViewMessages.setItemAnimator(new DefaultItemAnimator());
@@ -238,7 +239,6 @@ public class ConversationChat extends ActionBarActivity {
                 }.execute(myFile);
             }
         };
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -258,7 +258,6 @@ public class ConversationChat extends ActionBarActivity {
                         contmp.setFriends(con.getFriends());
                     }
                 } catch (RestClientException e) {
-
                     Toast.makeText(ConversationChat.this, "Khong the ket noi Internet", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 } finally {
