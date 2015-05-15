@@ -5,7 +5,10 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -16,6 +19,8 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -35,6 +40,7 @@ import java.io.IOException;
 public class ImageDetailActivity extends Activity {
     public static final String FILE_NAME = "fileName";
     String fileName;
+    ImageButton imgbt_left, imgbt_right;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,8 @@ public class ImageDetailActivity extends Activity {
 //                return true;
 //            }
 //        });
+
+
         registerForContextMenu(imgDetail);
 
         Intent intent = getIntent();
@@ -99,6 +107,25 @@ public class ImageDetailActivity extends Activity {
                 }
             }
         }.execute(fileName);
+
+
+        imgbt_left = (ImageButton) findViewById(R.id.imgbt_trai);
+        imgbt_right = (ImageButton) findViewById(R.id.imgbt_phai);
+
+        imgbt_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bitmap source = ((BitmapDrawable)imgDetail.getDrawable()).getBitmap();
+                imgDetail.setImageBitmap(RotateBitmapLeft(source));
+            }
+        });
+        imgbt_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bitmap source = ((BitmapDrawable)imgDetail.getDrawable()).getBitmap();
+                imgDetail.setImageBitmap(RotateBitmapRight(source));
+            }
+        });
     }
 
 
@@ -196,5 +223,17 @@ public class ImageDetailActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public static Bitmap RotateBitmapRight(Bitmap source)
+    {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
+    public static Bitmap RotateBitmapLeft(Bitmap source)
+    {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(-90);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 }
