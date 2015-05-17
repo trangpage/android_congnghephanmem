@@ -18,17 +18,22 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nhuocquy.model.Account;
 import com.nhuocquy.model.Conversation;
+import com.nhuocquy.model.Friend;
 import com.nhuocquy.model.MessageChat;
 import com.nhuocquy.myfile.MyFile;
 import com.nhuocquy.myfile.MyStatus;
@@ -64,11 +69,17 @@ public class ConversationChat extends ActionBarActivity {
 
     public static final String KEY_ICON_STRING = "icon";
 
+    public static final String MES_HINT_ON = (char) 0 + "hintOn";
+    public static final String MES_HINT_OFF = (char) 0 + "hintOff";
+
     private Button btnSend;
     private ImageButton btnIcon;
     private EditText inputMsg;
+    //
+    private TextView txtHint;
+    private TextWatcher t;
 
-//    private ListView listViewMessages;
+    //    private ListView listViewMessages;
     private MessagesListAdapter adapter;
     private RecyclerView listViewMessages;
 
@@ -83,7 +94,6 @@ public class ConversationChat extends ActionBarActivity {
     List<MessageChat> listNewMes;
     MessageChat newMes;
     MessageChat receiveMes;
-    Account acc;
     Message mesHandler;
     WebSocketClient webSocketClient;
     BroadcastReceiver broadcastReceiver;
@@ -95,6 +105,7 @@ public class ConversationChat extends ActionBarActivity {
     List<Conversation> arrCon;
     ImageButton bntImg;
     int post;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +121,45 @@ public class ConversationChat extends ActionBarActivity {
         listViewMessages = (RecyclerView) findViewById(R.id.list_view_messages);
         objectMapper = new ObjectMapper();
 
+        //
+        txtHint = (TextView) findViewById(R.id.txtHint);
+//        txtHint.setVisibility(View.INVISIBLE);
+
+
+        t = new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.e("heo.....watcher", s.toString());
+                if (s.length() == 1) {
+                    mesHandler = handlerSend.obtainMessage();
+                    mesHandler.obj = MES_HINT_ON;
+                    handlerSend.sendMessage(mesHandler);
+                }
+                if (s.length() == 0) {
+                    mesHandler = handlerSend.obtainMessage();
+                    mesHandler.obj = MES_HINT_OFF;
+                    handlerSend.sendMessage(mesHandler);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
+
+        inputMsg.addTextChangedListener(t);
+//        inputMsg.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                inputMsg.addTextChangedListener(t);
+//                return false;
+//    }
+//});
 
         broadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -122,8 +172,8 @@ public class ConversationChat extends ActionBarActivity {
             }
         };
 
-            restTemplate = new RestTemplate();
-            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+        restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
         intent = getIntent();
         idCon = intent.getLongExtra(ListConversationFragment.ID_CON, -1);
@@ -140,12 +190,12 @@ public class ConversationChat extends ActionBarActivity {
         linearLayoutManager.scrollToPosition(listMessageChat.size());
         listViewMessages.setItemAnimator(new DefaultItemAnimator());
         // chat mes mới
-        acc = (Account) Data.getInstance().getAttribute(Data.ACOUNT);
+        account = (Account) Data.getInstance().getAttribute(Data.ACOUNT);
         listNewMes = new ArrayList<MessageChat>();
 
         newMes = new MessageChat();
-        newMes.setFromName(acc.getName());
-        newMes.setIdSender(acc.getIdAcc());
+        newMes.setFromName(account.getName());
+        newMes.setIdSender(account.getIdAcc());
         listNewMes.add(newMes);
 
         contmp = new Conversation();
@@ -172,7 +222,6 @@ public class ConversationChat extends ActionBarActivity {
                     case ICON_SMALL:
                         break;
                     default:
-                        inputMsg.setText("");
                         break;
                 }
                 // Clearing the input filed once message was sent
@@ -188,15 +237,25 @@ public class ConversationChat extends ActionBarActivity {
                 try {
                     receiveMes = objectMapper.readValue(mesBroadCast, MessageChat.class);
                     if (con.getIdCon() == receiveMes.getIdConversation()) {
-                        listMessageChat.add(receiveMes);
-                        post = listMessageChat.size()-1;
-                        adapter.notifyItemInserted(post);
-                        linearLayoutManager.scrollToPosition(post);
+                        //
+                        if (receiveMes.getText().contains(MES_HINT_ON)) {
+//                            txtHint.setVisibility(View.VISIBLE);
+                            txtHint.setText(receiveMes.getFromName() + " đang nhập...");
+                        } else if (receiveMes.getText().contains(MES_HINT_OFF)) {
+                            txtHint.setText("");
+                        } else {
+//                            txtHint.setVisibility(View.INVISIBLE);
+//                            txtHint.setText("");
+                            listMessageChat.add(receiveMes);
+                            post = listMessageChat.size() - 1;
+                            adapter.notifyItemInserted(post);
+                            linearLayoutManager.scrollToPosition(post);
+                        }
                     } else {
-                        for (int i = 0; i < acc.getConversations().size(); i++) {
-                            if (receiveMes.getIdConversation() == acc.getConversations().get(i).getIdCon()) {
-                                acc.getConversations().get(i).setReaded(false);
-                                acc.getConversations().get(i).addMessageChat(receiveMes);
+                        for (int i = 0; i < account.getConversations().size(); i++) {
+                            if (receiveMes.getIdConversation() == account.getConversations().get(i).getIdCon()) {
+                                account.getConversations().get(i).setReaded(false);
+                                account.getConversations().get(i).addMessageChat(receiveMes);
                             }
                         }
                     }
@@ -266,6 +325,7 @@ public class ConversationChat extends ActionBarActivity {
                 mesHandler = handlerSend.obtainMessage();
                 mesHandler.obj = inputMsg.getText().toString();
                 handlerSend.sendMessage(mesHandler);
+                inputMsg.setText("");
             }
         });
         btnIcon.setOnClickListener(new View.OnClickListener() {
@@ -367,9 +427,10 @@ public class ConversationChat extends ActionBarActivity {
     private void showTost(String mes) {
         Toast.makeText(this, mes, Toast.LENGTH_SHORT).show();
     }
-/**
- * Just for API before KITKAT
- */
+
+    /**
+     * Just for API before KITKAT
+     */
     private String getPath(Uri uri) {
         if (uri == null) {
             return null;
