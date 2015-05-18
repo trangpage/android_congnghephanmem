@@ -21,13 +21,13 @@ import java.util.List;
 public class ListAddFriendAdapter extends ArrayAdapter<Friend> {
 
     Activity context;
-    List<Friend> listFriend;
+    List<Friend> listAddFriend;
     int cur;
 
     public ListAddFriendAdapter(Activity context, List<Friend> listFriend, int cur) {
         super(context, cur, listFriend);
         this.context = context;
-        this.listFriend = listFriend;
+        this.listAddFriend = listFriend;
         this.cur = cur;
     }
     @Override
@@ -36,16 +36,27 @@ public class ListAddFriendAdapter extends ArrayAdapter<Friend> {
             LayoutInflater layoutInflater = context.getLayoutInflater();
             convertView = layoutInflater.inflate(cur, null);
         }
-        if (listFriend.size() > 0 && position >= 0) {
+        if (listAddFriend.size() > 0 && position >= 0) {
             final TextView tvAddFr = (TextView) convertView.findViewById(R.id.tvAddFr);
             final ImageView imgAddFr = (ImageView) convertView.findViewById(R.id.imgAddFr);
             final Button bntAddFr = (Button) convertView.findViewById(R.id.bntAddFr);
-            final Friend con = listFriend.get(position);
+            final Friend con = listAddFriend.get(position);
             tvAddFr.setText(con.getName());
             imgAddFr.setImageResource(R.drawable.left);
+
+            // b?t suwk ki?n k?t b?n
+            bntAddFr.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
 
         }
         return convertView;
 
+    }
+    public void setListAddFriend(List<Friend> listAddFr){
+        this.listAddFriend = listAddFr;
     }
 }

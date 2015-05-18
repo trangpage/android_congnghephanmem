@@ -27,7 +27,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +38,6 @@ import android.widget.Toast;
 
 import com.nhuocquy.model.Account;
 import com.nhuocquy.model.Conversation;
-import com.nhuocquy.model.Friend;
 import com.nhuocquy.model.MessageChat;
 import com.nhuocquy.myfile.MyFile;
 import com.nhuocquy.myfile.MyStatus;
@@ -59,7 +57,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.DataInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
