@@ -39,19 +39,18 @@ public class ListAddFriendAdapter extends ArrayAdapter<Friend> {
         if (listAddFriend.size() > 0 && position >= 0) {
             final TextView tvAddFr = (TextView) convertView.findViewById(R.id.tvAddFr);
             final ImageView imgAddFr = (ImageView) convertView.findViewById(R.id.imgAddFr);
-            final Button bntAddFr = (Button) convertView.findViewById(R.id.bntAddFr);
+//            final Button bntAddFr = (Button) convertView.findViewById(R.id.bntAddFr);
             final Friend con = listAddFriend.get(position);
             tvAddFr.setText(con.getName());
             imgAddFr.setImageResource(R.drawable.left);
 
             // b?t suwk ki?n k?t b?n
-            bntAddFr.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-
+//            bntAddFr.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                }
+//            });
         }
         return convertView;
 

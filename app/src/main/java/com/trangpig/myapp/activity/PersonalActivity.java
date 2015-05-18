@@ -1,5 +1,6 @@
 package com.trangpig.myapp.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
@@ -25,7 +26,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 
-public class PersonalActivity extends ActionBarActivity {
+public class PersonalActivity extends Activity {
 public static final String ID_ACC = "idacc";
     EditText editTimBan, editDiaChi, editNgaySinh;
     TextView textViewName;
@@ -65,6 +66,9 @@ public static final String ID_ACC = "idacc";
             @Override
             protected void onPostExecute(Account account) {
                 super.onPostExecute(account);
+                textViewName.setText(account.getName());
+                editDiaChi.setText(account.getAddress());
+                editNgaySinh.setText(account.getBirthday().toString());
                 listFriendAdapter = new ListFriendAdapter(PersonalActivity.this,account.getListFrs(),R.layout.my_item_layout_friend);
                 listFr.setAdapter(listFriendAdapter);
             }

@@ -436,7 +436,8 @@ public class ConversationChat extends ActionBarActivity {
         unregisterReceiver(broadcastReceiver);
         for (Conversation c : account.getConversations()) {
             if (c.getIdCon() == con.getIdCon()) {
-                c.addMessageChat(con.getListMes().get(con.getListMes().size() - 1));
+                if (con.getListMes().size() > 0)
+                    c.addMessageChat(con.getListMes().get(con.getListMes().size() - 1));
                 c.setReaded(true);
                 break;
             }
@@ -519,6 +520,7 @@ public class ConversationChat extends ActionBarActivity {
         }
         return myFile;
     }
+
     public void playBeep() {
         try {
             Uri notification = RingtoneManager
@@ -530,7 +532,8 @@ public class ConversationChat extends ActionBarActivity {
             e.printStackTrace();
         }
     }
-    public void notification(MessageChat mes){
+
+    public void notification(MessageChat mes) {
         Intent intent = new Intent(this, ConversationChat.class);
         intent.putExtra(ListConversationFragment.ID_CON, mes.getIdConversation());
 

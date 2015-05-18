@@ -10,6 +10,8 @@ public class MyUri {
     public static final String LOGIN = "http://%s:8080/tuyensinh/login?username=%s&password=%s";
     public static final String CONVERSATION = "http://%s:8080/tuyensinh/getconversation";
     public static final String URL_UP_IMAGE = "http://%s:8080/tuyensinh/image";
-    public static final String URL_DOWN_IMAGE = "http://%s:8080/tuyensinh/image?filename=%s";    public static final String URL_GET_ACCOUNT = "http://%s:8080/tuyensinh/getacc/%s";    public static final String URL_GET_LIST_ADD_FRIEND = "http://%s:8080/tuyensinh/getlistaddfriend?idAcc=%s";
+    public static final String URL_DOWN_IMAGE = "http://%s:8080/tuyensinh/image?filename=%s";
+    public static final String URL_GET_ACCOUNT = "http://%s:8080/tuyensinh/getacc/%s";
+    public static final String URL_GET_LIST_ADD_FRIEND = "http://%s:8080/tuyensinh/getlistaddfriend?idacc=%s";
 
 }
