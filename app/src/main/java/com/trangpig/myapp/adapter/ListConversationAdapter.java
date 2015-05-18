@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nhuocquy.model.Conversation;
@@ -38,6 +39,7 @@ public class ListConversationAdapter extends ArrayAdapter<Conversation> {
             final TextView tvTen = (TextView) convertView.findViewById(R.id.tvTen);
             final TextView tvLastSMS = (TextView) convertView.findViewById(R.id.tvLastSMS);
             final TextView tvDate = (TextView) convertView.findViewById(R.id.tvDate);
+            final ImageView imReaded = (ImageView) convertView.findViewById(R.id.imReaded);
             final Conversation con = arr.get(position);
             tvTen.setText(con.selectNames());
             if ((size = con.getListMes().size() - 1) > 0)
@@ -48,6 +50,11 @@ public class ListConversationAdapter extends ArrayAdapter<Conversation> {
                 tvDate.setText(con.getListMes().get(size).getDate().toString());
             else
                 tvDate.setText("...");
+            if(con.isReaded()){
+                imReaded.setImageBitmap(null);
+            }else{
+                imReaded.setImageResource(R.drawable.a1);
+            }
         }
         return convertView;
     }

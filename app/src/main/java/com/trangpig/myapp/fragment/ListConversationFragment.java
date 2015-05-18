@@ -58,4 +58,10 @@ public class ListConversationFragment extends Fragment {
         });
         return v;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
 }

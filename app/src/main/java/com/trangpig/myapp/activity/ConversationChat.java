@@ -1,11 +1,16 @@
 package com.trangpig.myapp.activity;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,6 +19,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,6 +59,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -251,11 +258,13 @@ public class ConversationChat extends ActionBarActivity {
                             adapter.notifyItemInserted(post);
                             linearLayoutManager.scrollToPosition(post);
                         }
-                    } else {
+                    } else if (!receiveMes.getText().contains(MES_HINT_ON) && !receiveMes.getText().contains(MES_HINT_OFF)) {
                         for (int i = 0; i < account.getConversations().size(); i++) {
                             if (receiveMes.getIdConversation() == account.getConversations().get(i).getIdCon()) {
                                 account.getConversations().get(i).setReaded(false);
                                 account.getConversations().get(i).addMessageChat(receiveMes);
+                                notification(receiveMes);
+                                break;
                             }
                         }
                     }
@@ -298,27 +307,33 @@ public class ConversationChat extends ActionBarActivity {
                 }.execute(myFile);
             }
         };
-        new Thread(new Runnable() {
+
+        new AsyncTask<Void, Void, Conversation>() {
+
             @Override
-            public void run() {
+            protected Conversation doInBackground(Void... params) {
                 try {
                     con = restTemplate.postForObject(String.format(MyUri.CONVERSATION, MyUri.IP), (idCon != -1) ? new long[]{idCon} : idFriends, Conversation.class);
-                    if (con != null && con.getListMes() != null) {
-
-                        listMessageChat = con.getListMes();
-                        adapter.setListMes(listMessageChat);
-                        contmp.setIdCon(con.getIdCon());
-                        contmp.setFriends(con.getFriends());
-                    }
                 } catch (RestClientException e) {
-                    Toast.makeText(ConversationChat.this, "Khong the ket noi Internet", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
-                } finally {
+                    con = null;
+                }
+                return con;
+            }
 
+            @Override
+            protected void onPostExecute(Conversation con) {
+                super.onPostExecute(con);
+                if (con != null && con.getListMes() != null) {
+                    listMessageChat = con.getListMes();
+                    linearLayoutManager.scrollToPosition(listMessageChat.size() - 1);
+                    adapter.setListMes(listMessageChat);
+                    contmp.setIdCon(con.getIdCon());
+                    contmp.setFriends(con.getFriends());
+                    setTitle(con.selectNames());
                 }
             }
-        }).start();
-
+        }.execute();
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -422,6 +437,13 @@ public class ConversationChat extends ActionBarActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(broadcastReceiver);
+        for (Conversation c : account.getConversations()) {
+            if (c.getIdCon() == con.getIdCon()) {
+                c.addMessageChat(con.getListMes().get(con.getListMes().size() - 1));
+                c.setReaded(true);
+                break;
+            }
+        }
     }
 
     private void showTost(String mes) {
@@ -500,5 +522,31 @@ public class ConversationChat extends ActionBarActivity {
         }
         return myFile;
     }
+    public void playBeep() {
+        try {
+            Uri notification = RingtoneManager
+                    .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(),
+                    notification);
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void notification(MessageChat mes){
+        Intent intent = new Intent(this, ConversationChat.class);
+        intent.putExtra(ListConversationFragment.ID_CON, mes.getIdConversation());
 
+        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        Notification noti = new NotificationCompat.Builder(this)
+                .setContentTitle("Bạn có tin nhắn mới từ: " + mes.getFromName())
+                .setContentText(mes.getText())
+                .setSmallIcon(R.drawable.message)
+                .setContentIntent(pIntent).build();
+        noti.flags |= Notification.FLAG_AUTO_CANCEL;
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(0, noti);
+        playBeep();
+    }
 }
