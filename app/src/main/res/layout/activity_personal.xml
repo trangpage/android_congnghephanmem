@@ -1,0 +1,109 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/rotate_left_icon"
+        >
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            >
+        <TableRow>
+            <ImageView
+                android:id="@+id/perAvatar"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@drawable/hinh1"/>
+            <TextView
+                android:id="@+id/perName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:textSize="40dp"
+                android:text="Name" />
+        </TableRow>
+        </TableLayout>
+    </FrameLayout>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TableRow
+            android:id="@+id/tbrow7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:id="@+id/tvlave1r"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Địa chỉ"
+                android:textSize="20dp"/>
+            <EditText
+                android:id="@+id/tvlaver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="ABC"
+                android:textSize="20dp"
+                />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tbrow71"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:id="@+id/tvlave1r1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ngày sinh"
+                android:textSize="20dp"/>
+            <EditText
+                android:id="@+id/tvlaver1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="01/01/2001"
+                android:textSize="20dp"
+                />
+        </TableRow>
+
+    </TableLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Danh sach ban be"
+        android:textSize="25dp"
+        />
+    <EditText
+        android:id="@+id/txtFr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="8"
+        android:layout_gravity="right"
+        android:hint="Tim ban be"
+        android:inputType="textPersonName" />
+    </FrameLayout>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvFr"
+        />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+    </android.support.v4.view.ViewPager>
+</LinearLayout>

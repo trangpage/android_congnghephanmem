@@ -12,10 +12,10 @@
     <string name="btn_join">JOIN</string>
     <string name="btn_send">Send</string>
     <string name="title_activity_list_conversation">ListConversation</string>
-    //
-    <string name="account">account</string>
+    //    <string name="account">account</string>
     <string name="accountid">accountid</string>
     <string name="accountXML">account.xml</string>
     <string name="title_activity_image_detail">ImageDetailActivity</string>
+    <string name="title_activity_personal">Personal</string>
 
 </resources>

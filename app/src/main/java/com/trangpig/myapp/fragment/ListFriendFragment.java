@@ -41,12 +41,12 @@ public class ListFriendFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.friendlist, container,false);
+        View v = inflater.inflate(R.layout.activity_personal, container,false);
 
+        edit = (EditText) v.findViewById(R.id.txtFr);
         account =(Account) Data.getInstance().getAttribute(Data.ACOUNT);
         arrFr = account.getListFrs();
         listViewFriend =(ListView) v.findViewById(R.id.lvFr);
-        edit = (EditText) v.findViewById(R.id.txtFr);
         frAdapter = new ListFriendAdapter(getActivity(),arrFr,R.layout.my_item_layout_friend);
         listViewFriend.setAdapter(frAdapter);
 
