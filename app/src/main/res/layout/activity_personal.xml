@@ -15,12 +15,12 @@
             >
         <TableRow>
             <ImageView
-                android:id="@+id/perAvatar"
+                android:id="@+id/imgPer_Avatar"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:background="@drawable/hinh1"/>
             <TextView
-                android:id="@+id/perName"
+                android:id="@+id/tvlPer_Name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -45,7 +45,7 @@
                 android:text="Địa chỉ"
                 android:textSize="20dp"/>
             <EditText
-                android:id="@+id/tvlaver"
+                android:id="@+id/txtPer_DiaChi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -65,7 +65,7 @@
                 android:text="Ngày sinh"
                 android:textSize="20dp"/>
             <EditText
-                android:id="@+id/tvlaver1"
+                android:id="@+id/txtPer_NgaySinh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -86,7 +86,7 @@
         android:textSize="25dp"
         />
     <EditText
-        android:id="@+id/txtFr"
+        android:id="@+id/txtPer_TimBan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="8"
@@ -98,12 +98,6 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lvFr"
+        android:id="@+id/lvPer_Fr"
         />
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-    </android.support.v4.view.ViewPager>
 </LinearLayout>
