@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.nhuocquy.model.Friend;
 import com.nhuocquy.model.Account;
@@ -28,7 +30,6 @@ public class ListFriendFragment extends Fragment {
     private ListFriendAdapter frAdapter;
     private ListView listViewFriend;
     List<Friend> arrFr;
-    EditText edit;
     Intent intent;
     public static final String ID_FRIENDS = "idFriends";
 
@@ -41,9 +42,8 @@ public class ListFriendFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_personal, container,false);
-
-        edit = (EditText) v.findViewById(R.id.txtFr);
+        View v = inflater.inflate(R.layout.friendlist, container,false);
+        //
         account =(Account) Data.getInstance().getAttribute(Data.ACOUNT);
         arrFr = account.getListFrs();
         listViewFriend =(ListView) v.findViewById(R.id.lvFr);
