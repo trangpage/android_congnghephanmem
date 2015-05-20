@@ -3,6 +3,10 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
+    compileOptions.encoding = 'windows-1251'
+
+
+
 
     defaultConfig {
         applicationId "com.trangpig.myapp"

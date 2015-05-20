@@ -13,5 +13,9 @@ public class MyUri {
     public static final String URL_DOWN_IMAGE = "http://%s:8080/tuyensinh/image?filename=%s";
     public static final String URL_GET_ACCOUNT = "http://%s:8080/tuyensinh/getacc/%s";
     public static final String URL_GET_LIST_ADD_FRIEND = "http://%s:8080/tuyensinh/getlistaddfriend?idacc=%s";
+    public static final String URL_GET_MAKE_FRIEND = "http://%s:8080/tuyensinh/makefriend?idacc=%s&idfri=%s";
+    public static final String URL_GET_UN_MAKE_FRIEND = "http://%s:8080/tuyensinh/unmakefriend?idacc=%s&idfri=%s";
+    public static final String URL_GET_COMMIT_MAKE_FRIEND = "http://%s:8080/tuyensinh/commitmakefriend?idacc=%s&idfri=%s";
+
 
 }
