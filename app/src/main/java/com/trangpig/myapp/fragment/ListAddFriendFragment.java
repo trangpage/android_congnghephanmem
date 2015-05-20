@@ -18,13 +18,13 @@ import com.trangpig.data.Data;
 import com.trangpig.myapp.R;
 import com.trangpig.myapp.activity.PersonalActivity;
 import com.trangpig.myapp.adapter.ListAddFriendAdapter;
+import com.trangpig.myapp.adapter.ListConfirmFriendAdapter;
 import com.trangpig.until.MyUri;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,7 +34,9 @@ import java.util.List;
 public class ListAddFriendFragment extends Fragment {
     private Account account;
     private ListAddFriendAdapter listAddFriendAdapter;
+    private ListConfirmFriendAdapter listConfirmFriendAdapter;
     private ListView listViewAddFriend;
+    private ListView listViewConfirmFriend;
     List<Friend> arrAddFr;
     Friend[] arrAddFr2;
     EditText editSearch;
@@ -48,21 +50,19 @@ public class ListAddFriendFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.friendlist, container,false);
+        View v = inflater.inflate(R.layout.add_friend, container,false);
 
         editSearch = (EditText) v.findViewById(R.id.txtFr);
         account =(Account) Data.getInstance().getAttribute(Data.ACOUNT);
 
-
-//        arrAddFr = account.getListMakeFrs();
-
-
         listViewAddFriend =(ListView) v.findViewById(R.id.lvFr);
-//        arrAddFr = new ArrayList<>();
-//        listAddFriendAdapter = new ListAddFriendAdapter(getActivity(),arrAddFr,R.layout.my_item_layout_add_friend);
-//        listViewAddFriend.setAdapter(listAddFriendAdapter);
+        listViewConfirmFriend = (ListView) v.findViewById(R.id.lvAddFr);
 
-        //l?y danh s�ch b?n b� ch?a k?t b?n
+//        arrAddFr = new ArrayList<>();
+        listConfirmFriendAdapter = new ListConfirmFriendAdapter(getActivity());
+        listViewConfirmFriend.setAdapter(listConfirmFriendAdapter);
+
+
         final RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         new AsyncTask<Long, Void, Friend[]>(){
@@ -81,7 +81,7 @@ public class ListAddFriendFragment extends Fragment {
                 super.onPostExecute(friends);
                 Log.e("tuyet...addfriend", String.valueOf(friends.length));
                 arrAddFr = Arrays.asList(friends);
-                listAddFriendAdapter = new ListAddFriendAdapter(getActivity(),arrAddFr,R.layout.my_item_layout_add_friend);
+                listAddFriendAdapter = new ListAddFriendAdapter(getActivity(), arrAddFr);
                 listViewAddFriend.setAdapter(listAddFriendAdapter);
                 listAddFriendAdapter.notifyDataSetChanged();
                 listViewAddFriend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -95,7 +95,6 @@ public class ListAddFriendFragment extends Fragment {
                 });
             }
         }.execute(account.getIdAcc());
-        // su kien cho listview
 
         return v;
     }

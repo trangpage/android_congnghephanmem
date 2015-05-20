@@ -17,5 +17,9 @@
     <string name="accountXML">account.xml</string>
     <string name="title_activity_image_detail">ImageDetailActivity</string>
     <string name="title_activity_personal">Personal</string>
+    <string name="addFriend">Kết bạn</string>
+    <string name="makeFriend">Đã gửi yêu cầu</string>
+    <string name="confirmFriend">Chấp nhận</string>
+    <string name="deleteFriend">Hủy</string>
 
 </resources>
