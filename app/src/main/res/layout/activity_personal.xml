@@ -18,7 +18,9 @@
                 android:id="@+id/imgPer_Avatar"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:background="@drawable/hinh1"/>
+                android:src="@drawable/hinh1"
+                android:background="#000000"
+                android:padding="2dp"/>
             <TextView
                 android:id="@+id/tvlPer_Name"
                 android:layout_width="wrap_content"
@@ -29,6 +31,23 @@
         </TableRow>
         </TableLayout>
     </FrameLayout>
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right">
+        <TableRow>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ket ban"
+                android:id="@+id/btnKetBan" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tin nhan"
+                android:id="@+id/btnTinNhan" />
+        </TableRow>
+    </TableLayout>
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +67,6 @@
                 android:id="@+id/txtPer_DiaChi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
                 android:text="ABC"
                 android:textSize="20dp"
                 />
@@ -73,7 +91,6 @@
                 android:textSize="20dp"
                 />
         </TableRow>
-
     </TableLayout>
     <FrameLayout
         android:layout_width="match_parent"
@@ -82,19 +99,28 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Danh sach ban be"
+        android:text="Ban be"
         android:textSize="25dp"
         />
-    <EditText
-        android:id="@+id/txtPer_TimBan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="8"
-        android:layout_gravity="right"
-        android:hint="Tim ban be"
-        android:inputType="textPersonName" />
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right">
+            <TableRow>
+                <EditText
+                    android:id="@+id/txtPer_TimBan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="8"
+                    android:hint="Tim ban be"
+                    android:inputType="textPersonName" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/search_friend" />
+            </TableRow>
+        </TableLayout>
     </FrameLayout>
-
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

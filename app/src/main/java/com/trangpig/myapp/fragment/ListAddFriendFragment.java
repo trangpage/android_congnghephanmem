@@ -62,7 +62,7 @@ public class ListAddFriendFragment extends Fragment {
 //        listAddFriendAdapter = new ListAddFriendAdapter(getActivity(),arrAddFr,R.layout.my_item_layout_add_friend);
 //        listViewAddFriend.setAdapter(listAddFriendAdapter);
 
-        //l?y danh sách b?n bè ch?a k?t b?n
+        //l?y danh sï¿½ch b?n bï¿½ ch?a k?t b?n
         final RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         new AsyncTask<Long, Void, Friend[]>(){
@@ -89,7 +89,7 @@ public class ListAddFriendFragment extends Fragment {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Log.e("tuyet....addfriendClick", String.valueOf(position));
                         intent = new Intent(ListAddFriendFragment.this.getActivity(), PersonalActivity.class);
-                        intent.putExtra(ID_FRIENDS, new long[]{account.getIdAcc(), arrAddFr.get(position).getIdFriend()});
+                        intent.putExtra(PersonalActivity.ID_ACC,arrAddFr.get(position).getIdFriend());
                         startActivity(intent);
                     }
                 });

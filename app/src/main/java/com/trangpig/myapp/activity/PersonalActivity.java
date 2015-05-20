@@ -7,6 +7,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,6 +20,7 @@ import com.nhuocquy.model.Friend;
 import com.trangpig.data.Data;
 import com.trangpig.myapp.R;
 import com.trangpig.myapp.adapter.ListFriendAdapter;
+import com.trangpig.myapp.fragment.ListFriendFragment;
 import com.trangpig.until.MyUri;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -32,10 +35,12 @@ public static final String ID_ACC = "idacc";
     TextView textViewName;
     ImageView imgPerAvatar;
     ListView listFr;
+    Button btnKetBan, btnTinNhan;
     Account account;
     ListFriendAdapter listFriendAdapter;
     RestTemplate restTemplate;
     Intent intent;
+    long idAcc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +52,18 @@ public static final String ID_ACC = "idacc";
         editNgaySinh = (EditText) findViewById(R.id.txtPer_NgaySinh);
         editTimBan = (EditText) findViewById(R.id.txtPer_TimBan);
         listFr = (ListView) findViewById(R.id.lvPer_Fr);
+        btnKetBan = (Button) findViewById(R.id.btnKetBan);
+        btnKetBan.setVisibility(View.INVISIBLE);
+        btnTinNhan = (Button) findViewById(R.id.btnTinNhan);
         //
         intent = getIntent();
-        long idAcc = intent.getLongExtra(ID_ACC, 0);
+        idAcc = intent.getLongExtra(ID_ACC, 0);
+
+        for(int i = 0; i<account.getListFrs().size();i++){
+            if(idAcc == account.getListFrs().get(i).getIdFriend())
+                btnKetBan.setVisibility(View.VISIBLE);
+        }
+
         restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         new AsyncTask<Long, Void, Account>() {
@@ -73,6 +87,22 @@ public static final String ID_ACC = "idacc";
                 listFr.setAdapter(listFriendAdapter);
             }
         }.execute(idAcc);
+
+        btnKetBan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        btnTinNhan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentCon = new Intent(PersonalActivity.this,ConversationChat.class);
+                intentCon.putExtra(ListFriendFragment.ID_FRIENDS, new long[]{account.getIdAcc(), idAcc});
+                startActivity(intentCon);
+            }
+        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
