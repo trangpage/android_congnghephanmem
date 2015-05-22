@@ -21,5 +21,6 @@
     <string name="makeFriend">Đã gửi yêu cầu</string>
     <string name="confirmFriend">Chấp nhận</string>
     <string name="deleteFriend">Hủy</string>
+    <string name="title_activity_signed_up">SignedUpActivity</string>
 
 </resources>

@@ -13,10 +13,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nhuocquy.model.Account;
 import com.nhuocquy.model.Conversation;
 import com.nhuocquy.model.Friend;
+import com.nhuocquy.myfile.MyStatus;
 import com.trangpig.data.Data;
 import com.trangpig.myapp.R;
 import com.trangpig.myapp.adapter.ListFriendAdapter;
@@ -31,6 +33,7 @@ import java.util.ArrayList;
 
 public class PersonalActivity extends Activity {
 public static final String ID_ACC = "idacc";
+    final String getAddFr = this.getResources().getString(R.string.addFriend);
     EditText editTimBan, editDiaChi, editNgaySinh;
     TextView textViewName;
     ImageView imgPerAvatar;
@@ -91,6 +94,49 @@ public static final String ID_ACC = "idacc";
         btnKetBan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new AsyncTask<Long, Void, MyStatus>() {
+                    MyStatus status;
+
+                    @Override
+                    protected MyStatus doInBackground(Long... params) {
+                        try {
+                            if (btnKetBan.getText().equals(getAddFr)) {
+                                status = restTemplate.getForObject(String.format(MyUri.URL_GET_MAKE_FRIEND, MyUri.IP, params[0], params[1]), MyStatus.class);
+
+                            } else {
+                                status = restTemplate.getForObject(String.format(MyUri.URL_GET_UN_MAKE_FRIEND, MyUri.IP, params[0], params[1]), MyStatus.class);
+
+                            }
+                        } catch (RestClientException e) {
+                            e.printStackTrace();
+
+                        }
+                        return status;
+                    }
+
+                    @Override
+                    protected void onPostExecute(MyStatus s) {
+                        super.onPostExecute(s);
+                        if (status == null) {
+                            Toast.makeText(PersonalActivity.this, "Gửi yêu cầu thất bại", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            if (btnKetBan.getText().equals(getAddFr)) {
+                                btnKetBan.setText(PersonalActivity.this.getResources().getString(R.string.makeFriend));
+                            } else {
+                                if (MyStatus.CODE_SUCCESS == status.getCode()) {
+                                    btnKetBan.setText(PersonalActivity.this.getResources().getString(R.string.addFriend));
+                                    Toast.makeText(PersonalActivity.this, "Đã hủy yêu cầu kết bạn", Toast.LENGTH_LONG).show();
+
+                                } else {
+                                    Toast.makeText(PersonalActivity.this, "Gửi yêu cầu thất bại", Toast.LENGTH_LONG).show();
+
+                                }
+                            }
+                        }
+                    }
+                }.execute(idAcc, account.getIdAcc());
+
 
             }
         });
