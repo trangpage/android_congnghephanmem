@@ -52,11 +52,11 @@ public class Login extends Activity {
                             startService(new Intent(Login.this, MyService.class));
                             startActivity(intent);
                         } else {
-                            Toast.makeText(Login.this, "Đăng nhập không thành công", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Login.this, Login.this.getResources().getString(R.string.login_unsucess), Toast.LENGTH_LONG).show();
                         }
                         break;
                     case failure:
-                        Toast.makeText(Login.this, "Không thể kết nối tới máy chủ!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Login.this, Login.this.getResources().getString(R.string.login_error), Toast.LENGTH_LONG).show();
                         break;
                     default:
                         break;
@@ -71,7 +71,7 @@ public class Login extends Activity {
         btnDangNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ProgressDialog ringProgressDialog = ProgressDialog.show(Login.this, "Xin chờ ...", "Đang kết nối ...", true);
+                final ProgressDialog ringProgressDialog = ProgressDialog.show(Login.this,Login.this.getResources().getString(R.string.wait) , Login.this.getResources().getString(R.string.conecting), true);
                 new Thread(new Runnable() {
                     Message message = handler.obtainMessage();
 

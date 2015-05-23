@@ -99,11 +99,11 @@ public class ImageDetailActivity extends Activity {
                     } catch (MyFileException e) {
                         e.printStackTrace();
                         imgDetail.setImageResource(R.drawable.error);
-                        Toast.makeText(ImageDetailActivity.this, "Không thể load Image", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ImageDetailActivity.this, ImageDetailActivity.this.getResources().getString(R.string.no_upload_img), Toast.LENGTH_LONG).show();
                     }
                 } else {
                     imgDetail.setImageResource(R.drawable.error);
-                    Toast.makeText(ImageDetailActivity.this, "Không thể load Image", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ImageDetailActivity.this, ImageDetailActivity.this.getResources().getString(R.string.no_upload_img), Toast.LENGTH_LONG).show();
                 }
             }
         }.execute(fileName);
@@ -190,7 +190,7 @@ public class ImageDetailActivity extends Activity {
                             PendingIntent pIntent = PendingIntent.getActivity(ImageDetailActivity.this, 0, intent, 0);
 
                             Notification noti = new NotificationCompat.Builder(ImageDetailActivity.this)
-                                    .setContentTitle("Download thành công")
+                                    .setContentTitle(ImageDetailActivity.this.getResources().getString(R.string.dowload_sucess))
                                     .setContentText(fileName)
                                     .setSmallIcon(R.drawable.download)
                                     .setContentIntent(pIntent).build();
@@ -200,10 +200,10 @@ public class ImageDetailActivity extends Activity {
                             playBeep();
                         } catch (IOException | MyFileException e) {
                             e.printStackTrace();
-                            Toast.makeText(ImageDetailActivity.this, "Không thể tạo file", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ImageDetailActivity.this, ImageDetailActivity.this.getResources().getString(R.string.cannot_create_file), Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        Toast.makeText(ImageDetailActivity.this, "Không thể tạo file", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ImageDetailActivity.this, ImageDetailActivity.this.getResources().getString(R.string.cannot_create_file), Toast.LENGTH_LONG).show();
                     }
                 }
             }.execute(fileName);

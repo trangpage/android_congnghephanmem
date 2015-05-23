@@ -3,7 +3,6 @@ package com.trangpig.myapp.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,8 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nhuocquy.model.Account;
-import com.nhuocquy.model.Conversation;
-import com.nhuocquy.model.Friend;
 import com.nhuocquy.myfile.MyStatus;
 import com.trangpig.data.Data;
 import com.trangpig.myapp.R;
@@ -28,8 +25,6 @@ import com.trangpig.until.MyUri;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
 
 public class PersonalActivity extends Activity {
 public static final String ID_ACC = "idacc";
@@ -118,7 +113,7 @@ public static final String ID_ACC = "idacc";
                     protected void onPostExecute(MyStatus s) {
                         super.onPostExecute(s);
                         if (status == null) {
-                            Toast.makeText(PersonalActivity.this, "Gửi yêu cầu thất bại", Toast.LENGTH_LONG).show();
+                            Toast.makeText(PersonalActivity.this, PersonalActivity.this.getResources().getString(R.string.sent_request_fail), Toast.LENGTH_LONG).show();
 
                         } else {
                             if (btnKetBan.getText().equals(getAddFr)) {
@@ -126,10 +121,10 @@ public static final String ID_ACC = "idacc";
                             } else {
                                 if (MyStatus.CODE_SUCCESS == status.getCode()) {
                                     btnKetBan.setText(PersonalActivity.this.getResources().getString(R.string.addFriend));
-                                    Toast.makeText(PersonalActivity.this, "Đã hủy yêu cầu kết bạn", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(PersonalActivity.this, PersonalActivity.this.getResources().getString(R.string.canceled_sent_request), Toast.LENGTH_LONG).show();
 
                                 } else {
-                                    Toast.makeText(PersonalActivity.this, "Gửi yêu cầu thất bại", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(PersonalActivity.this, PersonalActivity.this.getResources().getString(R.string.sent_request_fail), Toast.LENGTH_LONG).show();
 
                                 }
                             }
