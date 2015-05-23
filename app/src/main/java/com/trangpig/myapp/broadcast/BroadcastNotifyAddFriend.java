@@ -41,7 +41,7 @@ public class BroadcastNotifyAddFriend extends BroadcastReceiver {
         }
 
         Intent intentBroadcast = new Intent(context,MainActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pIntent = PendingIntent.getActivity(context, 0, intentBroadcast, 0);
         Notification noti = new NotificationCompat.Builder(context)
                 .setContentTitle("Yeu cau ket ban")
                 .setContentText("")
