@@ -81,6 +81,19 @@
             android:name=".activity.PersonalActivity"
             android:label="@string/title_activity_personal" >
         </activity>
+        <activity
+            android:name=".activity.SignedUpActivity"
+            android:label="@string/title_activity_signed_up" >
+        </activity>
+
+        <receiver
+            android:name=".broadcast.BroadcastNotifyAddFriend"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.trangpig.notify"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

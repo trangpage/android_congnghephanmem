@@ -20,7 +20,8 @@ import java.net.URI;
  * Created by user on 4/24/2015.
  */
 public class MyService extends Service {
-    Intent intents = new Intent("my-event");
+    String ADD_FRIEND = (char) 0 + "addfriend:";
+    Intent intentBroadcast = new Intent();
     WebSocketClient webSocketClient;
     public static final String MES = "messsage";
     public static final String WEB = "web";
@@ -35,9 +36,15 @@ public class MyService extends Service {
                 super.handleMessage(msg);
                 switch (msg.what){
                     case 1:
-//                        intents = new Intent();
-                        intents.putExtra(MES, msg.obj.toString());
-                        sendBroadcast(intents);
+                        String mes = (String) msg.obj;
+                        if(mes.contains(ADD_FRIEND)) {
+                            intentBroadcast.setAction("com.trangpig.notify");
+                            intentBroadcast.putExtra(MES,mes.replace(ADD_FRIEND,""));
+                        }else{
+                            intentBroadcast.setAction("my-event");
+                            intentBroadcast.putExtra(MES, mes);
+                        }
+                        sendBroadcast(intentBroadcast);
 //                        showTost(msg.obj.toString());
                         break;
                     case 0:
