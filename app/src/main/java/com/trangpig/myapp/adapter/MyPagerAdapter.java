@@ -20,7 +20,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter   {
 
     List<Fragment> lisstFragment;
     Context context;
-    int[] imageResId = {R.drawable.right, R.drawable.left, R.drawable.left};
+    int[] imageResId = {R.drawable.right, R.drawable.left, R.drawable.right};
 
     public MyPagerAdapter(FragmentManager fragmentManager, List<Fragment> listFrg, Context context) {
         super(fragmentManager);

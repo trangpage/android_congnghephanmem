@@ -38,10 +38,6 @@ public class Login extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-//        ViewPager pager = (ViewPager) findViewById(R.id.pager);
-//        FragmentManager fm = getSupportFragmentManager();
-//        ZaloFragmentPagerAdapter zaloAdapter = new ZaloFragmentPagerAdapter(fm,getApplicationContext());
-//        pager.setAdapter(zaloAdapter);
         handler = new Handler() {
             @Override
             public void handleMessage(android.os.Message msg) {
@@ -52,17 +48,15 @@ public class Login extends Activity {
                         if (account != null) {
                             instanceData = Data.getInstance();
                             instanceData.setAttribute(Data.ACOUNT, account);
-
                             Intent intent = new Intent(Login.this, MainActivity.class);
                             startService(new Intent(Login.this, MyService.class));
                             startActivity(intent);
-
                         } else {
-                            Toast.makeText(Login.this, "Đăng nhập không thành công", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Login.this, Login.this.getResources().getString(R.string.login_unsucess), Toast.LENGTH_LONG).show();
                         }
                         break;
                     case failure:
-                        Toast.makeText(Login.this, "Không thể kết nối tới máy chủ!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Login.this, Login.this.getResources().getString(R.string.login_error), Toast.LENGTH_LONG).show();
                         break;
                     default:
                         break;
@@ -73,12 +67,11 @@ public class Login extends Activity {
         edtIp = (EditText) findViewById(R.id.edtIp);
         edtSdt = (EditText) findViewById(R.id.edtSdt);
         //
-        //
         edtPass = (EditText) findViewById(R.id.edtPass);
         btnDangNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ProgressDialog ringProgressDialog = ProgressDialog.show(Login.this, "Xin chờ ...", "Đang kết nối ...", true);
+                final ProgressDialog ringProgressDialog = ProgressDialog.show(Login.this,Login.this.getResources().getString(R.string.wait) , Login.this.getResources().getString(R.string.conecting), true);
                 new Thread(new Runnable() {
                     Message message = handler.obtainMessage();
 
@@ -92,7 +85,6 @@ public class Login extends Activity {
                             Account account = rest.getForObject(String.format(MyUri.LOGIN, MyUri.IP, edtSdt.getText().toString(), edtPass.getText().toString()), Account.class);
                             message.obj = account;
                             message.what = success;
-
                         } catch (RestClientException e) {
                             e.printStackTrace();
                             message.what = failure;
@@ -106,4 +98,3 @@ public class Login extends Activity {
         });
     }
 }
-

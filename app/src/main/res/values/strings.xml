@@ -22,5 +22,18 @@
     <string name="confirmFriend">Chấp nhận</string>
     <string name="deleteFriend">Hủy</string>
     <string name="title_activity_signed_up">SignedUpActivity</string>
+    <string name="login_unsucess">Đăng nhập không thành công</string>
+    <string name="login_error">Không thể kết nối tới máy chủ!</string>
+    <string name="wait">Xin chờ ...</string>
+    <string name="conecting">Đang kết nối ...</string>
+    <string name="no_upload_img">Không thể load Image!</string>
+    <string name="send_files_failed">Gửi file không thành công</string>
+    <string name="new_message">Bạn có tin nhắn mới từ: </string>
+    <string name="dowload_sucess">Download thành công!</string>
+    <string name="cannot_create_file">Không thể tạo file</string>
+    <string name="sent_request_fail">Gửi yêu cầu thất bại</string>
+    <string name="canceled_sent_request">Đã hủy yêu cầu kết bạn</string>
+
+
 
 </resources>

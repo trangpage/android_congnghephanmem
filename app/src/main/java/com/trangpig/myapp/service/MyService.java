@@ -21,6 +21,8 @@ import java.net.URI;
  */
 public class MyService extends Service {
     String ADD_FRIEND = (char) 0 + "addfriend:";
+    final static String ACTION_NOTIFY = "com.trangpig.notify";
+    final static String ACTION_EVENT = "my-event";
     Intent intentBroadcast = new Intent();
     WebSocketClient webSocketClient;
     public static final String MES = "messsage";
@@ -38,14 +40,13 @@ public class MyService extends Service {
                     case 1:
                         String mes = (String) msg.obj;
                         if(mes.contains(ADD_FRIEND)) {
-                            intentBroadcast.setAction("com.trangpig.notify");
+                            intentBroadcast.setAction(ACTION_NOTIFY);
                             intentBroadcast.putExtra(MES,mes.replace(ADD_FRIEND,""));
                         }else{
-                            intentBroadcast.setAction("my-event");
+                            intentBroadcast.setAction(ACTION_EVENT);
                             intentBroadcast.putExtra(MES, mes);
                         }
                         sendBroadcast(intentBroadcast);
-//                        showTost(msg.obj.toString());
                         break;
                     case 0:
                         showTost(msg.obj.toString());

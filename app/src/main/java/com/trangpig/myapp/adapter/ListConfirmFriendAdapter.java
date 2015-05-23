@@ -80,8 +80,6 @@ public class ListConfirmFriendAdapter extends ArrayAdapter<Friend> {
             bntConfirmFr.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Đang gửi yêu cầu kết bạn", Toast.LENGTH_LONG).show();
-
 
                     new AsyncTask<Long, Void, MyStatus>() {
                         MyStatus status;
@@ -101,7 +99,7 @@ public class ListConfirmFriendAdapter extends ArrayAdapter<Friend> {
                         protected void onPostExecute(MyStatus s) {
                             super.onPostExecute(s);
                             if (status == null) {
-                                Toast.makeText(context, "Gửi yêu cầu thất bại", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, context.getResources().getString(R.string.sent_request_fail), Toast.LENGTH_LONG).show();
 
                             } else {
                                 if (MyStatus.CODE_SUCCESS == status.getCode()) {
@@ -109,7 +107,7 @@ public class ListConfirmFriendAdapter extends ArrayAdapter<Friend> {
                                     account.getListMakeFrs().remove(position);
                                     notifyDataSetChanged();
                                 } else {
-                                    Toast.makeText(context,"Khong confirm duoc", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context,context.getResources().getString(R.string.sent_request_fail), Toast.LENGTH_LONG).show();
                                 }
                             }
                         }
@@ -140,14 +138,14 @@ public class ListConfirmFriendAdapter extends ArrayAdapter<Friend> {
                         protected void onPostExecute(MyStatus s) {
                             super.onPostExecute(s);
                             if (status == null) {
-                                Toast.makeText(context, "Gửi yêu cầu thất bại", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, context.getResources().getString(R.string.sent_request_fail), Toast.LENGTH_LONG).show();
 
                             } else {
                                 if (MyStatus.CODE_SUCCESS == status.getCode()) {
                                     account.getListMakeFrs().remove(position);
                                     notifyDataSetChanged();
                                 } else {
-                                    Toast.makeText(context,"Khong huy duoc", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context,context.getResources().getString(R.string.sent_request_fail), Toast.LENGTH_LONG).show();
                                 }
                             }
                         }
