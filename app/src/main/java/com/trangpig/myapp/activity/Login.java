@@ -38,10 +38,6 @@ public class Login extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-//        ViewPager pager = (ViewPager) findViewById(R.id.pager);
-//        FragmentManager fm = getSupportFragmentManager();
-//        ZaloFragmentPagerAdapter zaloAdapter = new ZaloFragmentPagerAdapter(fm,getApplicationContext());
-//        pager.setAdapter(zaloAdapter);
         handler = new Handler() {
             @Override
             public void handleMessage(android.os.Message msg) {
@@ -52,11 +48,9 @@ public class Login extends Activity {
                         if (account != null) {
                             instanceData = Data.getInstance();
                             instanceData.setAttribute(Data.ACOUNT, account);
-
                             Intent intent = new Intent(Login.this, MainActivity.class);
                             startService(new Intent(Login.this, MyService.class));
                             startActivity(intent);
-
                         } else {
                             Toast.makeText(Login.this, "Đăng nhập không thành công", Toast.LENGTH_LONG).show();
                         }
@@ -72,7 +66,6 @@ public class Login extends Activity {
         btnDangNhap = (Button) findViewById(R.id.btnDangNhapLogin);
         edtIp = (EditText) findViewById(R.id.edtIp);
         edtSdt = (EditText) findViewById(R.id.edtSdt);
-        //
         //
         edtPass = (EditText) findViewById(R.id.edtPass);
         btnDangNhap.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +85,6 @@ public class Login extends Activity {
                             Account account = rest.getForObject(String.format(MyUri.LOGIN, MyUri.IP, edtSdt.getText().toString(), edtPass.getText().toString()), Account.class);
                             message.obj = account;
                             message.what = success;
-
                         } catch (RestClientException e) {
                             e.printStackTrace();
                             message.what = failure;
@@ -106,4 +98,3 @@ public class Login extends Activity {
         });
     }
 }
-

@@ -43,7 +43,6 @@ public class MainActivity extends FragmentActivity
         if(account==null){
              id = sharedPreferences.getLong(getString(R.string.accountid), -1);
             if(id != -1){
-            //load account
             }else{
                 Intent intent = new Intent(this, Logo.class);
                 startActivity(intent);
