@@ -205,7 +205,7 @@ public class MessagesListAdapter
                         imageView.setImageBitmap(myFile);
                     } else {
                         imageView.setImageResource(R.drawable.error);
-                        Toast.makeText(context, "Không thể load Image", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, context.getResources().getString(R.string.no_upload_img), Toast.LENGTH_LONG).show();
                     }
 
                 }

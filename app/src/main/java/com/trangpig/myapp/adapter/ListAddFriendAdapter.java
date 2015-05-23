@@ -74,7 +74,7 @@ public class ListAddFriendAdapter extends ArrayAdapter<Friend> {
             bntAddFr.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Đang gửi yêu cầu kết bạn", Toast.LENGTH_LONG).show();
+
                     new AsyncTask<Long, Void, MyStatus>() {
                         MyStatus status;
 
@@ -99,7 +99,7 @@ public class ListAddFriendAdapter extends ArrayAdapter<Friend> {
                         protected void onPostExecute(MyStatus s) {
                             super.onPostExecute(s);
                             if (status == null) {
-                                Toast.makeText(context, "Gửi yêu cầu thất bại", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, context.getResources().getString(R.string.sent_request_fail), Toast.LENGTH_LONG).show();
 
                             } else {
                                 if (bntAddFr.getText().equals(getAddFr)) {
@@ -107,10 +107,10 @@ public class ListAddFriendAdapter extends ArrayAdapter<Friend> {
                                 } else {
                                     if (MyStatus.CODE_SUCCESS == status.getCode()) {
                                         bntAddFr.setText(context.getResources().getString(R.string.addFriend));
-                                        Toast.makeText(context, "Đã hủy yêu cầu kết bạn", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(context, context.getResources().getString(R.string.canceled_sent_request), Toast.LENGTH_LONG).show();
 
                                     } else {
-                                        Toast.makeText(context, "Gửi yêu cầu thất bại", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(context, context.getResources().getString(R.string.sent_request_fail), Toast.LENGTH_LONG).show();
 
                                     }
                                 }

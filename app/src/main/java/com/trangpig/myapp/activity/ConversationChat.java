@@ -285,7 +285,7 @@ public class ConversationChat extends ActionBarActivity {
                             status = restTemplate.postForObject(String.format(MyUri.URL_UP_IMAGE, MyUri.IP), myFiles[0], MyStatus.class);
                         } catch (RestClientException e) {
                             Log.e(ConversationChat.class.getName(), e.getMessage());
-                            Toast.makeText(ConversationChat.this, "Không thể upload Image!!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ConversationChat.this, ConversationChat.this.getResources().getString(R.string.no_upload_img), Toast.LENGTH_LONG).show();
                         }
                         return status;
                     }
@@ -294,7 +294,7 @@ public class ConversationChat extends ActionBarActivity {
                     protected void onPostExecute(MyStatus status) {
                         super.onPostExecute(status);
                         if (status == null) {
-                            Toast.makeText(ConversationChat.this, "Gửi file không thành công", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ConversationChat.this, ConversationChat.this.getResources().getString(R.string.send_files_failed) , Toast.LENGTH_LONG).show();
                         } else {
                             mesHandler = handlerSend.obtainMessage();
                             mesHandler.obj = MessagesListAdapter.CHAR_ZERO + "image:" + status.getObj().toString();
@@ -540,7 +540,7 @@ public class ConversationChat extends ActionBarActivity {
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         Notification noti = new NotificationCompat.Builder(this)
-                .setContentTitle("Bạn có tin nhắn mới từ: " + mes.getFromName())
+                .setContentTitle(ConversationChat.this.getResources().getString(R.string.new_message) + mes.getFromName())
                 .setContentText(mes.getText())
                 .setSmallIcon(R.drawable.message)
                 .setContentIntent(pIntent).build();
