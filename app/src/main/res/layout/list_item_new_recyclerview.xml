@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/table_new"
+        >
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_new_port_user"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20dp"
+                android:text="Ten nguoi dang"
+                android:textColor="#800000"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_new_port_date"
+                android:textSize="20dp"
+                android:text="07:00"
+                android:textColor="#8B4513"
+                android:layout_weight="1"
+                 />
+        </TableRow>
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_new_port_text"
+                android:layout_gravity="center_horizontal"
+                android:textSize="18dp"
+                android:layout_span="2"
+                android:layout_weight="1"
+                android:text="Noi dung cua bai dang nay danh cho nhung nguoi thich doc no!!"
+                android:textColor="#000000"
+                />
+        </TableRow>
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/tv_new_port_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Like"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="70dp"
+                android:background="@color/highlighted_text_material_dark"/>
+            <Button
+                android:id="@+id/tv_new_port_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tv_new_port_like"
+                android:layout_marginLeft="-55dp"
+                android:layout_marginTop="10dp"
+                android:text="Comment"
+                android:gravity="center"
+                android:background="@color/highlighted_text_material_dark"/>
+        </TableRow>
+    </TableLayout>
+    </FrameLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_new_port_listview"
+        android:layout_weight="1"
+        ></ListView>
+
+    <LinearLayout
+        android:id="@+id/layout_new_port_linear"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:weightSum="3"
+        android:visibility="invisible"
+        >
+        <EditText
+            android:id="@+id/edt_new_port_comment_send"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:background="@color/bg_msg_input"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:textColor="@color/text_msg_input" />
+
+        <Button
+            android:id="@+id/btn_new_port_comment_send"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/bg_btn_join"
+            android:text="Comment"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</LinearLayout>

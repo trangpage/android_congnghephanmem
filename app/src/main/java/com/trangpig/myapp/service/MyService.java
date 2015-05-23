@@ -21,8 +21,8 @@ import java.net.URI;
  */
 public class MyService extends Service {
     String ADD_FRIEND = (char) 0 + "addfriend:";
-    final static String ACTION_NOTIFY = "com.trangpig.notify";
-    final static String ACTION_EVENT = "my-event";
+    public final static String ACTION_NOTIFY = "com.trangpig.notify";
+    public final static String ACTION_EVENT = "my-event";
     Intent intentBroadcast = new Intent();
     WebSocketClient webSocketClient;
     public static final String MES = "messsage";

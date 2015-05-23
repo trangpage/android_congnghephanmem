@@ -22,5 +22,6 @@
     <string name="confirmFriend">Chấp nhận</string>
     <string name="deleteFriend">Hủy</string>
     <string name="title_activity_signed_up">SignedUpActivity</string>
+    <string name="title_activity_news_">News_Activity</string>
 
 </resources>

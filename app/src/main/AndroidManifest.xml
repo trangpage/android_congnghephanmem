@@ -91,9 +91,14 @@
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
-                <action android:name="com.trangpig.notify"/>
+                <action android:name="com.trangpig.notify" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".activity.News_Activity"
+            android:label="@string/title_activity_news_" >
+        </activity>
     </application>
 
 </manifest>

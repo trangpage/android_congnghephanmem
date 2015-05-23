@@ -427,7 +427,7 @@ public class ConversationChat extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(broadcastReceiver, new IntentFilter("my-event"));
+        registerReceiver(broadcastReceiver, new IntentFilter(MyService.ACTION_EVENT));
     }
 
     @Override
