@@ -14,17 +14,12 @@ import com.trangpig.myapp.R;
 public class Logo extends Activity {
 
     Button btnDangNhap, btnDangKy ;
-    //    View viewDangNhap;
     Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.logo);
-//        ViewPager pager = (ViewPager) findViewById(R.id.pager);
-//        FragmentManager fm = getSupportFragmentManager();
-//        FriendAdapter zaloAdapter = new FriendAdapter(fm,getApplicationContext());
-//        pager.setAdapter(zaloAdapter);
 
         btnDangNhap = (Button) findViewById(R.id.btnDangNhap);
         btnDangKy = (Button) findViewById(R.id.btnDangKy);
