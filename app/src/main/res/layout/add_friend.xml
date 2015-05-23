@@ -3,7 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
   >
-
     <EditText
         android:id="@+id/txtFr"
         android:layout_width="match_parent"
@@ -11,19 +10,55 @@
         android:ems="10"
         android:hint="Tìm kiếm ban be"
         android:inputType="textPersonName" />
-    <ListView
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/lvAddFr"
-        android:clickable="true"
-        />
+        android:layout_height="wrap_content"
+        android:weightSum="2">
+             <TableRow
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 >
+                 <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:text="Xac nhan ket ban"
+                     android:id="@+id/tv_add_friend_yeucauketban"
+                     android:textSize="20dp"
+                     android:textColor="#008000"
+                     />
+            </TableRow>
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/lvFr"
-        android:clickable="true"
+        android:id="@+id/lvAddFr"
         />
-
-
-
+    </TableRow>
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ban co the biet"
+                android:id="@+id/tv_add_friend_banmoi"
+                android:textSize="20dp"
+                android:textColor="#008000"
+                />
+        </TableRow>
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5">
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvFr"
+        android:choiceMode="singleChoice" />
+    </TableRow>
+    </TableLayout>
 </LinearLayout>

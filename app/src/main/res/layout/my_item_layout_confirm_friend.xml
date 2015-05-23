@@ -6,8 +6,8 @@
     >
 
     <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:id="@+id/imgAddFr"/>
 
     <TextView
@@ -18,25 +18,25 @@
         android:layout_below="@+id/imgAddFr" />
     <Button
         android:id="@+id/bntConfirmFr"
-        android:layout_width="90dp"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
         android:layout_above="@+id/tvAddFr"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:text="@string/confirmFriend"
+        android:textSize="12dp"
         android:gravity="center"
-        android:layout_marginTop="10dp"
         android:layout_marginRight="55dp"
         android:background="@color/highlighted_text_material_dark"/>
     <Button
         android:id="@+id/bntDeleteFr"
         android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
+        android:textSize="12dp"
         android:layout_above="@+id/tvAddFr"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:text="@string/deleteFriend"
         android:gravity="center"
-        android:layout_marginTop="10dp"
         android:background="@color/highlighted_text_material_dark"/>
     </RelativeLayout>

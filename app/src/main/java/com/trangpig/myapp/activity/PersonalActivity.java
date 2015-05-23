@@ -28,7 +28,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class PersonalActivity extends Activity {
 public static final String ID_ACC = "idacc";
-    final String getAddFr = this.getResources().getString(R.string.addFriend);
+    String getAddFr;
     EditText editTimBan, editDiaChi, editNgaySinh;
     TextView textViewName;
     ImageView imgPerAvatar;
@@ -43,6 +43,8 @@ public static final String ID_ACC = "idacc";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal);
+        //
+        getAddFr = this.getResources().getString(R.string.addFriend);
         account =(Account) Data.getInstance().getAttribute(Data.ACOUNT);
         imgPerAvatar = (ImageView) findViewById(R.id.imgPer_Avatar);
         textViewName = (TextView) findViewById(R.id.tvlPer_Name);

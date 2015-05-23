@@ -7,18 +7,18 @@ import android.view.MenuItem;
 
 import com.trangpig.myapp.R;
 
-public class News_Activity extends ActionBarActivity {
+public class NewsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news_);
+        setContentView(R.layout.activity_news);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_news_, menu);
+        getMenuInflater().inflate(R.menu.menu_news, menu);
         return true;
     }
 

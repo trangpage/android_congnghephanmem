@@ -5,8 +5,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@drawable/rotate_left_icon"
+        android:layout_height="160dp"
+        android:background="@drawable/bg_a"
         >
         <TableLayout
             android:layout_width="wrap_content"
@@ -16,17 +16,18 @@
         <TableRow>
             <ImageView
                 android:id="@+id/imgPer_Avatar"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/hinh1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/icon_hinhb"
                 android:background="#000000"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:layout_marginLeft="10dp"/>
             <TextView
                 android:id="@+id/tvlPer_Name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:textSize="40dp"
+                android:textSize="25dp"
                 android:text="Name" />
         </TableRow>
         </TableLayout>
@@ -38,12 +39,12 @@
         <TableRow>
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:text="@string/addFriend"
                 android:id="@+id/btnKetBan" />
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:text="Tin nhan"
                 android:id="@+id/btnTinNhan" />
         </TableRow>
@@ -62,13 +63,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Địa chỉ"
-                android:textSize="20dp"/>
+                android:textSize="18dp"/>
             <EditText
                 android:id="@+id/txtPer_DiaChi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ABC"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 />
         </TableRow>
         <TableRow
@@ -81,14 +82,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ngày sinh"
-                android:textSize="20dp"/>
+                android:textSize="18dp"/>
             <EditText
                 android:id="@+id/txtPer_NgaySinh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:text="01/01/2001"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 />
         </TableRow>
     </TableLayout>
@@ -100,7 +101,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ban be"
-        android:textSize="25dp"
+        android:textSize="22dp"
+        android:textColor="#008000"
         />
         <TableLayout
             android:layout_width="wrap_content"
