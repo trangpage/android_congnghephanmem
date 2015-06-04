@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.nhuocquy.model.Account;
 import com.trangpig.data.Data;
+import com.trangpig.until.MyConstant;
 import com.trangpig.until.MyUri;
 
 import org.java_websocket.client.WebSocketClient;
@@ -20,31 +21,46 @@ import java.net.URI;
  * Created by user on 4/24/2015.
  */
 public class MyService extends Service {
-    String ADD_FRIEND = (char) 0 + "addfriend:";
-    public final static String ACTION_NOTIFY = "com.trangpig.notify";
-    public final static String ACTION_EVENT = "my-event";
+    //action for intent to send broadcastreceiver
+    public final static String ACTION_ADD_FRIEND_NOTIFY = "notify-add-friend";
+    public final static String ACTION_CONVERSATION_CHAT = "conversation-chat";
+    public final static String ACTION_OPEN_ROOM_CHAT = "open-room-chat";
+    public final static String ACTION_ROOM_CHAT = "room-chat";
     Intent intentBroadcast = new Intent();
     WebSocketClient webSocketClient;
+    // key string in intent
     public static final String MES = "messsage";
     public static final String WEB = "web";
+    public static final String REGISTRY_ROOM = "regstryroom";
     Handler handler;
     Message message;
+
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
         Toast.makeText(getApplicationContext(), "start service", Toast.LENGTH_SHORT).show();
-        handler = new Handler(){
+        handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                switch (msg.what){
+                switch (msg.what) {
                     case 1:
                         String mes = (String) msg.obj;
-                        if(mes.contains(ADD_FRIEND)) {
-                            intentBroadcast.setAction(ACTION_NOTIFY);
-                            intentBroadcast.putExtra(MES,mes.replace(ADD_FRIEND,""));
-                        }else{
-                            intentBroadcast.setAction(ACTION_EVENT);
-                            intentBroadcast.putExtra(MES, mes);
+                        if (mes.contains(MyConstant.MESSAGE_ADD_FRIEND)) {
+                            intentBroadcast.setAction(ACTION_ADD_FRIEND_NOTIFY);
+                            intentBroadcast.putExtra(MES, mes.replace(MyConstant.MESSAGE_ADD_FRIEND, ""));
+                        }
+                        if (mes.contains(MyConstant.MESSAGE_CHAT_CONVERSATION)) {
+                            intentBroadcast.setAction(ACTION_CONVERSATION_CHAT);
+                            intentBroadcast.putExtra(MES, mes.replace(MyConstant.MESSAGE_CHAT_CONVERSATION, ""));
+                        }
+                        if (mes.contains(MyConstant.MESSAGE_REGISTRY_CHAT_GROUP)) {
+                            intentBroadcast.setAction(ACTION_OPEN_ROOM_CHAT);
+                            intentBroadcast.putExtra(REGISTRY_ROOM, mes);
+                        }
+                        if (mes.contains(MyConstant.MESSAGE_CHAT_ROOM)) {
+                            showTost(mes);
+                            intentBroadcast.setAction(ACTION_ROOM_CHAT);
+                            intentBroadcast.putExtra(MES, mes.substring(mes.indexOf(':') + 1));
                         }
                         sendBroadcast(intentBroadcast);
                         break;
@@ -98,10 +114,9 @@ public class MyService extends Service {
 
         return Service.START_NOT_STICKY;
     }
+
     @Override
     public IBinder onBind(Intent intent) {
-        //TODO for communication return IBinder implementation
-
         return null;
     }
 
@@ -116,7 +131,8 @@ public class MyService extends Service {
         super.onDestroy();
         webSocketClient.close();
     }
-    private void showTost(String mes){
-        Toast.makeText(this,mes, Toast.LENGTH_SHORT).show();
+
+    private void showTost(String mes) {
+        Toast.makeText(this, mes, Toast.LENGTH_SHORT).show();
     }
 }

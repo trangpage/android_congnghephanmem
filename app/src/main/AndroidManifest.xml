@@ -89,6 +89,7 @@
             android:name=".activity.NewsActivity"
             android:label="@string/title_activity_news" >
         </activity>
+
         <receiver
             android:name=".broadcast.BroadcastNotifyAddFriend"
             android:enabled="true"
@@ -98,6 +99,10 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".activity.ChatRoomActivity"
+            android:label="@string/title_activity_group_chat" >
+        </activity>
     </application>
 
 </manifest>

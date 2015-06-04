@@ -14,7 +14,6 @@ import com.trangpig.myapp.R;
 import com.trangpig.myapp.activity.ConversationChat;
 import com.trangpig.myapp.activity.IconActivity;
 import com.trangpig.myinterface.SmileFragment;
-import com.trangpig.until.Utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;

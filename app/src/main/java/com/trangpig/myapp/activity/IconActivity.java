@@ -12,7 +12,7 @@ import com.trangpig.myapp.adapter.IconPagerAdapter;
 import com.trangpig.myapp.fragment.SmileBigFragment;
 import com.trangpig.myapp.fragment.SmileSmallFragment;
 import com.trangpig.myinterface.SmileFragment;
-import com.trangpig.until.Utils;
+import com.trangpig.until.IconSetup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,17 +27,17 @@ public class IconActivity extends FragmentActivity {
         list = new ArrayList<Fragment>();
         //
         SmileFragment smileFragment = new SmileSmallFragment();
-        smileFragment.setListIcon(Utils.MAP_ICON_DRABLE);
+        smileFragment.setListIcon(IconSetup.MAP_ICON_DRABLE);
         smileFragment.setParentActivity(this);
         list.add((Fragment)smileFragment);
         //
         smileFragment = new SmileBigFragment();
-        smileFragment.setListIcon(Utils.MAP_ICON_RAW1);
+        smileFragment.setListIcon(IconSetup.MAP_ICON_RAW1);
         smileFragment.setParentActivity(this);
         list.add((Fragment)smileFragment);
         //
         smileFragment = new SmileBigFragment();
-        smileFragment.setListIcon(Utils.MAP_ICON_RAW);
+        smileFragment.setListIcon(IconSetup.MAP_ICON_RAW);
         smileFragment.setParentActivity(this);
         list.add((Fragment)smileFragment);
         return list;

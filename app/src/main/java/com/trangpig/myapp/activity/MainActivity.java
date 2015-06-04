@@ -18,6 +18,7 @@ import com.nhuocquy.model.Account;
 import com.trangpig.data.Data;
 import com.trangpig.myapp.R;
 import com.trangpig.myapp.adapter.MyPagerAdapter;
+import com.trangpig.myapp.fragment.ChatRoomFragment;
 import com.trangpig.myapp.fragment.ListAddFriendFragment;
 import com.trangpig.myapp.fragment.ListConversationFragment;
 import com.trangpig.myapp.fragment.ListFriendFragment;
@@ -54,6 +55,7 @@ public class MainActivity extends FragmentActivity
             fragmentList.add(new ListFriendFragment());
             fragmentList.add(new ListConversationFragment());
             fragmentList.add(new ListAddFriendFragment());
+            fragmentList.add(new ChatRoomFragment());
             myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),fragmentList,this);
             viewPager.setAdapter(myPagerAdapter);
             viewPager.setCurrentItem(0);

@@ -30,7 +30,7 @@ import com.trangpig.myapp.R;
 import com.trangpig.myapp.activity.ImageDetailActivity;
 import com.trangpig.until.AnimatedGifImageView;
 import com.trangpig.until.MyUri;
-import com.trangpig.until.Utils;
+import com.trangpig.until.IconSetup;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClientException;
@@ -141,14 +141,14 @@ public class MessagesListAdapter
         if (viewHolder instanceof ViewHolderText) {
             ViewHolderText viewHolderText = (ViewHolderText) viewHolder;
             viewHolderText.lblFrom.setText(m.getFromName());
-            Set<String> keys = Utils.MAP_ICON_DRABLE.keySet();
+            Set<String> keys = IconSetup.MAP_ICON_DRABLE.keySet();
             Iterator<String> iterKey = keys.iterator();
             String next = "";
             spannableString = new SpannableString(textMes);
             while (iterKey.hasNext()) {
                 next = iterKey.next();
                 if (textMes.contains(next)) {
-                    drawable = context.getResources().getDrawable(Utils.MAP_ICON_DRABLE.get(next));
+                    drawable = context.getResources().getDrawable(IconSetup.MAP_ICON_DRABLE.get(next));
                     drawable.setBounds(0, -10, 40, 40);
                     imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
                     int index = textMes.indexOf(next);
@@ -212,7 +212,7 @@ public class MessagesListAdapter
             }.execute(m.getText().replace(KEY_IMAGE, ""));
         } else if (viewHolder instanceof ViewHolderGif) {
             ViewHolderGif viewHolderGif = (ViewHolderGif) viewHolder;
-            viewHolderGif.gifMes.setAnimatedGif(Utils.MAP_ICON_RAWS.get(m.getText()), AnimatedGifImageView.TYPE.STREACH_TO_FIT);
+            viewHolderGif.gifMes.setAnimatedGif(IconSetup.MAP_ICON_RAWS.get(m.getText()), AnimatedGifImageView.TYPE.STREACH_TO_FIT);
         }
         ((ViewHolderAbs) viewHolder).lblFrom.setText(m.getFromName());
         Log.e("tuyet.....ke", textMes);
@@ -220,11 +220,13 @@ public class MessagesListAdapter
 
     @Override
     public int getItemCount() {
+        Log.e("tuyet.....count",String.valueOf( messagesItems.size()));
         return messagesItems.size();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        Log.e("trang.....ke", String.valueOf( i));
         ViewHolderAbs viewHolder = null;
         View v = null;
         switch (i) {

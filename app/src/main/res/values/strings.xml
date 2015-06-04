@@ -35,5 +35,17 @@
     <string name="sent_request_fail">Gửi yêu cầu thất bại</string>
     <string name="canceled_sent_request">Đã hủy yêu cầu kết bạn</string>
 
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Chat Room</string>
+    <string-array name="string_array_room">
+        <item>Khoa CNTT</item>
+        <item>Khoa Kinh Tế</item>
+        <item>Khoa Cơ Khí</item>
+    </string-array><string-array name="string_array_room_key">
+        <item>cntt</item>
+        <item>kt</item>
+        <item>ck</item>
+    </string-array>
+    <string name="title_activity_group_chat">GroupChatActivity</string>
 
 </resources>

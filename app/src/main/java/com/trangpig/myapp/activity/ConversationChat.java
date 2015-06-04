@@ -8,17 +8,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
-import android.provider.OpenableColumns;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -47,7 +42,9 @@ import com.trangpig.myapp.adapter.MessagesListAdapter;
 import com.trangpig.myapp.fragment.ListConversationFragment;
 import com.trangpig.myapp.fragment.ListFriendFragment;
 import com.trangpig.myapp.service.MyService;
+import com.trangpig.until.MyConstant;
 import com.trangpig.until.MyUri;
+import com.trangpig.until.Utils;
 
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -56,9 +53,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -203,7 +198,7 @@ public class ConversationChat extends ActionBarActivity {
         listNewMes.add(newMes);
 
         contmp = new Conversation();
-        contmp.setListMes(listNewMes);
+        contmp. setListMes(listNewMes);
         handlerSend = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -213,20 +208,13 @@ public class ConversationChat extends ActionBarActivity {
                 }
                 newMes.setText(msg.obj.toString());
                 try {
-                    json = objectMapper.writeValueAsString(contmp);
+                    json = MyConstant.MESSAGE_CHAT_CONVERSATION+objectMapper.writeValueAsString(contmp);
                     webSocketClient.send(json);
 
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
-                switch (msg.what) {
-                    case ICON_BIG:
-                    case ICON_SMALL:
-                        break;
-                    default:
-                        break;
                 }
                 // Clearing the input filed once message was sent
             }
@@ -271,24 +259,24 @@ public class ConversationChat extends ActionBarActivity {
             }
         };
         handlerSentImg = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                //nhan Uri
-                Uri uri = (Uri) msg.obj;
-                MyFile myFile = getMyFileFromUri(uri);
-                new AsyncTask<MyFile, Void, MyStatus>() {
-                    @Override
-                    protected MyStatus doInBackground(MyFile... myFiles) {
-                        MyStatus status = null;
-                        try {
-                            status = restTemplate.postForObject(String.format(MyUri.URL_UP_IMAGE, MyUri.IP), myFiles[0], MyStatus.class);
-                        } catch (RestClientException e) {
-                            Log.e(ConversationChat.class.getName(), e.getMessage());
-                            Toast.makeText(ConversationChat.this, ConversationChat.this.getResources().getString(R.string.no_upload_img), Toast.LENGTH_LONG).show();
-                        }
-                        return status;
-                    }
+                        @Override
+                        public void handleMessage(Message msg) {
+                            super.handleMessage(msg);
+                            //nhan Uri
+                            Uri uri = (Uri) msg.obj;
+                            MyFile myFile = Utils.getMyFileFromUri(uri, ConversationChat.this);
+                            new AsyncTask<MyFile, Void, MyStatus>() {
+                                @Override
+                                protected MyStatus doInBackground(MyFile... myFiles) {
+                                    MyStatus status = null;
+                                    try {
+                                        status = restTemplate.postForObject(String.format(MyUri.URL_UP_IMAGE, MyUri.IP), myFiles[0], MyStatus.class);
+                                    } catch (RestClientException e) {
+                                        Log.e(ConversationChat.class.getName(), e.getMessage());
+                                        Toast.makeText(ConversationChat.this, ConversationChat.this.getResources().getString(R.string.no_upload_img), Toast.LENGTH_LONG).show();
+                                    }
+                                    return status;
+                                }
 
                     @Override
                     protected void onPostExecute(MyStatus status) {
@@ -427,7 +415,7 @@ public class ConversationChat extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(broadcastReceiver, new IntentFilter(MyService.ACTION_EVENT));
+        registerReceiver(broadcastReceiver, new IntentFilter(MyService.ACTION_CONVERSATION_CHAT));
     }
 
     @Override
@@ -451,87 +439,11 @@ public class ConversationChat extends ActionBarActivity {
     /**
      * Just for API before KITKAT
      */
-    private String getPath(Uri uri) {
-        if (uri == null) {
-            return null;
-        }
-        String path = null;
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        try {
-            if (cursor != null) {
-                int column_index = cursor
-                        .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                cursor.moveToFirst();
-                path = cursor.getString(column_index);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            cursor.close();
-        }
 
-        Log.i("nhuocquy..quy....", path);
 
-        return path;
-    }
 
-    private MyFile getMyFileFromUri(Uri uri) {
-        String TAG = "nhuoc..quy....";
-        MyFile myFile = new MyFile();
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            String fileName = getPath(uri);
-            myFile = new MyFile(fileName);
-        } else {
-            Cursor cursor = getContentResolver()
-                    .query(uri, null, null, null, null, null);
-            DataInputStream dis = null;
-            try {
-                if (cursor != null && cursor.moveToFirst()) {
-                    String displayName = cursor.getString(
-                            cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                    Log.i(TAG, "Display Name: " + displayName);
-                    int size = 0;
-                    int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
-                    if (!cursor.isNull(sizeIndex)) {
-                        // Technically the column stores an int, but cursor.getString()
-                        // will do the conversion automatically.
-                        size = cursor.getInt(sizeIndex);
-                    }
-                    Log.i(TAG, "Size: " + size);
-                    InputStream inputStream = getContentResolver().openInputStream(uri);
-                    dis = new DataInputStream(inputStream);
-                    byte[] data = new byte[size];
-                    dis.readFully(data);
-                    myFile.setFileName(displayName);
-                    myFile.setData(data);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                cursor.close();
-                if (dis != null)
-                    try {
-                        dis.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-            }
-        }
-        return myFile;
-    }
 
-    public void playBeep() {
-        try {
-            Uri notification = RingtoneManager
-                    .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(),
-                    notification);
-            r.play();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 
     public void notification(MessageChat mes) {
         Intent intent = new Intent(this, ConversationChat.class);
@@ -547,6 +459,6 @@ public class ConversationChat extends ActionBarActivity {
         noti.flags |= Notification.FLAG_AUTO_CANCEL;
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(0, noti);
-        playBeep();
+        Utils.playBeep(this);
     }
 }
