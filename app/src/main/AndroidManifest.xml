@@ -86,7 +86,7 @@
             android:label="@string/title_activity_signed_up" >
         </activity>
         <activity
-            android:name=".activity.NewsActivity"
+            android:name=".activity.TopicActivity"
             android:label="@string/title_activity_news" >
         </activity>
 
@@ -102,6 +102,10 @@
         <activity
             android:name=".activity.ChatRoomActivity"
             android:label="@string/title_activity_group_chat" >
+        </activity>
+        <activity
+            android:name=".activity.PostActivity"
+            android:label="@string/title_activity_port" >
         </activity>
     </application>
 

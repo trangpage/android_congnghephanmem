@@ -22,6 +22,7 @@ import com.trangpig.myapp.fragment.ChatRoomFragment;
 import com.trangpig.myapp.fragment.ListAddFriendFragment;
 import com.trangpig.myapp.fragment.ListConversationFragment;
 import com.trangpig.myapp.fragment.ListFriendFragment;
+import com.trangpig.myapp.fragment.TopicFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,7 @@ public class MainActivity extends FragmentActivity
             fragmentList.add(new ListConversationFragment());
             fragmentList.add(new ListAddFriendFragment());
             fragmentList.add(new ChatRoomFragment());
+            fragmentList.add(new TopicFragment());
             myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),fragmentList,this);
             viewPager.setAdapter(myPagerAdapter);
             viewPager.setCurrentItem(0);

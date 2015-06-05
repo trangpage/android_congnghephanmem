@@ -47,5 +47,6 @@
         <item>ck</item>
     </string-array>
     <string name="title_activity_group_chat">GroupChatActivity</string>
+    <string name="title_activity_port">PortActivity</string>
 
 </resources>
