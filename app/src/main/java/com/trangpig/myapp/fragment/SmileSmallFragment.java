@@ -67,7 +67,7 @@ public class SmileSmallFragment extends android.support.v4.app.Fragment implemen
 
     }
 
-    class GridIconAdapter extends ArrayAdapter<Integer> {
+    static class GridIconAdapter extends ArrayAdapter<Integer> {
         Activity context;
         List<Integer> listImage;
         int id;

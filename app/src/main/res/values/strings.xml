@@ -35,7 +35,11 @@
     <string name="sent_request_fail">Gửi yêu cầu thất bại</string>
     <string name="canceled_sent_request">Đã hủy yêu cầu kết bạn</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    //bài đăng
+    <string name="btn_post">Đăng</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Chat Room</string>
     <string-array name="string_array_room">
         <item>Khoa CNTT</item>
@@ -47,6 +51,5 @@
         <item>ck</item>
     </string-array>
     <string name="title_activity_group_chat">GroupChatActivity</string>
-    <string name="title_activity_port">PortActivity</string>
-
-</resources>
+    <string name="title_activity_public_post">PublicPost</string>
+    <string name="title_activity_port">PortActivity</string></resources>

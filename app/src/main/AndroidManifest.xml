@@ -103,10 +103,12 @@
             android:name=".activity.ChatRoomActivity"
             android:label="@string/title_activity_group_chat" >
         </activity>
-        <activity
+<activity
+            android:name=".activity.PublicPost"
+            android:label="@string/title_activity_public_post" >
+        </activity><activity
             android:name=".activity.PostActivity"
             android:label="@string/title_activity_port" >
-        </activity>
-    </application>
+        </activity>    </application>
 
 </manifest>
