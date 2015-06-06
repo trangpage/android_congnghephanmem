@@ -31,6 +31,7 @@ import com.trangpig.myapp.activity.ImageDetailActivity;
 import com.trangpig.until.AnimatedGifImageView;
 import com.trangpig.until.MyUri;
 import com.trangpig.until.IconSetup;
+import com.trangpig.until.Utils;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClientException;
@@ -157,7 +158,7 @@ public class MessagesListAdapter
                     imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
                     int index = textMes.indexOf(next);
                     spannableString.setSpan(imageSpan, index, index + next.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                    textMes.replace(next, getSpace(next.length()));
+                    textMes.replace(next, Utils.getSpace(next.length()));
                 }
             }
 
@@ -289,13 +290,7 @@ public class MessagesListAdapter
         return type;
     }
 
-    private String getSpace(int len) {
-        StringBuilder sb = new StringBuilder();
-        while (--len < 0) {
-            sb.append("");
-        }
-        return sb.toString();
-    }
+
 
     public void setListMes(List<MessageChat> list) {
         this.messagesItems = list;

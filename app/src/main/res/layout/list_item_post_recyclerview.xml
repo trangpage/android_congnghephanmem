@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/gridView_new_post"
         android:layout_gravity="center_horizontal"
-        android:numColumns="5" />
+        android:numColumns="2" />
     </TableLayout>
 
     </FrameLayout>

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class IconActivity extends FragmentActivity {
+public class  IconActivity extends FragmentActivity {
     IconPagerAdapter adapterViewPager;
     ViewPager vpPager;
     List<Fragment> list;

@@ -161,4 +161,11 @@ public class Utils {
         }
         return inSampleSize;
     }
+    public static String getSpace(int len) {
+        StringBuilder sb = new StringBuilder();
+        while (--len < 0) {
+            sb.append("");
+        }
+        return sb.toString();
+    }
 }
