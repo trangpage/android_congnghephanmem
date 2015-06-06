@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp">
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/table_new"
+        android:background="@drawable/postborder"
         >
         <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -21,7 +24,7 @@
                 android:textSize="20dp"
                 android:text="Ten nguoi dang"
                 android:textColor="#800000"
-                android:layout_weight="1"
+                android:layout_weight="5"
                 />
 
             <TextView
@@ -36,7 +39,8 @@
         </TableRow>
         <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+           >
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,21 +49,22 @@
                 android:textSize="18dp"
                 android:layout_span="2"
                 android:layout_weight="1"
-                android:text="Noi dung cua bai dang nay danh cho nhung nguoi thich doc no!!"
+                android:text="Noi dung cua bai post!!"
                 android:textColor="#000000"
                 />
         </TableRow>
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"></TableRow>
-    </TableLayout>
-    </FrameLayout>
-
     <GridView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/gridView"
-        android:layout_gravity="center_horizontal" />
+        android:id="@+id/gridView_new_post"
+        android:layout_gravity="center_horizontal"
+        android:numColumns="5" />
+    </TableLayout>
+
+    </FrameLayout>
 
 
 </LinearLayout>

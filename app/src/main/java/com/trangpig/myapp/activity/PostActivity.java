@@ -2,6 +2,7 @@ package com.trangpig.myapp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,24 +12,53 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.nhuocquy.model.Topic;
 import com.trangpig.myapp.R;
+import com.trangpig.myapp.adapter.ListTopicAdapter;
 import com.trangpig.myapp.adapter.PostAdapter;
+import com.trangpig.until.MyUri;
+
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 public class PostActivity extends Activity {
     private RecyclerView recyclerViewTopic;
     private Button buttonDang;
     private Intent intentDang;
     private PostAdapter postAdapter;
+    private RestTemplate restTemplate;
+    Topic topic;
+    long idTopic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_port);
 
+        idTopic = getIntent().getLongExtra(ListTopicAdapter.ID_TOPIC,0);
+        restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+
+        new AsyncTask<Long,Void,Void>(){
+            @Override
+            protected Void doInBackground(Long... params) {
+                topic = restTemplate.getForObject(String.format(MyUri.URL_GET_TOPIC,MyUri.IP,params[0]),Topic.class);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                postAdapter = new PostAdapter(PostActivity.this,topic);
+                recyclerViewTopic.setAdapter(postAdapter);
+                setTitle(topic.getTitle());
+            }
+        }.execute(idTopic);
+
         buttonDang = (Button) findViewById(R.id.btnSendTopic);
         recyclerViewTopic = (RecyclerView) findViewById(R.id.recycler_view_topic);
-        postAdapter = new PostAdapter(this);
-        recyclerViewTopic.setAdapter(postAdapter);
+
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewTopic.setLayoutManager(linearLayoutManager);
@@ -38,7 +68,8 @@ public class PostActivity extends Activity {
         buttonDang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+            intentDang = new Intent(getApplicationContext(),PublicPost.class);
+                startActivity(intentDang);
             }
         });
     }

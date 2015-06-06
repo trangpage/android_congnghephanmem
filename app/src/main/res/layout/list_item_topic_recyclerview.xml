@@ -4,11 +4,13 @@
     android:layout_height="match_parent">
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp">
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/table_topic"
+            android:background="@drawable/border"
             >
             <TableRow
                 android:layout_width="wrap_content"
@@ -20,8 +22,8 @@
                     android:layout_gravity="center_horizontal"
                     android:textSize="20dp"
                     android:text="Ten nguoi dang"
-                    android:textColor="#800000"
-                    android:layout_weight="1"
+                    android:textColor="#888000"
+                    android:layout_weight="5"
                     />
 
                 <TextView
@@ -30,7 +32,6 @@
                     android:id="@+id/tv_new_topic_date"
                     android:textSize="20dp"
                     android:text="07:00"
-                    android:textColor="#8B4513"
                     android:layout_weight="1"
                     />
             </TableRow>
@@ -45,7 +46,7 @@
                     android:textSize="18dp"
                     android:layout_span="2"
                     android:layout_weight="1"
-                    android:text="Noi dung cua bai dang nay danh cho nhung nguoi thich doc no!!"
+                    android:text="Noi dung cua topic!!"
                     android:textColor="#000000"
                     />
             </TableRow>

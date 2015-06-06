@@ -11,6 +11,7 @@ public class Data {
     private static Data instance = new Data();
     //
     public static final String ACOUNT = "account";
+    public static final String IMAGE_CACHE = "imageCache";
    public Object getAttribute(String key){
        return data.get(key);
    }

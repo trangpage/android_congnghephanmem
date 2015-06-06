@@ -46,8 +46,9 @@
             <Button
                 android:id="@+id/btnSendTopic"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_weight="1"
+                android:layout_marginTop="20dp"
                 android:background="@color/bg_btn_join"
                 android:text="Dang"
                 android:textColor="@color/white" />

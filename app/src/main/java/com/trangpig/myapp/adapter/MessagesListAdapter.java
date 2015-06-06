@@ -84,13 +84,17 @@ public class MessagesListAdapter
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         //
         if (Build.VERSION.SDK_INT >= 12) {
-            final int memClass = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
-            final int cacheSize = 1024 * 1024 * memClass / 8;
-            mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
-                protected int sizeOf(String key, Bitmap bitmap) {
-                    return bitmap.getByteCount();
-                }
-            };
+            mMemoryCache = (LruCache) Data.getInstance().getAttribute(Data.IMAGE_CACHE);
+            if (mMemoryCache == null) {
+                int memClass = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
+                int cacheSize = 1024 * 1024 * memClass / 8;
+                mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
+                    protected int sizeOf(String key, Bitmap bitmap) {
+                        return bitmap.getByteCount();
+                    }
+                };
+                Data.getInstance().setAttribute(Data.IMAGE_CACHE, mMemoryCache);
+            }
         }
     }
     // view holer
@@ -183,7 +187,7 @@ public class MessagesListAdapter
                                 bitmap = decodeSampledBitmapFromResource(myFile.getData(), 450, 450);
                                 fileName = myFile.getFileName();
                             }
-                            addBitMapToCache(fileName,bitmap);
+                            addBitMapToCache(fileName, bitmap);
                         } catch (RestClientException | MyFileException e) {
                             e.printStackTrace();
                         }
@@ -220,13 +224,13 @@ public class MessagesListAdapter
 
     @Override
     public int getItemCount() {
-        Log.e("tuyet.....count",String.valueOf( messagesItems.size()));
+        Log.e("tuyet.....count", String.valueOf(messagesItems.size()));
         return messagesItems.size();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        Log.e("trang.....ke", String.valueOf( i));
+        Log.e("trang.....ke", String.valueOf(i));
         ViewHolderAbs viewHolder = null;
         View v = null;
         switch (i) {

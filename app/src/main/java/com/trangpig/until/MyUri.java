@@ -16,6 +16,9 @@ public class MyUri {
     public static final String URL_GET_MAKE_FRIEND = "http://%s:8080/tuyensinh/makefriend?idacc=%s&idfri=%s";
     public static final String URL_GET_UN_MAKE_FRIEND = "http://%s:8080/tuyensinh/unmakefriend?idacc=%s&idfri=%s";
     public static final String URL_GET_COMMIT_MAKE_FRIEND = "http://%s:8080/tuyensinh/commitmakefriend?idacc=%s&idfri=%s";
+    public static final String URL_GET_ALL_GROUPTOPIC = "http://%s:8080/tuyensinh/getallgrouptopic";
+    public static final String URL_GET_GROUPTOPIC = "http://%s:8080/tuyensinh/getgrouptopic/%s";
+    public static final String URL_GET_TOPIC = "http://%s:8080/tuyensinh/gettopic/%s";
 
 
 }
