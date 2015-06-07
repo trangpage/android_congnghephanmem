@@ -19,6 +19,8 @@ public class MyUri {
     public static final String URL_GET_ALL_GROUPTOPIC = "http://%s:8080/tuyensinh/getallgrouptopic";
     public static final String URL_GET_GROUPTOPIC = "http://%s:8080/tuyensinh/getgrouptopic/%s";
     public static final String URL_GET_TOPIC = "http://%s:8080/tuyensinh/gettopic/%s";
+    public static final String URL_CREATE_POST = "http://%s:8080/tuyensinh/createpost";
+    public static final String URL_CREATE_TOPIC = "http://%s:8080/tuyensinh/createtopic";
 
 
 }

@@ -22,6 +22,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 
 public class PostActivity extends Activity {
+    static final int PUBLIC_POST = 1;
     private RecyclerView recyclerViewTopic;
     private Button buttonDang;
     private Intent intentDang;
@@ -39,22 +40,8 @@ public class PostActivity extends Activity {
         restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
+        asyncTask.execute(idTopic);
 
-        new AsyncTask<Long,Void,Void>(){
-            @Override
-            protected Void doInBackground(Long... params) {
-                topic = restTemplate.getForObject(String.format(MyUri.URL_GET_TOPIC,MyUri.IP,params[0]),Topic.class);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                postAdapter = new PostAdapter(PostActivity.this,topic);
-                recyclerViewTopic.setAdapter(postAdapter);
-                setTitle(topic.getTitle());
-            }
-        }.execute(idTopic);
 
         buttonDang = (Button) findViewById(R.id.btnSendTopic);
         recyclerViewTopic = (RecyclerView) findViewById(R.id.recycler_view_topic);
@@ -69,7 +56,9 @@ public class PostActivity extends Activity {
             @Override
             public void onClick(View v) {
             intentDang = new Intent(getApplicationContext(),PublicPost.class);
-                startActivity(intentDang);
+                intentDang.putExtra(PublicPost.ID, topic.getIdTopic());
+                intentDang.putExtra(PublicPost.POST_TOPIC, PublicPost.POST);
+                startActivityForResult(intentDang, PUBLIC_POST);
             }
         });
     }
@@ -95,4 +84,32 @@ public class PostActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case PUBLIC_POST:
+                if (resultCode == PublicPost.SUCCESS) {
+                    asyncTask.execute(idTopic);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+   AsyncTask<Long,Void,Void> asyncTask = new AsyncTask<Long,Void,Void>(){
+        @Override
+        protected Void doInBackground(Long... params) {
+            topic = restTemplate.getForObject(String.format(MyUri.URL_GET_TOPIC,MyUri.IP,params[0]),Topic.class);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            postAdapter = new PostAdapter(PostActivity.this,topic);
+            recyclerViewTopic.setAdapter(postAdapter);
+            setTitle(topic.getTitle());
+        }
+    };
 }

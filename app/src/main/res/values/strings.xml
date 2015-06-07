@@ -34,6 +34,9 @@
     <string name="cannot_create_file">Không thể tạo file</string>
     <string name="sent_request_fail">Gửi yêu cầu thất bại</string>
     <string name="canceled_sent_request">Đã hủy yêu cầu kết bạn</string>
+    <string name="success_topic">Đăng thành công! Topic của bạn sẽ được duyệt sớm nhất</string>
+    <string name="success_post">Đăng post thành công!</string>
+    <string name="fail_post_topic">Đăng thất bại!</string>
 
     //bài đăng
     <string name="btn_post">Đăng</string>

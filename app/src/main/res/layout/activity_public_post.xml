@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/editTitle"
         android:layout_gravity="center_horizontal"
-        android:hint="Tiêu đề"/>
+        android:hint="Tiêu đề"
+        />
 
     <EditText
         android:layout_width="match_parent"
