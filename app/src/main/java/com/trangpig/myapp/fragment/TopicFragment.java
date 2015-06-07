@@ -55,20 +55,7 @@ public static final String GROUP_TOPIC = "groupTopic";
         restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-        new AsyncTask<Void,Void,Void>(){
-            @Override
-            protected Void doInBackground(Void... params) {
-                groupTopic = Arrays.asList(restTemplate.getForObject(String.format(MyUri.URL_GET_ALL_GROUPTOPIC,MyUri.IP),GroupTopic[].class));
-                return null;
-            }
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                groupTopicAdapter = new GroupTopicAdapter(getActivity(),groupTopic);
-                listViewGroupTopic.setAdapter(groupTopicAdapter);
-            }
-        }.execute();
 
 //
 //        groupTopic = new GroupTopic[3];
@@ -114,7 +101,20 @@ public static final String GROUP_TOPIC = "groupTopic";
                 startActivity(intentTopic);
             }
         });
+        new AsyncTask<Void,Void,Void>(){
+            @Override
+            protected Void doInBackground(Void... params) {
+                groupTopic = Arrays.asList(restTemplate.getForObject(String.format(MyUri.URL_GET_ALL_GROUPTOPIC,MyUri.IP),GroupTopic[].class));
+                return null;
+            }
 
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                groupTopicAdapter = new GroupTopicAdapter(getActivity(),groupTopic);
+                listViewGroupTopic.setAdapter(groupTopicAdapter);
+            }
+        }.execute();
         return v;
     }
 

@@ -30,6 +30,7 @@ public class PostActivity extends Activity {
     private RestTemplate restTemplate;
     Topic topic;
     long idTopic;
+    AsyncTaskLoadTopic asyncTaskLoadTopic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +40,8 @@ public class PostActivity extends Activity {
         idTopic = getIntent().getLongExtra(ListTopicAdapter.ID_TOPIC,0);
         restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
-        asyncTask.execute(idTopic);
+        asyncTaskLoadTopic = new AsyncTaskLoadTopic();
+        asyncTaskLoadTopic.execute(idTopic);
 
 
         buttonDang = (Button) findViewById(R.id.btnSendTopic);
@@ -90,14 +91,15 @@ public class PostActivity extends Activity {
         switch (requestCode) {
             case PUBLIC_POST:
                 if (resultCode == PublicPost.SUCCESS) {
-                    asyncTask.execute(idTopic);
+                    asyncTaskLoadTopic = new AsyncTaskLoadTopic();
+                    asyncTaskLoadTopic.execute(idTopic);
                 }
                 break;
             default:
                 break;
         }
     }
-   AsyncTask<Long,Void,Void> asyncTask = new AsyncTask<Long,Void,Void>(){
+  class AsyncTaskLoadTopic extends  AsyncTask<Long,Void,Void>{
         @Override
         protected Void doInBackground(Long... params) {
             topic = restTemplate.getForObject(String.format(MyUri.URL_GET_TOPIC,MyUri.IP,params[0]),Topic.class);
