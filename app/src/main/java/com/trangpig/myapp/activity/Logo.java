@@ -36,7 +36,7 @@ public class Logo extends Activity {
         btnDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(Logo.this,PublicPost.class);
+                intent = new Intent(Logo.this,SignedUpActivity.class);
                 startActivity(intent);
             }
         });

@@ -10,10 +10,8 @@ import android.widget.TextView;
 
 import com.nhuocquy.model.GroupTopic;
 import com.nhuocquy.model.Topic;
-import com.trangpig.data.Data;
 import com.trangpig.myapp.R;
 import com.trangpig.myapp.activity.PostActivity;
-import com.trangpig.myapp.fragment.TopicFragment;
 
 import java.util.List;
 
@@ -45,7 +43,8 @@ public class ListTopicAdapter extends RecyclerView.Adapter<ListTopicAdapter.Topi
         topic = topicList.get(position);
         holder.idTopic = topic.getIdTopic();
         holder.postName.setText(topic.getTitle());
-        holder.postDate.setText(position + ":00");
+        holder.postDate.setText("#"+position);
+
         holder.topic.setText("");
         holder.v.setOnClickListener(new View.OnClickListener() {
             @Override

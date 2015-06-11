@@ -1,6 +1,7 @@
 package com.trangpig.myapp.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.nhuocquy.model.Topic;
 import com.trangpig.myapp.R;
@@ -31,6 +33,10 @@ public class PostActivity extends Activity {
     Topic topic;
     long idTopic;
     AsyncTaskLoadTopic asyncTaskLoadTopic;
+    ProgressDialog ringProgressDialog;
+    ImageButton bntTop, bntBottom;
+    LinearLayoutManager linearLayoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +53,7 @@ public class PostActivity extends Activity {
         buttonDang = (Button) findViewById(R.id.btnSendTopic);
         recyclerViewTopic = (RecyclerView) findViewById(R.id.recycler_view_topic);
 
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewTopic.setLayoutManager(linearLayoutManager);
 //        linearLayoutManager.scrollToPosition(listMessageChat.size());
@@ -60,6 +66,20 @@ public class PostActivity extends Activity {
                 intentDang.putExtra(PublicPost.ID, topic.getIdTopic());
                 intentDang.putExtra(PublicPost.POST_TOPIC, PublicPost.POST);
                 startActivityForResult(intentDang, PUBLIC_POST);
+            }
+        });
+        bntTop = (ImageButton) findViewById(R.id.bntTop);
+        bntTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearLayoutManager.scrollToPosition(0);
+            }
+        });
+        bntBottom = (ImageButton) findViewById(R.id.bntBottom);
+        bntBottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearLayoutManager.scrollToPosition(topic.getListPosts().size() - 1);
             }
         });
     }
@@ -100,6 +120,11 @@ public class PostActivity extends Activity {
         }
     }
   class AsyncTaskLoadTopic extends  AsyncTask<Long,Void,Void>{
+      @Override
+      protected void onPreExecute() {
+          super.onPreExecute();
+          ringProgressDialog = ProgressDialog.show(PostActivity.this, PostActivity.this.getResources().getString(R.string.wait), PostActivity.this.getResources().getString(R.string.conecting), true);
+      }
         @Override
         protected Void doInBackground(Long... params) {
             topic = restTemplate.getForObject(String.format(MyUri.URL_GET_TOPIC,MyUri.IP,params[0]),Topic.class);
@@ -112,6 +137,7 @@ public class PostActivity extends Activity {
             postAdapter = new PostAdapter(PostActivity.this,topic);
             recyclerViewTopic.setAdapter(postAdapter);
             setTitle(topic.getTitle());
+            ringProgressDialog.dismiss();
         }
     };
 }

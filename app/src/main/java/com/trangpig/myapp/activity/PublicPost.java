@@ -1,6 +1,7 @@
 package com.trangpig.myapp.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -63,6 +64,8 @@ public class PublicPost extends Activity {
     boolean isPost = true;
     long id;
     Account account;
+    ProgressDialog ringProgressDialog;
+
 
 
     @Override
@@ -90,6 +93,11 @@ public class PublicPost extends Activity {
                 final MyFile myFile = Utils.getMyFileFromUri(uri, PublicPost.this);
                 new AsyncTask<MyFile, Void, MyStatus>() {
                     @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                        ringProgressDialog = ProgressDialog.show(PublicPost.this, PublicPost.this.getResources().getString(R.string.wait), PublicPost.this.getResources().getString(R.string.conecting), true);
+                    }
+                    @Override
                     protected MyStatus doInBackground(MyFile... myFiles) {
                         MyStatus status = null;
                         try {
@@ -114,6 +122,7 @@ public class PublicPost extends Activity {
                             imageName.add(status.getObj().toString());
 
                         }
+                        ringProgressDialog.dismiss();
                     }
                 }.execute(myFile);
             }
@@ -168,24 +177,36 @@ public class PublicPost extends Activity {
                     protected MyStatus doInBackground(Void... params) {
                         MyStatus status = null;
                         id = getIntent().getLongExtra(ID, 0);
-                        if (isPost) {
-                            Topic topic = restTemplate.getForObject(String.format(MyUri.URL_GET_TOPIC, MyUri.IP, id), Topic.class);
-                            Post post = new Post();
-                            post.setTopic(topic);
-                            post.setContext(content.getText().toString());
-                            post.setDatePost(new Date());
-                            post.setImages(imageName);
-                            post.setPoster(account.retrieveAccountAsFriend());
-                            status = restTemplate.postForObject(String.format(MyUri.URL_CREATE_POST, MyUri.IP), post, MyStatus.class);
-                            status.setObj(POST);
-                        } else {
+                        if (!isPost) {
                             Topic topic = new Topic();
                             GroupTopic groupTopic = restTemplate.getForObject(String.format(MyUri.URL_GET_GROUPTOPIC, MyUri.IP, id), GroupTopic.class);
+                            groupTopic.setLisTopics(new ArrayList<Topic>());
                             topic.setGroupTopic(groupTopic);
                             topic.setTitle(title.getText().toString());
+                            Log.e("tuyet.........truoc", topic.toString());
                             status = restTemplate.postForObject(String.format(MyUri.URL_CREATE_TOPIC, MyUri.IP), topic, MyStatus.class);
-                            status.setObj(TOPIC);
+                            Log.e("tuyet.........sau", topic.toString());
+
+                            if (status.getCode() == MyStatus.CODE_FAIL) {
+                                Toast.makeText(PublicPost.this, PublicPost.this.getResources().getString(R.string.fail_post_topic), Toast.LENGTH_LONG).show();
+                                return status;
+                            }
+                            id = Long.valueOf(status.getObj().toString());
                         }
+
+                        Topic topic = restTemplate.getForObject(String.format(MyUri.URL_GET_TOPIC, MyUri.IP, id), Topic.class);
+                        Post post = new Post();
+                        post.setTopic(topic);
+                        post.setContext(content.getText().toString());
+                        post.setDatePost(new Date());
+                        post.setImages(imageName);
+                        post.setPoster(account.retrieveAccountAsFriend());
+                        status = restTemplate.postForObject(String.format(MyUri.URL_CREATE_POST, MyUri.IP), post, MyStatus.class);
+
+                        if (isPost)
+                            status.setObj(POST);
+                        else
+                            status.setObj(TOPIC);
                         return status;
                     }
 

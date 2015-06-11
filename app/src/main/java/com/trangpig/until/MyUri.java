@@ -21,6 +21,7 @@ public class MyUri {
     public static final String URL_GET_TOPIC = "http://%s:8080/tuyensinh/gettopic/%s";
     public static final String URL_CREATE_POST = "http://%s:8080/tuyensinh/createpost";
     public static final String URL_CREATE_TOPIC = "http://%s:8080/tuyensinh/createtopic";
+    public static final String URL_SIGN_UP = "http://%s:8080/tuyensinh/signup";
 
 
 }

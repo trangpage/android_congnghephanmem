@@ -37,6 +37,11 @@
     <string name="success_topic">Đăng thành công! Topic của bạn sẽ được duyệt sớm nhất</string>
     <string name="success_post">Đăng post thành công!</string>
     <string name="fail_post_topic">Đăng thất bại!</string>
+    <string name="fail_sign_up">Đăng kí thất bại!</string>
+    <string name="success_sign_up">Đăng kí thành công!</string>
+    <string name="fail_pass">Mật khẩu không trùng khớp!</string>
+    <string name="require_pass">Mật khẩu phải lớn hơn 8 ký tự!</string>
+    <string name="fail_user">Tên tài khoản không được để trống!</string>
 
     //bài đăng
     <string name="btn_post">Đăng</string>

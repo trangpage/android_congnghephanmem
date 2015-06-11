@@ -1,9 +1,6 @@
 package com.trangpig.myapp.fragment;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,20 +13,14 @@ import android.widget.ListView;
 import com.nhuocquy.model.GroupTopic;
 import com.nhuocquy.model.Post;
 import com.nhuocquy.model.Topic;
-import com.trangpig.data.Data;
 import com.trangpig.myapp.R;
-import com.trangpig.myapp.activity.ChatRoomActivity;
 import com.trangpig.myapp.activity.TopicActivity;
-import com.trangpig.myapp.adapter.ChatRoomAdapter;
 import com.trangpig.myapp.adapter.GroupTopicAdapter;
-import com.trangpig.myapp.service.MyService;
-import com.trangpig.until.MyConstant;
 import com.trangpig.until.MyUri;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -113,6 +104,7 @@ public static final String GROUP_TOPIC = "groupTopic";
                 super.onPostExecute(aVoid);
                 groupTopicAdapter = new GroupTopicAdapter(getActivity(),groupTopic);
                 listViewGroupTopic.setAdapter(groupTopicAdapter);
+                groupTopicAdapter.notifyDataSetChanged();
             }
         }.execute();
         return v;
