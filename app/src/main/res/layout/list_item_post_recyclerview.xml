@@ -1,105 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp">
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/table_new"
-        android:background="@drawable/postborder"
-        >
-        <TableRow
-            android:layout_width="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="600dp"
+    android:orientation="vertical"
+    >
+
+    <!--<FrameLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="3dp">-->
+
+        <TableLayout
+            android:id="@+id/table_new"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
-            <TextView
+            android:background="@drawable/postborder">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_new_port_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="5"
+                    android:text="Ten nguoi dang"
+                    android:textColor="#800000"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/tv_new_port_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="07:00"
+                    android:textColor="#8B4513"
+                    android:textSize="20dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_new_port_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_span="2"
+                    android:layout_weight="1"
+                    android:text="Noi dung cua bai post!!"
+                    android:textColor="#000000"
+                    android:textSize="18dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"></TableRow>
+        </TableLayout>
+
+            <GridView
+                android:id="@+id/gridView_new_post"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_new_port_user"
                 android:layout_gravity="center_horizontal"
-                android:textSize="20dp"
-                android:text="Ten nguoi dang"
-                android:textColor="#800000"
-                android:layout_weight="5"
-                />
+                android:layout_weight="2"
+                android:numColumns="2" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_new_port_date"
-                android:textSize="20dp"
-                android:text="07:00"
-                android:textColor="#8B4513"
-                android:layout_weight="1"
-                 />
-        </TableRow>
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_new_port_text"
-                android:layout_gravity="center_horizontal"
-                android:textSize="18dp"
-                android:layout_span="2"
-                android:layout_weight="1"
-                android:text="Noi dung cua bai post!!"
-                android:textColor="#000000"
-                />
-        </TableRow>
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></TableRow>
-    <GridView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/gridView_new_post"
-        android:layout_weight="2"
-        android:layout_gravity="center_horizontal"
-        android:numColumns="2" />
-        <LinearLayout>
-            <ImageButton
-                android:id="@+id/bntLike"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/like"
-                android:elevation="3dp"
-                android:layout_marginRight="5dp"
-                />
-            <TextView
-                android:id="@+id/tvLike"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:layout_marginRight="10dp"
-                android:textSize="20dp"/>
+                android:orientation="horizontal">
 
-            <ImageButton android:id="@+id/bntDisLike"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/dislike"
-                android:elevation="3dp"
-                android:layout_marginRight="5dp"
-                />
-            <TextView
-                android:id="@+id/tvDisLike"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="0"
-                android:textSize="20dp"
-                android:gravity="center"
-                />
-        </LinearLayout>
+                <ImageButton
+                    android:id="@+id/bntLike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:elevation="3dp"
+                    android:src="@drawable/like" />
 
-    </TableLayout>
+                <TextView
+                    android:id="@+id/tvLike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="0"
+                    android:textSize="20dp" />
 
-    </FrameLayout>
+                <ImageButton
+                    android:id="@+id/bntDisLike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:elevation="3dp"
+                    android:src="@drawable/dislike" />
+
+                <TextView
+                    android:id="@+id/tvDisLike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+
+
+    <!--</FrameLayout>-->
 
 
 </LinearLayout>

@@ -44,4 +44,4 @@ dependencies {
 //    compile 'com.fasterxml.jackson.core:jackson-databind:2.5.3'
     compile 'com.android.support:recyclerview-v7:21.0.3'
     compile files('libs/tuyensinh-model-1.0.jar')
-}
+ }

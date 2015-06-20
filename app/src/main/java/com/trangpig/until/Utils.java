@@ -120,7 +120,9 @@ public class Utils {
 
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeByteArray(data, 0, data.length, options);
+        Bitmap b =BitmapFactory.decodeByteArray(data, 0, data.length, options);
+//        b = Bitmap.createScaledBitmap(b,reqWidth,reqHeight,true);
+        return b;
     }
 
     public static int calculateInSampleSize(BitmapFactory.Options options,

@@ -93,7 +93,7 @@ public class PostImageOfAdapter extends ArrayAdapter<String> {
                         try {
                             myFile = restTemplate.getForObject(String.format(MyUri.URL_DOWN_IMAGE, MyUri.IP, params[0]), MyFile.class);
                             if (myFile != null) {
-                                bitmap = Utils.decodeSampledBitmapFromResource(myFile.getData(), 450, 450);
+                                bitmap = Utils.decodeSampledBitmapFromResource(myFile.getData(), 500, 500);
                                 fileName = myFile.getFileName();
                             }
                             addBitMapToCache(fileName, bitmap);
