@@ -315,6 +315,7 @@ public class ConversationChat extends ActionBarActivity {
                     adapter.setListMes(listMessageChat);
                     contmp.setIdCon(con.getIdCon());
                     contmp.setFriends(con.getFriends());
+                    Data.getInstance().setAttribute(Data.ID_CON, con.getIdCon());
                     setTitle(con.selectNames());
                 }
             }
@@ -421,6 +422,7 @@ public class ConversationChat extends ActionBarActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        Data.getInstance().setAttribute(Data.ID_CON, -1l);
         unregisterReceiver(broadcastReceiver);
         for (Conversation c : account.getConversations()) {
             if (c.getIdCon() == con.getIdCon()) {
@@ -461,4 +463,5 @@ public class ConversationChat extends ActionBarActivity {
         notificationManager.notify(0, noti);
         Utils.playBeep(this);
     }
+
 }

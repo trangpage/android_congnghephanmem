@@ -1,6 +1,11 @@
 package com.trangpig.until;
 
+import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,9 +15,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.nhuocquy.model.MessageChat;
 import com.nhuocquy.myfile.MyFile;
+import com.trangpig.myapp.R;
+import com.trangpig.myapp.activity.ConversationChat;
+import com.trangpig.myapp.fragment.ListConversationFragment;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -169,5 +179,21 @@ public class Utils {
             sb.append("");
         }
         return sb.toString();
+    }
+    public static void notification(Context activity,MessageChat mes) {
+        Intent intent = new Intent(activity, ConversationChat.class);
+        intent.putExtra(ListConversationFragment.ID_CON, mes.getIdConversation());
+
+        PendingIntent pIntent = PendingIntent.getActivity(activity, 0, intent, 0);
+
+        Notification noti = new NotificationCompat.Builder(activity)
+                .setContentTitle(activity.getResources().getString(R.string.new_message) + mes.getFromName())
+                .setContentText(mes.getText())
+                .setSmallIcon(R.drawable.message)
+                .setContentIntent(pIntent).build();
+        noti.flags |= Notification.FLAG_AUTO_CANCEL;
+        NotificationManager notificationManager = (NotificationManager)activity.getSystemService(Activity.NOTIFICATION_SERVICE);
+        notificationManager.notify(0, noti);
+        Utils.playBeep(activity);
     }
 }

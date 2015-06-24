@@ -22,8 +22,9 @@ import java.net.URI;
  */
 public class MyService extends Service {
     //action for intent to send broadcastreceiver
-    public final static String ACTION_ADD_FRIEND_NOTIFY = "notify-add-friend";
+    public final static String ACTION_ADD_FRIEND_NOTIFY = "com.trangpig.notify";
     public final static String ACTION_CONVERSATION_CHAT = "conversation-chat";
+    public final static String ACTION_MESSAGE_CHAT = "com.trangpig.message.notify";
     public final static String ACTION_OPEN_ROOM_CHAT = "open-room-chat";
     public final static String ACTION_ROOM_CHAT = "room-chat";
     Intent intentBroadcast = new Intent();
@@ -50,7 +51,7 @@ public class MyService extends Service {
                             intentBroadcast.putExtra(MES, mes.replace(MyConstant.MESSAGE_ADD_FRIEND, ""));
                         }
                         if (mes.contains(MyConstant.MESSAGE_CHAT_CONVERSATION)) {
-                            intentBroadcast.setAction(ACTION_CONVERSATION_CHAT);
+                            intentBroadcast.setAction(ACTION_MESSAGE_CHAT);
                             intentBroadcast.putExtra(MES, mes.replace(MyConstant.MESSAGE_CHAT_CONVERSATION, ""));
                         }
                         if (mes.contains(MyConstant.MESSAGE_REGISTRY_CHAT_GROUP)) {
