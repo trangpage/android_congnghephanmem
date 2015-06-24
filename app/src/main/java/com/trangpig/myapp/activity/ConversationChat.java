@@ -416,12 +416,14 @@ public class ConversationChat extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if(con != null)
+        Data.getInstance().setAttribute(Data.ID_CON, con.getIdCon());
         registerReceiver(broadcastReceiver, new IntentFilter(MyService.ACTION_CONVERSATION_CHAT));
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         Data.getInstance().setAttribute(Data.ID_CON, -1l);
         unregisterReceiver(broadcastReceiver);
         for (Conversation c : account.getConversations()) {
@@ -432,6 +434,12 @@ public class ConversationChat extends ActionBarActivity {
                 break;
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
     }
 
     private void showTost(String mes) {

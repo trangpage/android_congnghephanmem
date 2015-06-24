@@ -20,7 +20,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter   {
 
     List<Fragment> lisstFragment;
     Context context;
-    int[] imageResId = {R.drawable.right, R.drawable.left, R.drawable.right,R.drawable.left, R.drawable.right};
+    int[] imageResId = {R.drawable.xanh_la, R.drawable.banbe, R.drawable.tinnhan,R.drawable.ketban, R.drawable.chatnhom};
 
     public MyPagerAdapter(FragmentManager fragmentManager, List<Fragment> listFrg, Context context) {
         super(fragmentManager);
@@ -41,7 +41,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter   {
     @Override
     public CharSequence getPageTitle(int position) {
         Drawable image = context.getResources().getDrawable(imageResId[position]);
-        image.setBounds(0, 0, 50,50);
+        image.setBounds(0, -5, 300,60);
         SpannableString sb = new SpannableString(" ");
         ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
         sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

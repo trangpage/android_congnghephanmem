@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="600dp"
     android:orientation="vertical"
+    android:layout_marginTop="20dp"
     >
 
     <!--<FrameLayout-->
@@ -59,7 +60,7 @@
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"></TableRow>
-        </TableLayout>
+        <!--</TableLayout>-->
 
             <GridView
                 android:id="@+id/gridView_new_post"
@@ -107,7 +108,7 @@
                     android:textSize="20dp" />
             </LinearLayout>
 
-
+</TableLayout>
 
     <!--</FrameLayout>-->
 

@@ -42,7 +42,7 @@ public class ListConversationFragment extends Fragment {
         account =(Account) Data.getInstance().getAttribute(Data.ACOUNT);
         arrCon = account.getConversations();
         listViewFriend =(ListView) v.findViewById(R.id.lvChat);
-        edit = (EditText) v.findViewById(R.id.txtBanBe);
+//        edit = (EditText) v.findViewById(R.id.txtBanBe);
         adapter = new ListConversationAdapter(getActivity(),arrCon,R.layout.myitemlayout);
         listViewFriend.setAdapter(adapter);
 
