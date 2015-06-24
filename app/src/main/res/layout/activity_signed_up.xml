@@ -10,26 +10,34 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="vertical"
-            android:id="@+id/tableRow1"
-            android:background="#007ba7"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=" Đăng kí"
-                android:id="@+id/textView4"
-                android:layout_gravity="center_horizontal"
-                android:paddingTop="3dp"
-                android:textSize="25dp"
-                android:textAlignment="center"
-                android:textColor="#ffffff"
-                android:paddingBottom="5dp"/>
-        </TableRow>
+        <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:orientation="vertical"-->
+            <!--android:id="@+id/tableRow1"-->
+            <!-->-->
+            <!--android:background="#ff02a877"-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+                <!--android:text=" Đăng kí"-->
+                <!--android:id="@+id/textView4"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:paddingTop="3dp"-->
+                <!--android:textSize="25dp"-->
+                <!--android:textAlignment="center"-->
+                <!--android:textColor="#ff0acb37"-->
+                <!--android:paddingBottom="5dp"-->
+                <!--android:textStyle="bold"-->
+                <!--/>-->
+        <!--</TableRow>-->
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/signin_1"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -152,7 +160,8 @@
                 android:id="@+id/tbrow5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:weightSum="1">
 
                 <TextView
                     android:id="@+id/tv_birth_sign"
@@ -161,18 +170,19 @@
                     android:textSize="16dp"
                     android:text="Ngày sinh             " />
 
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bntNgaySinh"
+                    android:elevation="2dp"
+                    android:src="@drawable/calendar" />
+
                 <TextView
                     android:id="@+id/tv_hienthi"
                     android:layout_width="190dp"
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
                     android:layout_gravity="center_horizontal" />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/bntNgaySinh"
-                    android:elevation="2dp"
-                    android:src="@drawable/calendar"/>
 
             </LinearLayout>
 
@@ -186,12 +196,12 @@
         <Button
             android:layout_width="312dp"
             android:layout_height="wrap_content"
-            android:text="đăng kí"
+            android:text="Đăng kí"
             android:id="@+id/btn_sign"
             android:layout_row="1"
             android:layout_column="0"
             android:layout_marginTop="10dp"
-            android:background="#007ba7"
+            android:background="@color/actionbar"
             android:layout_gravity="center_horizontal"
             android:textColor="#ffffff"
             android:textSize="25dp"/>

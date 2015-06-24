@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
   >
 
-    <EditText
-        android:id="@+id/txtFr"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Tìm kiếm ban be"
-        android:inputType="textPersonName" />
+    <!--<EditText-->
+        <!--android:id="@+id/txtFr"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:ems="10"-->
+        <!--android:hint="Tìm kiếm ban be"-->
+        <!--android:inputType="textPersonName" />-->
 
     <ListView
         android:layout_width="match_parent"

@@ -64,12 +64,13 @@
                 android:layout_height="wrap_content"
                 android:text="Địa chỉ"
                 android:textSize="18dp"/>
-            <EditText
+            <TextView
                 android:id="@+id/txtPer_DiaChi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ABC"
                 android:textSize="18dp"
+                android:layout_marginLeft="20dp"
                 />
         </TableRow>
         <TableRow
@@ -83,13 +84,14 @@
                 android:layout_height="wrap_content"
                 android:text="Ngày sinh"
                 android:textSize="18dp"/>
-            <EditText
+            <TextView
                 android:id="@+id/txtPer_NgaySinh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:text="01/01/2001"
                 android:textSize="18dp"
+                android:layout_marginLeft="10dp"
                 />
         </TableRow>
     </TableLayout>

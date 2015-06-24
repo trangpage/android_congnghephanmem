@@ -53,11 +53,11 @@ public class MainActivity extends FragmentActivity
             //chuan bi cho fragment
             ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
             fragmentList = new ArrayList<>();
+            fragmentList.add(new TopicFragment());
             fragmentList.add(new ListFriendFragment());
             fragmentList.add(new ListConversationFragment());
             fragmentList.add(new ListAddFriendFragment());
             fragmentList.add(new ChatRoomFragment());
-            fragmentList.add(new TopicFragment());
             myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),fragmentList,this);
             viewPager.setAdapter(myPagerAdapter);
             viewPager.setCurrentItem(0);

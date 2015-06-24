@@ -1,5 +1,6 @@
 package com.trangpig.until;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,8 +12,10 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.util.LruCache;
 
 import com.nhuocquy.myfile.MyFile;
+import com.trangpig.data.Data;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -22,6 +25,8 @@ import java.io.InputStream;
  * Created by TrangPig on 06/04/2015.
  */
 public class Utils {
+   static LruCache mMemoryCache ;
+
     public static MyFile getMyFileFromUri(Uri uri, Context context) {
         String TAG = "nhuoc..quy....";
         MyFile myFile = new MyFile();
@@ -169,5 +174,35 @@ public class Utils {
             sb.append("");
         }
         return sb.toString();
+    }
+
+    public static Bitmap getBitMapFromCache(String fileName) {
+        if (mMemoryCache != null) {
+            return (Bitmap) mMemoryCache.get(fileName);
+        }
+        return null;
+    }
+
+    public static void addBitMapToCache(String fileName, Bitmap value) {
+        if (mMemoryCache != null) {
+            mMemoryCache.put(fileName, value);
+        }
+    }
+
+    public static void setmMemoryCache(Context context){
+        //
+        if (Build.VERSION.SDK_INT >= 12) {
+            mMemoryCache = (LruCache) Data.getInstance().getAttribute(Data.IMAGE_CACHE);
+            if (mMemoryCache == null) {
+                int memClass = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
+                int cacheSize = 1024 * 1024 * memClass / 8;
+                mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
+                    protected int sizeOf(String key, Bitmap bitmap) {
+                        return bitmap.getByteCount();
+                    }
+                };
+                Data.getInstance().setAttribute(Data.IMAGE_CACHE, mMemoryCache);
+            }
+        }
     }
 }
