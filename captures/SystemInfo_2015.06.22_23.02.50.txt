@@ -1,0 +1,44 @@
+Activity Resolver Table:
+  Non-Data Actions:
+      android.intent.action.MAIN:
+        3dc1444b com.trangpig.myapp/.activity.MainActivity filter 232964ab
+          Action: "android.intent.action.MAIN"
+          Category: "android.intent.category.LAUNCHER"
+
+Receiver Resolver Table:
+  Non-Data Actions:
+      com.trangpig.notify:
+        b1b1e28 com.trangpig.myapp/.broadcast.BroadcastNotifyAddFriend filter 14c856fa
+          Action: "com.trangpig.notify"
+
+Key Set Manager:
+  [com.trangpig.myapp]
+      Signing KeySets: 46
+
+Packages:
+  Package [com.trangpig.myapp] (2e7073f9):
+    userId=10269 gids=[3003, 1028, 1015]
+    pkg=Package{38ac3741 com.trangpig.myapp}
+    codePath=/data/app/com.trangpig.myapp-1
+    resourcePath=/data/app/com.trangpig.myapp-1
+    legacyNativeLibraryDir=/data/app/com.trangpig.myapp-1/lib
+    primaryCpuAbi=null
+    secondaryCpuAbi=null
+    versionCode=1 targetSdk=21
+    versionName=1.0
+    applicationInfo=ApplicationInfo{176f84e6 com.trangpig.myapp}
+    flags=[ DEBUGGABLE HAS_CODE ALLOW_CLEAR_USER_DATA ALLOW_BACKUP ]
+    dataDir=/data/data/com.trangpig.myapp
+    supportsScreens=[small, medium, large, xlarge, resizeable, anyDensity]
+    timeStamp=2015-06-22 22:51:56
+    firstInstallTime=2015-06-22 15:23:27
+    lastUpdateTime=2015-06-22 22:51:57
+    signatures=PackageSignatures{324602ec [24ddda27]}
+    permissionsFixed=true haveGids=true installStatus=1
+    pkgFlags=[ DEBUGGABLE HAS_CODE ALLOW_CLEAR_USER_DATA ALLOW_BACKUP ]
+    User 0:  installed=true hidden=false stopped=false notLaunched=false enabled=0
+    grantedPermissions:
+      android.permission.READ_EXTERNAL_STORAGE
+      android.permission.READ_PHONE_STATE
+      android.permission.WRITE_EXTERNAL_STORAGE
+      android.permission.INTERNET

@@ -41,7 +41,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:text="@string/addFriend"
-                android:id="@+id/btnKetBan" />
+                android:id="@+id/btnKetBan"
+                />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
