@@ -79,7 +79,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
-                    android:text="123456789"
                     android:inputType="numberPassword"
                     android:layout_gravity="center_horizontal" />
             </LinearLayout>
@@ -101,7 +100,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
-                    android:text="123456789"
                     android:inputType="numberPassword"
                     android:layout_gravity="center_horizontal" />
             </LinearLayout>

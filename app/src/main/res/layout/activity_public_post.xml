@@ -12,17 +12,19 @@
         android:id="@+id/editTitle"
         android:layout_gravity="center_horizontal"
         android:hint="Tiêu đề"
+        android:textColor="@color/abc_input_method_navigation_guard"
+        android:textSize="25dp"
         />
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
-        android:ems="10"
         android:id="@+id/editContent"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.27"
         android:lines="5"
+        android:textColor="@color/background_material_dark"
+        android:textSize="20dp"
         android:hint="Nội dung"/>
 
     <GridView
@@ -40,13 +42,13 @@
             android:id="@+id/btnImg"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/icon_smilebig" />
+            android:src="@drawable/upload" />
         <Button
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:text="@string/btn_post"
          android:id="@+id/bntPost"
-            android:background="@color/body_background_green"/>
+            android:background="@color/mybnt"/>
 
     </LinearLayout>
 

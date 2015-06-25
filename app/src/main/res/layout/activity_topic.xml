@@ -38,8 +38,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/bg_btn_join"
-            android:text="Dang"
+            android:background="@color/mybnt"
+            android:text="@string/btn_post"
             android:textColor="@color/white" />
     </TableRow>
 </TableLayout>

@@ -71,9 +71,10 @@
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:layout_marginTop="20dp"
-                android:background="@color/bg_btn_join"
-                android:text="Dang"
-                android:textColor="@color/white" />
+                android:background="@color/mybnt"
+                android:text="@string/btn_post"
+                android:textColor="@color/white"
+               />
         </TableRow>
     </TableLayout>
 
