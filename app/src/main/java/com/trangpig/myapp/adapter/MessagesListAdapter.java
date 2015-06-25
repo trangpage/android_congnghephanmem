@@ -219,40 +219,7 @@ public class MessagesListAdapter
             ViewHolderGif viewHolderGif = (ViewHolderGif) viewHolder;
             viewHolderGif.gifMes.setAnimatedGif(IconSetup.MAP_ICON_RAWS.get(m.getText()), AnimatedGifImageView.TYPE.STREACH_TO_FIT);
         }
-        Bitmap bitmap = Utils.getBitMapFromCache(params[0], PersonalActivity.this);
-        if (bitmap == null){
-        final AsyncTask<String, Void, Bitmap> asyncTaskImage = new AsyncTask<String, Void, Bitmap>() {
-            String fileName;
-            @Override
-            protected Bitmap doInBackground(String... params) {
-                MyFile myFile = null;
-
-                    try {
-                        Log.e("tuyet....server", params[0]);
-                        myFile = restTemplate.getForObject(String.format(MyUri.URL_DOWN_IMAGE, MyUri.IP, params[0]), MyFile.class);
-                        if (myFile != null) {
-                            bitmap = Utils.decodeSampledBitmapFromResource(myFile.getData(), 450, 450);
-                            fileName = myFile.getFileName();
-                        }
-                        addBitMapToCache(fileName, bitmap);
-                    } catch (RestClientException | MyFileException e) {
-                        e.printStackTrace();
-                    }
-                return bitmap;
-            }
-
-            @Override
-            protected void onPostExecute(final Bitmap myFile) {
-                super.onPostExecute(myFile);
-                if (myFile != null) {
-                    imgPerAvatar.setImageBitmap(myFile);
-                } else {
-                    imgPerAvatar.setImageResource(R.drawable.left);
-                    Toast.makeText(getApplicationContext(),getApplicationContext().getResources().getString(R.string.no_upload_img), Toast.LENGTH_LONG).show();
-                }
-
-            }
-        };
+      
 
         ((ViewHolderAbs) viewHolder).lblFrom.setText(m.getFromName());
         Log.e("tuyet.....ke", textMes);
