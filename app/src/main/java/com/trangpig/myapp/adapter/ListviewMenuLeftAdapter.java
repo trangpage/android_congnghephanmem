@@ -28,10 +28,20 @@ import org.springframework.web.client.RestClientException;
 public class ListviewMenuLeftAdapter extends ArrayAdapter<String> {
     String[] arr;
     Activity context;
+    int[] arrImage;
     public ListviewMenuLeftAdapter(Activity context, String[] arr) {
         super(context, R.layout.my_item_layout_friend);
         this.arr = arr;
         this.context = context;
+        arrImage = new int[8];
+        arrImage[0] = R.drawable.menu_per;
+        arrImage[1] = R.drawable.menu_topic;
+        arrImage[2] = R.drawable.menu_friend;
+        arrImage[3] = R.drawable.menu_message;
+        arrImage[4] = R.drawable.menu_add_friend;
+        arrImage[5] = R.drawable.menu_muti_chat;
+        arrImage[6] = R.drawable.menu_logout;
+        arrImage[7] = R.drawable.menu_help;
     }
 
     @Override
@@ -47,7 +57,7 @@ public class ListviewMenuLeftAdapter extends ArrayAdapter<String> {
             final TextView tvTen = (TextView) convertView.findViewById(R.id.tvFr);
             final ImageView imageView = (ImageView) convertView.findViewById(R.id.imgFr);
             tvTen.setText(arr[position]);
-            imageView.setImageResource(R.drawable.a1);
+            imageView.setImageResource(arrImage[position]);
         }
         return convertView;
     }

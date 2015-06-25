@@ -53,10 +53,21 @@
         <item>Khoa CNTT</item>
         <item>Khoa Kinh Tế</item>
         <item>Khoa Cơ Khí</item>
-    </string-array><string-array name="string_array_room_key">
+    </string-array>
+    <string-array name="string_array_room_key">
         <item>cntt</item>
         <item>kt</item>
         <item>ck</item>
+    </string-array>
+    <string-array name="string_array_planets">
+        <item>Trang cá nhân</item>
+        <item>Danh sách Topic</item>
+        <item>Danh sách bạn bè</item>
+        <item>Tin nhắn</item>
+        <item>Kết bạn</item>
+        <item>Chát nhóm</item>
+        <item>Đăng xuất</item>
+        <item>Help</item>
     </string-array>
     <string name="title_activity_group_chat">GroupChatActivity</string>
     <string name="title_activity_public_post">PublicPost</string>
