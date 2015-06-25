@@ -41,7 +41,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter   {
     @Override
     public CharSequence getPageTitle(int position) {
         Drawable image = context.getResources().getDrawable(imageResId[position]);
-        image.setBounds(0, -5, 300,60);
+        image.setBounds(0, 0, 300,80);
         SpannableString sb = new SpannableString(" ");
         ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
         sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

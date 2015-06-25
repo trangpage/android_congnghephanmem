@@ -10,9 +10,11 @@ import android.support.v4.app.FragmentActivity;
 
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.nhuocquy.model.Account;
@@ -33,12 +35,16 @@ import java.util.List;
 
 public class MainActivity extends FragmentActivity
 {
+    //
     private Account account;
     private SharedPreferences sharedPreferences;
     private MyPagerAdapter myPagerAdapter;
     private List<Fragment> fragmentList;
     private ListView mDrawerList;
-    private String[] mPlanetTitles = {"A","B","C","D"};
+    private DrawerLayout mDrawerLayout;
+    private String[] mPlanetTitles;
+    private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +62,7 @@ public class MainActivity extends FragmentActivity
             }
         }else{
             //chuan bi cho fragment
-            ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+            final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
             fragmentList = new ArrayList<>();
             fragmentList.add(new TopicFragment());
             fragmentList.add(new ListFriendFragment());
@@ -67,11 +73,32 @@ public class MainActivity extends FragmentActivity
             viewPager.setAdapter(myPagerAdapter);
             viewPager.setCurrentItem(0);
 
+            mPlanetTitles = getResources().getStringArray(R.array.string_array_planets);
             mDrawerList = (ListView) findViewById(R.id.left_drawer);
-            mDrawerList.setAdapter(new ListviewMenuLeftAdapter(this,mPlanetTitles));
+            mDrawerList.setAdapter(new ListviewMenuLeftAdapter(this, mPlanetTitles));
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.mDrawerLayout);
+            //
+            mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if(position==0) {
+                        intent = new Intent(MainActivity.this,PersonalActivity.class);
+                        startActivity(intent);
+//                        setContentView(R.layout.activity_personal);
+                    }
+                    else if(position==6 || position==7) {
+//                        setContentView(R.layout.login);
+                        intent = new Intent(MainActivity.this,Login.class);
+                        startActivity(intent);
+                    }
+                    else viewPager.setCurrentItem(position-1, true);
+                    // Highlight the selected item, update the title, and close the drawer
+                    mDrawerList.setItemChecked(position, true);
+//                    setTitle(mPlanetTitles[position]);
+                    mDrawerLayout.closeDrawer(mDrawerList);
+                }
+            });
         }
-
-
     }
 
     @Override

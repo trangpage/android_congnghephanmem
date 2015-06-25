@@ -48,35 +48,6 @@ public static final String GROUP_TOPIC = "groupTopic";
 
 
 
-//
-//        groupTopic = new GroupTopic[3];
-//
-//
-//        // tao du lieu cho group topic--------------------------------
-//        for(int i=0;i<3;i++){
-//            groupTopic[i] = new GroupTopic();
-//            groupTopic[i].setGroupName("Group Topic "+i);
-//            topicList = new ArrayList<>();
-//            for (int j = 0; j<10;j++){
-//                topic = new Topic();
-//                topic.setIdTopic(j);
-//                topic.setTitle("Topic "+j);
-//                postList = new ArrayList<>();
-//                for(int k=0; k<10;k++){
-//                    post = new Post();
-//                    post.setIdPost(k);
-//                    post.setContext("context post \n \n \n \n \n \n"+ k);
-//                    postList.add(post);
-//                }
-//                topic.setListPosts(postList);
-//                topicList.add(topic);
-//            }
-//            groupTopic[i].setLisTopics(topicList);
-//        }
-//        Data.getInstance().setAttribute(GROUP_TOPIC_LIST, groupTopic);
-        //----------------------------------------------------------
-
-
     }
 
     @Override
