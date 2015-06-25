@@ -43,6 +43,7 @@ public class MainActivity extends FragmentActivity
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
     private String[] mPlanetTitles;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,11 +81,17 @@ public class MainActivity extends FragmentActivity
             mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if(position==0)
-                        setContentView(R.layout.activity_personal);
-                    else if(position==6 || position==7)
-                        setContentView(R.layout.login);
-                    else viewPager.setCurrentItem(position, true);
+                    if(position==0) {
+                        intent = new Intent(MainActivity.this,PersonalActivity.class);
+                        startActivity(intent);
+//                        setContentView(R.layout.activity_personal);
+                    }
+                    else if(position==6 || position==7) {
+//                        setContentView(R.layout.login);
+                        intent = new Intent(MainActivity.this,Login.class);
+                        startActivity(intent);
+                    }
+                    else viewPager.setCurrentItem(position-1, true);
                     // Highlight the selected item, update the title, and close the drawer
                     mDrawerList.setItemChecked(position, true);
 //                    setTitle(mPlanetTitles[position]);
