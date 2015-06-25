@@ -3,7 +3,6 @@ package com.trangpig.myapp.adapter;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -25,7 +24,6 @@ import com.nhuocquy.myfile.MyFileException;
 import com.nhuocquy.myfile.MyStatus;
 import com.trangpig.data.Data;
 import com.trangpig.myapp.R;
-import com.trangpig.myapp.activity.ImageDetailActivity;
 import com.trangpig.until.MyUri;
 import com.trangpig.until.Utils;
 
@@ -97,7 +95,7 @@ public class ListAddFriendAdapter extends ArrayAdapter<Friend> {
                 @Override
                 protected Bitmap doInBackground(String... params) {
                     MyFile myFile = null;
-                    Bitmap bitmap = getBitMapFromCache(params[0]);
+                    Bitmap bitmap = Utils.getBitMapFromCache(params[0], context);
                     if (bitmap == null)
                         try {
                             Log.e("tuyet....server", params[0]);

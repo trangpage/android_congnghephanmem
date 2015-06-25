@@ -81,7 +81,7 @@ public class ListFriendAdapter extends ArrayAdapter<Friend> {
                 @Override
                 protected Bitmap doInBackground(String... params) {
                     MyFile myFile = null;
-                    Bitmap bitmap = getBitMapFromCache(params[0]);
+                    Bitmap bitmap = Utils.getBitMapFromCache(params[0], context);
                     if (bitmap == null)
                         try {
                             Log.e("tuyet....server", params[0]);

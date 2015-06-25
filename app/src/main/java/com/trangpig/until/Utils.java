@@ -182,9 +182,11 @@ public class Utils {
         }
         return sb.toString();
     }
-public static Bitmap getBitMapFromCache(String fileName) {
+public static Bitmap getBitMapFromCache(String fileName, Context context) {
         if (mMemoryCache != null) {
             return (Bitmap) mMemoryCache.get(fileName);
+        }else {
+            setmMemoryCache(context);
         }
         return null;
     }

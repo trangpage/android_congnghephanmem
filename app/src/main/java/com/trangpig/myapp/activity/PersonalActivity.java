@@ -103,7 +103,7 @@ public static final String ID_ACC = "idacc";
             @Override
             protected Bitmap doInBackground(String... params) {
                 MyFile myFile = null;
-                Bitmap bitmap = getBitMapFromCache(params[0]);
+                Bitmap bitmap = Utils.getBitMapFromCache(params[0], PersonalActivity.this);
                 if (bitmap == null)
                     try {
                         Log.e("tuyet....server", params[0]);
