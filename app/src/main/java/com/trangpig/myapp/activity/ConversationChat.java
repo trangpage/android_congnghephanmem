@@ -55,6 +55,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 //import com.nhuocquy.model.Message;
@@ -306,6 +308,12 @@ public class ConversationChat extends ActionBarActivity {
             protected Conversation doInBackground(Void... params) {
                 try {
                     con = restTemplate.postForObject(String.format(MyUri.CONVERSATION, MyUri.IP), (idCon != -1) ? new long[]{idCon} : idFriends, Conversation.class);
+                    Collections.sort(con.getListMes(), new Comparator<MessageChat>() {
+                        @Override
+                        public int compare(MessageChat lhs, MessageChat rhs) {
+                            return lhs.getDate().compareTo(rhs.getDate());
+                        }
+                    });
                 } catch (RestClientException e) {
                     e.printStackTrace();
                     con = null;
