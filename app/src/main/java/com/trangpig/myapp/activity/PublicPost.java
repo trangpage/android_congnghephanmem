@@ -149,19 +149,22 @@ public class PublicPost extends Activity {
         bntImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("image/*");
-                    startActivityForResult(Intent.createChooser(intent,
-                            "Select Picture"), PICK_PHOTO_FOR_POST_IMAGES);
+                if (image.size() >= 5) {
+                    Toast.makeText(PublicPost.this, PublicPost.this.getResources().getString(R.string.fail_image), Toast.LENGTH_LONG).show();
                 } else {
-                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("image/*");
-                    startActivityForResult(intent, PICK_PHOTO_FOR_POST_IMAGES);
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setType("image/*");
+                        startActivityForResult(Intent.createChooser(intent,
+                                "Select Picture"), PICK_PHOTO_FOR_POST_IMAGES);
+                    } else {
+                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.setType("image/*");
+                        startActivityForResult(intent, PICK_PHOTO_FOR_POST_IMAGES);
+                    }
                 }
             }
-
 
         });
 

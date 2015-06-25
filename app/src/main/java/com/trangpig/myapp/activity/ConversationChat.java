@@ -193,8 +193,7 @@ public class ConversationChat extends ActionBarActivity {
         listNewMes = new ArrayList<MessageChat>();
 
         newMes = new MessageChat();
-        newMes.setFromName(account.getName());
-        newMes.setIdSender(account.getIdAcc());
+        newMes.setSender(account.retrieveAccountAsFriend());
         listNewMes.add(newMes);
 
         contmp = new Conversation();

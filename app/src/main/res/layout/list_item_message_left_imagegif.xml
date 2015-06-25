@@ -17,7 +17,7 @@
         android:id="@+id/imAvatar"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:background="@drawable/left"/>
+       />
 
     <TextView
         android:id="@+id/lblMsgFrom"

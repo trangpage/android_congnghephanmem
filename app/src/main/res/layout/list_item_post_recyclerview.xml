@@ -57,11 +57,6 @@
                     android:textSize="18dp" />
             </TableRow>
 
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></TableRow>
-        <!--</TableLayout>-->
-
             <GridView
                 android:id="@+id/gridView_new_post"
                 android:layout_width="match_parent"
