@@ -29,6 +29,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -45,13 +46,14 @@ public class ListConversationAdapter extends ArrayAdapter<Conversation> {
     int size;
     LruCache mMemoryCache;
     RestTemplate restTemplate;
-
+    SimpleDateFormat f;
 
     public ListConversationAdapter(Activity context, List<Conversation> arr, int id) {
         super(context, id, arr);
         this.contex = context;
         this.arr = arr;
         this.id = id;
+        f = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         //
@@ -91,13 +93,13 @@ public class ListConversationAdapter extends ArrayAdapter<Conversation> {
             else
                 tvLastSMS.setText("...");
             if (size > 0)
-                tvDate.setText(con.getListMes().get(size).getDate().toString());
+                tvDate.setText(f.format(con.getListMes().get(size).getDate()).toString());
             else
                 tvDate.setText("...");
             if(con.isReaded()){
                 imReaded.setImageBitmap(null);
             }else{
-                imReaded.setImageResource(R.drawable.a1);
+                imReaded.setImageResource(R.drawable.message);
             }
 
             ///
@@ -119,7 +121,6 @@ public class ListConversationAdapter extends ArrayAdapter<Conversation> {
                     Bitmap bitmap = getBitMapFromCache(params[0]);
                     if (bitmap == null)
                         try {
-                            Log.e("tuyet....server", params[0]);
                             myFile = restTemplate.getForObject(String.format(MyUri.URL_DOWN_IMAGE, MyUri.IP, params[0]), MyFile.class);
                             if (myFile != null) {
                                 bitmap = Utils.decodeSampledBitmapFromResource(myFile.getData(), 450, 450);

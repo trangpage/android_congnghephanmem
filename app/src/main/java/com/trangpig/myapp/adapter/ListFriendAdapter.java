@@ -28,6 +28,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -41,6 +42,7 @@ public class ListFriendAdapter extends ArrayAdapter<Friend> {
     int cur;
     LruCache mMemoryCache;
     RestTemplate restTemplate;
+
 
     public ListFriendAdapter(Activity context, List<Friend> listFriend, int cur) {
         super(context, cur, listFriend);

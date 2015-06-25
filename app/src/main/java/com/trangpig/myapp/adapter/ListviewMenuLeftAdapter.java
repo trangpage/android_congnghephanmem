@@ -34,14 +34,6 @@ public class ListviewMenuLeftAdapter extends ArrayAdapter<String> {
         this.arr = arr;
         this.context = context;
         arrImage = new int[8];
-//        arrImage[0] = R.drawable.menu_per;
-//        arrImage[1] = R.drawable.menu_topic;
-//        arrImage[2] = R.drawable.menu_friend;
-//        arrImage[3] = R.drawable.menu_message;
-//        arrImage[4] = R.drawable.menu_add_friend;
-//        arrImage[5] = R.drawable.menu_muti_chat;
-//        arrImage[6] = R.drawable.menu_logout;
-//        arrImage[7] = R.drawable.menu_help;
         arrImage[0] = R.drawable.m_per;
         arrImage[1] = R.drawable.m_topic;
         arrImage[2] = R.drawable.m_fri;

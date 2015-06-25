@@ -21,6 +21,8 @@
     <string name="makeFriend">Đã gửi yêu cầu</string>
     <string name="confirmFriend">Chấp nhận</string>
     <string name="deleteFriend">Hủy</string>
+    <string name="xacnhan">Xác nhận kết bạn</string>
+    <string name="ketban">Bạn có thể biết</string>
     <string name="title_activity_signed_up">SignedUpActivity</string>
     <string name="title_activity_news">NewsActivity</string>
 <string name="login_unsucess">Đăng nhập không thành công</string>
@@ -30,6 +32,7 @@
     <string name="no_upload_img">Không thể load Image!</string>
     <string name="send_files_failed">Gửi file không thành công</string>
     <string name="new_message">Bạn có tin nhắn mới từ: </string>
+    <string name="hint_message"> đang nhập ... </string>
     <string name="dowload_sucess">Download thành công!</string>
     <string name="cannot_create_file">Không thể tạo file</string>
     <string name="sent_request_fail">Gửi yêu cầu thất bại</string>

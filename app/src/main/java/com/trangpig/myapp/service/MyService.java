@@ -111,7 +111,7 @@ public class MyService extends Service {
             webSocketClient.connect();
             Data.getInstance().setAttribute(WEB, webSocketClient);
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
         return Service.START_NOT_STICKY;

@@ -239,7 +239,7 @@ public class ConversationChat extends ActionBarActivity {
                         //
                         if (receiveMes.getText().contains(MES_HINT_ON)) {
 //                            txtHint.setVisibility(View.VISIBLE);
-                            txtHint.setText(receiveMes.getFromName() + " đang nhập...");
+                            txtHint.setText(receiveMes.getFromName() + getApplicationContext().getResources().getString(R.string.hint_message));
                         } else if (receiveMes.getText().contains(MES_HINT_OFF)) {
                             txtHint.setText("");
                         } else {

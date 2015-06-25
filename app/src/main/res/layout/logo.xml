@@ -17,7 +17,7 @@
             android:layout_height="247dp"
             android:id="@+id/imMes"
             android:background="@drawable/logozalo"
-            android:src="@drawable/logozalo1" />
+            android:src="@drawable/logozalo2" />
 
         <LinearLayout
             android:orientation="vertical"
