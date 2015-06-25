@@ -12,11 +12,14 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.nhuocquy.model.Account;
 
 import com.trangpig.data.Data;
 import com.trangpig.myapp.R;
+import com.trangpig.myapp.adapter.ListviewMenuLeftAdapter;
 import com.trangpig.myapp.adapter.MyPagerAdapter;
 import com.trangpig.myapp.fragment.ChatRoomFragment;
 import com.trangpig.myapp.fragment.ListAddFriendFragment;
@@ -34,6 +37,8 @@ public class MainActivity extends FragmentActivity
     private SharedPreferences sharedPreferences;
     private MyPagerAdapter myPagerAdapter;
     private List<Fragment> fragmentList;
+    private ListView mDrawerList;
+    private String[] mPlanetTitles = {"A","B","C","D"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,14 +66,13 @@ public class MainActivity extends FragmentActivity
             myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),fragmentList,this);
             viewPager.setAdapter(myPagerAdapter);
             viewPager.setCurrentItem(0);
+
+            mDrawerList = (ListView) findViewById(R.id.left_drawer);
+            mDrawerList.setAdapter(new ListviewMenuLeftAdapter(this,mPlanetTitles));
         }
 
 
     }
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
