@@ -202,14 +202,22 @@ public class ConversationChat extends ActionBarActivity {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                if (webSocketClient == null) {
+                if (webSocketClient == null || webSocketClient.isClosed() || !webSocketClient.isOpen()) {
                     webSocketClient = (WebSocketClient) Data.getInstance().getAttribute(MyService.WEB);
+                }
+                if(webSocketClient != null && (webSocketClient.isClosed() || !webSocketClient.isOpen())){
+                    startService(new Intent(ConversationChat.this, MyService.class));
                 }
                 newMes.setText(msg.obj.toString());
                 try {
                     json = MyConstant.MESSAGE_CHAT_CONVERSATION+objectMapper.writeValueAsString(contmp);
-                    webSocketClient.send(json);
-
+                    if(webSocketClient != null && webSocketClient.isOpen()) {
+                        webSocketClient.send(json);
+                        if(!newMes.getText().contains(MES_HINT_ON) && !newMes.getText().contains(MES_HINT_OFF))
+                        inputMsg.setText("");
+                    }else {
+                        Toast.makeText(ConversationChat.this, ConversationChat.this.getResources().getString(R.string.fail_server), Toast.LENGTH_SHORT).show();
+                    }
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -224,7 +232,7 @@ public class ConversationChat extends ActionBarActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 mesBroadCast = msg.obj.toString();
-                showTost("Receive Message");
+//                showTost("Receive Message");
                 try {
                     receiveMes = objectMapper.readValue(mesBroadCast, MessageChat.class);
                     if (con.getIdCon() == receiveMes.getIdConversation()) {
@@ -325,7 +333,7 @@ public class ConversationChat extends ActionBarActivity {
                 mesHandler = handlerSend.obtainMessage();
                 mesHandler.obj = inputMsg.getText().toString();
                 handlerSend.sendMessage(mesHandler);
-                inputMsg.setText("");
+
             }
         });
         btnIcon.setOnClickListener(new View.OnClickListener() {

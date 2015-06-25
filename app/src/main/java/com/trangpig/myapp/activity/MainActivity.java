@@ -90,6 +90,7 @@ public class MainActivity extends FragmentActivity
 //                        setContentView(R.layout.login);
                         intent = new Intent(MainActivity.this,Login.class);
                         startActivity(intent);
+                        finish();
                     }
                     else viewPager.setCurrentItem(position-1, true);
                     // Highlight the selected item, update the title, and close the drawer

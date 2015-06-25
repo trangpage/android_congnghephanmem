@@ -97,6 +97,7 @@ public class MyService extends Service {
                     message.obj = "Close";
                     message.what = 0;
                     handler.sendMessage(message);
+                    stopSelf();
                 }
 
                 @Override
