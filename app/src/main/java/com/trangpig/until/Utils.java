@@ -1,6 +1,11 @@
 package com.trangpig.until;
 
+import android.app.ActivityManager;import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,10 +15,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.util.LruCache;
 
+import com.nhuocquy.model.MessageChat;
 import com.nhuocquy.myfile.MyFile;
-
+import com.trangpig.data.Data;import com.trangpig.myapp.R;
+import com.trangpig.myapp.activity.ConversationChat;
+import com.trangpig.myapp.fragment.ListConversationFragment;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +32,8 @@ import java.io.InputStream;
  * Created by TrangPig on 06/04/2015.
  */
 public class Utils {
+   static LruCache mMemoryCache ;
+
     public static MyFile getMyFileFromUri(Uri uri, Context context) {
         String TAG = "nhuoc..quy....";
         MyFile myFile = new MyFile();
@@ -170,4 +182,47 @@ public class Utils {
         }
         return sb.toString();
     }
-}
+public static Bitmap getBitMapFromCache(String fileName) {
+        if (mMemoryCache != null) {
+            return (Bitmap) mMemoryCache.get(fileName);
+        }
+        return null;
+    }
+
+    public static void addBitMapToCache(String fileName, Bitmap value) {
+        if (mMemoryCache != null) {
+            mMemoryCache.put(fileName, value);
+        }
+    }
+
+    public static void setmMemoryCache(Context context){
+        //
+        if (Build.VERSION.SDK_INT >= 12) {
+            mMemoryCache = (LruCache) Data.getInstance().getAttribute(Data.IMAGE_CACHE);
+            if (mMemoryCache == null) {
+                int memClass = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
+                int cacheSize = 1024 * 1024 * memClass / 8;
+                mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
+                    protected int sizeOf(String key, Bitmap bitmap) {
+                        return bitmap.getByteCount();
+                    }
+                };
+                Data.getInstance().setAttribute(Data.IMAGE_CACHE, mMemoryCache);
+            }
+        }
+    }public static void notification(Context activity,MessageChat mes) {
+        Intent intent = new Intent(activity, ConversationChat.class);
+        intent.putExtra(ListConversationFragment.ID_CON, mes.getIdConversation());
+
+        PendingIntent pIntent = PendingIntent.getActivity(activity, 0, intent, 0);
+
+        Notification noti = new NotificationCompat.Builder(activity)
+                .setContentTitle(activity.getResources().getString(R.string.new_message) + mes.getFromName())
+                .setContentText(mes.getText())
+                .setSmallIcon(R.drawable.message)
+                .setContentIntent(pIntent).build();
+        noti.flags |= Notification.FLAG_AUTO_CANCEL;
+        NotificationManager notificationManager = (NotificationManager)activity.getSystemService(Activity.NOTIFICATION_SERVICE);
+        notificationManager.notify(0, noti);
+        Utils.playBeep(activity);
+    }}

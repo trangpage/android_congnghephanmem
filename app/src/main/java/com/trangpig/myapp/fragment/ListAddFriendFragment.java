@@ -52,7 +52,7 @@ public class ListAddFriendFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.add_friend, container,false);
 
-        editSearch = (EditText) v.findViewById(R.id.txtFr);
+//        editSearch = (EditText) v.findViewById(R.id.txtFr);
         account =(Account) Data.getInstance().getAttribute(Data.ACOUNT);
 
         listViewAddFriend =(ListView) v.findViewById(R.id.lvFr);

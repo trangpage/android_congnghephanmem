@@ -5,32 +5,38 @@
 
     <LinearLayout
         android:id="@+id/ln"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
-        <TableRow
-            android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="vertical"
-        android:id="@+id/tableRow1"
-        android:background="#007ba7"
-            >
+        <!--<TableRow-->
+            <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:orientation="vertical"-->
+        <!--android:id="@+id/tableRow1"-->
+            <!-->-->
+        <!--android:background="#ffffff"-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=" Đăng nhập"
-                android:id="@+id/textView4"
-                android:layout_gravity="center_horizontal"
-                android:paddingTop="3dp"
-                android:textAlignment="center"
-                android:textSize="25dp"
-                android:textColor="#ffffff"
-                android:paddingBottom="5dp"/>
-        </TableRow>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+                <!--android:text=" Đăng nhập"-->
+                <!--android:id="@+id/textView4"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:paddingTop="3dp"-->
+                <!--android:textAlignment="center"-->
+                <!--android:textSize="25dp"-->
+                <!--android:textColor="#ff0acb37"-->
+                <!--android:paddingBottom="5dp"-->
+                <!--android:textStyle="bold"-->
+                <!--/>-->
+            <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+                android:src="@drawable/login_1"
+            />
+        <!--</TableRow>-->
 
     </LinearLayout>
 
@@ -90,13 +96,13 @@
               <Button
             android:layout_width="312dp"
             android:layout_height="wrap_content"
-            android:text="đăng nhập"
+            android:text="Đăng nhập"
             android:id="@+id/btnDangNhapLogin"
             android:layout_gravity="center_horizontal"
             android:layout_row="1"
             android:layout_column="0"
             android:layout_marginTop="10dp"
-            android:background="#007ba7"
+            android:background="@color/actionbar"
             android:textColor="#ffffff"
             android:textSize="25dp"/>
         <TextView
@@ -110,7 +116,7 @@
             android:textSize="15dp"
             android:layout_marginTop="15dp"
             android:paddingBottom="10dp"
-            android:textColor="#1e90ff"
+            android:textColor="#ff000000"
             android:textStyle="normal"
             android:layout_gravity="center_horizontal"
             />

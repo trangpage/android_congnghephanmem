@@ -12,6 +12,7 @@ public class Data {
     //
     public static final String ACOUNT = "account";
     public static final String IMAGE_CACHE = "imageCache";
+    public static final String ID_CON = "idCon";
    public Object getAttribute(String key){
        return data.get(key);
    }
@@ -22,5 +23,8 @@ public class Data {
 
     public static Data getInstance(){
         return instance;
+    }
+    private Data(){
+        setAttribute(ID_CON, -1l);
     }
 }
