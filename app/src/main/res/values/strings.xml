@@ -42,6 +42,7 @@
     <string name="fail_pass">Mật khẩu không trùng khớp!</string>
     <string name="require_pass">Mật khẩu phải lớn hơn 8 ký tự!</string>
     <string name="fail_user">Tên tài khoản không được để trống!</string>
+    <string name="fail_image">Chỉ đăng tối đa 5 hình ảnh!</string>
 
     //bài đăng
     <string name="btn_post">Đăng</string>

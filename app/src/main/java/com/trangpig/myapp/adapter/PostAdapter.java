@@ -1,7 +1,6 @@
 package com.trangpig.myapp.adapter;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 
 import com.nhuocquy.model.Post;
 import com.nhuocquy.model.Topic;
-import com.nhuocquy.myfile.MyFile;
 import com.nhuocquy.myfile.MyStatus;
 import com.trangpig.myapp.R;
 import com.trangpig.myapp.activity.ConversationChat;
@@ -96,7 +94,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.tvLike.setText(String.valueOf(post.getClike()));
         holder.tvDisLike.setText(String.valueOf(post.getCdislike()));
         holder.gridViewImage.setNumColumns(cnt);
-        holder.v.getLayoutParams().height = post.getImages().size() == 0? 200 : 200+(post.getImages().size()/2 + (post.getImages().size()%2 > 0? 1 : 0)) *200  ;
+        holder.v.getLayoutParams().height = post.getImages().size() == 0? 250 : 400+(post.getImages().size()/2 + (post.getImages().size()%2 > 0? 1 : 0)) *400;
         holder.gridViewImage.setAdapter(postImageOfAdapter);
         holder.bntLike.setOnClickListener(null);
         holder.bntLike.setOnClickListener(new View.OnClickListener() {
