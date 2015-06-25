@@ -14,11 +14,12 @@
     android:paddingRight="10dp"
     android:paddingTop="5dp" >
 
-    <ImageView
+    <com.trangpig.until.SquareImageView
         android:id="@+id/imAvatar"
         android:layout_width="30dp"
         android:layout_height="30dp"
-      />
+        android:scaleType="centerCrop"
+        />
 
     <TextView
         android:id="@+id/lblMsgFrom"

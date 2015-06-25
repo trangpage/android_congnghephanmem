@@ -11,11 +11,12 @@
     android:paddingTop="5dp"
     android:orientation="vertical">
 
-    <ImageView
+    <com.trangpig.until.SquareImageView
         android:id="@+id/imAvatar"
         android:layout_width="30dp"
         android:layout_height="30dp"
-         />
+        android:scaleType="centerCrop"
+        />
 
     <TableRow
         android:layout_width="wrap_content"

@@ -5,10 +5,13 @@
     android:layout_height="match_parent"
    >
 
-    <ImageView
+    <com.trangpig.until.SquareImageView
+        android:id="@+id/imgAddFr"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:id="@+id/imgAddFr"/>
+        android:scaleType="centerCrop"
+        />
+
 
     <TextView
         android:id="@+id/tvAddFr"

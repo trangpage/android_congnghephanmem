@@ -38,7 +38,7 @@ public class PostImageOfAdapter extends ArrayAdapter<String> {
     RestTemplate restTemplate;
     LruCache mMemoryCache;
     public PostImageOfAdapter(Activity context, List<String> listImg) {
-        super(context, R.layout.image_post, listImg);
+        super(context, R.layout.icon_page_adapter, listImg);
         this.context = context;
         this.listImg = listImg;
 
@@ -66,10 +66,10 @@ public class PostImageOfAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater layoutInflater = context.getLayoutInflater();
-            convertView = layoutInflater.inflate(R.layout.image_post, null);
+            convertView = layoutInflater.inflate(R.layout.icon_page_adapter, null);
         }
         if (listImg.size() > 0 && position >= 0) {
-            final ImageView imageView = (ImageView) convertView.findViewById(R.id.imv_post_image);
+            final ImageView imageView = (ImageView) convertView.findViewById(R.id.imv);
 
             new AsyncTask<String, Void, Bitmap>() {
                 String fileName;

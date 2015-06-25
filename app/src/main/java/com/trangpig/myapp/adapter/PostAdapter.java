@@ -1,6 +1,7 @@
 package com.trangpig.myapp.adapter;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
@@ -8,16 +9,20 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
 import android.util.Log;
+import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nhuocquy.model.Post;
 import com.nhuocquy.model.Topic;
+import com.nhuocquy.myfile.MyFile;
+import com.nhuocquy.myfile.MyFileException;
 import com.nhuocquy.myfile.MyStatus;
 import com.trangpig.myapp.R;
 import com.trangpig.myapp.activity.ConversationChat;
@@ -48,7 +53,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     ImageSpan imageSpan;
     int cnt;
     RestTemplate restTemplate;
-
+    LruCache mMemoryCache;
     SimpleDateFormat simpleDateFormat;
 
     public PostAdapter(Activity context, Topic topic) {
@@ -93,8 +98,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         cnt = post.getImages().size() <= 2 ? post.getImages().size() : 2;
         holder.tvLike.setText(String.valueOf(post.getClike()));
         holder.tvDisLike.setText(String.valueOf(post.getCdislike()));
-        holder.gridViewImage.setNumColumns(cnt);
-        holder.v.getLayoutParams().height = post.getImages().size() == 0? 250 : 400+(post.getImages().size()/2 + (post.getImages().size()%2 > 0? 1 : 0)) *400;
+//        holder.gridViewImage.setNumColumns(cnt);
+        holder.gridViewImage.setNumColumns(4);
+        holder.v.getLayoutParams().height = post.getImages().size() == 0? 305 : 270+(post.getImages().size()/4 + (post.getImages().size()%4 > 0? 1 : 0)) *270;
         holder.gridViewImage.setAdapter(postImageOfAdapter);
         holder.bntLike.setOnClickListener(null);
         holder.bntLike.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +177,43 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 }.execute();
             }
         });
+        final PostViewHolder postViewHolder = (PostViewHolder) holder;
+            final AsyncTask<String, Void, Bitmap> asyncTaskImage = new AsyncTask<String, Void, Bitmap>() {
+                String fileName;
+                @Override
+                protected Bitmap doInBackground(String... params) {
+                    MyFile myFile = null;
+                    Bitmap bitmap = Utils.getBitMapFromCache(post.getPoster().getAvatar(), context);
+                    if (bitmap == null) {
+                        try {
+                            Log.e("tuyet....server", params[0]);
+                            myFile = restTemplate.getForObject(String.format(MyUri.URL_DOWN_IMAGE, MyUri.IP, params[0]), MyFile.class);
+                            if (myFile != null) {
+                                bitmap = Utils.decodeSampledBitmapFromResource(myFile.getData(), 450, 450);
+                                fileName = myFile.getFileName();
+                            }
+                            addBitMapToCache(fileName, bitmap);
+                        } catch (RestClientException | MyFileException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    return bitmap;
+                }
+
+                @Override
+                protected void onPostExecute(final Bitmap myFile) {
+                    super.onPostExecute(myFile);
+                    if (myFile != null) {
+                        postViewHolder.imgAvata.setImageBitmap(myFile);
+                    } else {
+                        postViewHolder.imgAvata.setImageResource(R.drawable.left);
+                        Toast.makeText(context, context.getResources().getString(R.string.no_upload_img), Toast.LENGTH_LONG).show();
+                    }
+
+                }
+            }.execute(post.getPoster().getAvatar());
+
+
 
     }
 
@@ -181,6 +224,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
         View v;
+        ImageView imgAvata;
         TextView postName;
         TextView postDate;
         TextView topic;
@@ -191,6 +235,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         public PostViewHolder(View itemView) {
             super(itemView);
             v = itemView;
+            imgAvata = (ImageView) itemView.findViewById(R.id.imAvatar);
             postName = (TextView) itemView.findViewById(R.id.tv_new_port_user);
             postDate = (TextView) itemView.findViewById(R.id.tv_new_port_date);
             topic = (TextView) itemView.findViewById(R.id.tv_new_port_text);
@@ -203,5 +248,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         }
     }
 
-
+    private void addBitMapToCache(String fileName, Bitmap value) {
+        if (mMemoryCache != null) {
+            mMemoryCache.put(fileName, value);
+        }
+    }
 }

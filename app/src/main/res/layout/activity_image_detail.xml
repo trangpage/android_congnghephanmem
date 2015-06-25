@@ -17,6 +17,7 @@
 
     <ImageButton
         android:id="@+id/imgbt_trai"
+        android:background="@color/white"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
@@ -26,6 +27,7 @@
         android:src="@drawable/rotate_left" />
 
     <ImageButton
+        android:background="@color/white"
         android:id="@+id/imgbt_phai"
         android:layout_width="60dp"
         android:layout_height="60dp"
