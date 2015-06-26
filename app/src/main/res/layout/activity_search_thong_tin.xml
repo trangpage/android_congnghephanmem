@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="5"
-            android:text="Tìm kiếm thông tin"
+            android:text="Tra cứu thông tin điểm thi"
             android:textColor="#800000"
             android:textSize="20dp" />
 
