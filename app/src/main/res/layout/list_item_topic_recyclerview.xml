@@ -27,14 +27,14 @@
                     android:layout_weight="5"
                     />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tv_new_topic_date"
-                    android:textSize="20dp"
-                    android:text="07:00"
-                    android:layout_weight="1"
-                    />
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/tv_new_topic_date"-->
+                    <!--android:textSize="20dp"-->
+                    <!--android:text="07:00"-->
+                    <!--android:layout_weight="1"-->
+                    <!--/>-->
             </TableRow>
             <TableRow
                 android:layout_width="wrap_content"

@@ -43,7 +43,7 @@ public class ListTopicAdapter extends RecyclerView.Adapter<ListTopicAdapter.Topi
         topic = topicList.get(position);
         holder.idTopic = topic.getIdTopic();
         holder.postName.setText(topic.getTitle());
-        holder.postDate.setText("#"+position);
+//        holder.postDate.setText("#"+position);
 
         holder.topic.setText("");
         holder.v.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +64,7 @@ public class ListTopicAdapter extends RecyclerView.Adapter<ListTopicAdapter.Topi
 
     public class TopicViewHolder extends RecyclerView.ViewHolder{
         TextView postName;
-        TextView postDate;
+//        TextView postDate;
         TextView topic;
         View v;
         Long idTopic;
@@ -73,7 +73,7 @@ public class ListTopicAdapter extends RecyclerView.Adapter<ListTopicAdapter.Topi
             super(itemView);
             this.v = itemView;
             postName = (TextView)itemView.findViewById(R.id.tv_new_topic_user);
-            postDate = (TextView)itemView.findViewById(R.id.tv_new_topic_date);
+//            postDate = (TextView)itemView.findViewById(R.id.tv_new_topic_date);
             topic = (TextView)itemView.findViewById(R.id.tv_new_topic_text);
         }
     }

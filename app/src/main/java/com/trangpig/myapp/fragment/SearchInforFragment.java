@@ -13,6 +13,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.nhuocquy.model.Student;
 import com.trangpig.myapp.R;
@@ -35,6 +37,8 @@ public class SearchInforFragment extends Fragment{
     EditText editSearch;
     Button bntSearch;
     ListView lvDSSV;
+    TextView searchError;
+    TableRow tableRow;
     CheckRecordAdapter checkRecordAdapter;
     List<Student> students;
     RestTemplate restTemplate;
@@ -45,6 +49,8 @@ public class SearchInforFragment extends Fragment{
         editSearch = (EditText) v.findViewById(R.id.editSearch);
         bntSearch = (Button) v.findViewById(R.id.bntSearch);
         lvDSSV = (ListView) v.findViewById(R.id.lvDSSV);
+        tableRow = (TableRow) v.findViewById(R.id.title_student);
+        searchError = (TextView) v.findViewById(R.id.tv_search_error);
         students = new ArrayList<>();
 
         restTemplate = new RestTemplate();
@@ -76,15 +82,19 @@ public class SearchInforFragment extends Fragment{
 
                     @Override
                     protected void onPostExecute(Void aVoid) {
-                        if (list == null) {
+                        if (list == null || list.length==0) {
+                            searchError.setText(getResources().getString(R.string.search_error));
+                            tableRow.setVisibility(View.INVISIBLE);
 
                         } else {
-                            students = Arrays.asList(list);
-                            checkRecordAdapter = new CheckRecordAdapter(getActivity(), students);
-                            lvDSSV.setAdapter(checkRecordAdapter);
-                            checkRecordAdapter.notifyDataSetChanged();
-                            ringProgressDialog.dismiss();
+                            searchError.setText("");
+                            tableRow.setVisibility(View.VISIBLE);
                         }
+                        students = Arrays.asList(list);
+                        checkRecordAdapter = new CheckRecordAdapter(getActivity(), students);
+                        lvDSSV.setAdapter(checkRecordAdapter);
+                        checkRecordAdapter.notifyDataSetChanged();
+                        ringProgressDialog.dismiss();
                     }
                 }.execute(editSearch.getText().toString());
             }
