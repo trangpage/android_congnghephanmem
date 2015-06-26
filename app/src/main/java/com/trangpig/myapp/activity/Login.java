@@ -51,6 +51,7 @@ public class Login extends Activity {
                             Intent intent = new Intent(Login.this, MainActivity.class);
                             startService(new Intent(Login.this, MyService.class));
                             startActivity(intent);
+                            finish();
                         } else {
                             Toast.makeText(Login.this, Login.this.getResources().getString(R.string.login_unsucess), Toast.LENGTH_LONG).show();
                         }
@@ -96,5 +97,12 @@ public class Login extends Activity {
                 }).start();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, Logo.class);
+        startActivity(intent);
+        finish();
     }
 }

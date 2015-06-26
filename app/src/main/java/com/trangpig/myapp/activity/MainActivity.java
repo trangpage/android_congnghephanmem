@@ -59,6 +59,7 @@ public class MainActivity extends FragmentActivity
             }else{
                 Intent intent = new Intent(this, Logo.class);
                 startActivity(intent);
+                finish();
             }
         }else{
             //chuan bi cho fragment

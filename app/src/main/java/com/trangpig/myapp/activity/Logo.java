@@ -43,6 +43,7 @@ public class Logo extends Activity {
                 intent = new Intent(Logo.this,
                         Login.class);
                 startActivity(intent);
+                finish();
             }
         });
 
