@@ -76,4 +76,6 @@
     </string-array>
     <string name="title_activity_group_chat">GroupChatActivity</string>
     <string name="title_activity_public_post">PublicPost</string>
-    <string name="title_activity_port">PortActivity</string></resources>
+    <string name="title_activity_port">PortActivity</string>
+    <string name="title_activity_main_activity2">MainActivity2Activity</string>
+    <string name="title_activity_display_information">DisplayInformationActivity</string></resources>

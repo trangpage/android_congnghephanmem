@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<TableLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TableRow>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SBD"
+        android:id="@+id/tvSBD"
+        android:layout_marginRight="20dp"
+        android:textSize="18dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tên thí sinh"
+        android:id="@+id/tvTenTS"
+        android:layout_marginRight="20dp"
+        android:textSize="18dp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ngày sinh"
+        android:id="@+id/tvNgaySinh"
+        android:layout_marginRight="20dp"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nơi sinh"
+        android:id="@+id/tvNoiSinh"
+        android:textSize="18dp"/>
+    </TableRow>
+</TableLayout>
+</LinearLayout>

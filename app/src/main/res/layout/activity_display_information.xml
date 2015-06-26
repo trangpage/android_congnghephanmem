@@ -1,0 +1,173 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.trangpig.myapp.activity.DisplayInformationActivity">
+<TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/tableLayout"
+    android:weightSum="2"
+    >
+    <TableRow
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Họ và tên: "
+            android:id="@+id/tvHoTen"
+            android:background="@drawable/border"
+            android:layout_weight="0"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvTen"
+            android:text="Nguyến Văn An"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/border"
+            android:layout_weight="2"
+
+            />
+    </TableRow>
+        <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ngày sinh: "
+            android:id="@+id/tvBirthdate"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/border"
+            android:layout_weight="0"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="28/02/2012"
+            android:id="@+id/tvNgayHienThi"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/border"
+            android:layout_weight="2"
+            />
+        </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giới tính: "
+            android:id="@+id/tvSex"
+            android:background="@drawable/border"
+            android:layout_weight="0"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3D"
+            android:id="@+id/tvHTSex"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/border"
+            android:layout_weight="2"
+            />
+    </TableRow>
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Số báo danh: "
+            android:id="@+id/tvSBD"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/border"
+            android:layout_weight="0"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1234565"
+            android:id="@+id/tvHTSBD"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/border"
+            android:layout_weight="2"
+            />
+</TableRow>
+    <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nơi sinh: "
+            android:id="@+id/tvNS"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/border"
+            android:layout_weight="0"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lagi-Bình Thuận"
+            android:id="@+id/tvHTNS"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/border"
+            android:layout_weight="2"
+            />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên trường: "
+            android:id="@+id/tvscholl"
+            android:background="@drawable/border"
+            android:layout_weight="0"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phổ thông LTTT"
+            android:id="@+id/tvHTTrg"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/border"
+            android:layout_weight="2"
+
+            />
+         </TableRow>
+        <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mã trường: "
+            android:id="@+id/tvMatrg"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/border"
+            android:layout_weight="0"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NS0123"
+            android:id="@+id/tvHTMaTrgDk"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/border"
+            android:layout_weight="2"
+
+            />
+    </TableRow>
+
+
+</TableLayout>
+
+
+
+</RelativeLayout>

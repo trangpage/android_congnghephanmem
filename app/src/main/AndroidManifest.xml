@@ -115,11 +115,21 @@
         <receiver
             android:name=".broadcast.BroadcastMessage"
             android:enabled="true"
-            android:exported="true" >'
+            android:exported="true" >
+'
             <intent-filter>
                 <action android:name="com.trangpig.message.notify" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".activity.CheckRecordActivity"
+            android:label="@string/title_activity_main_activity2" >
+        </activity>
+        <activity
+            android:name=".activity.DisplayInformationActivity"
+            android:label="@string/title_activity_display_information" >
+        </activity>
     </application>
 
 </manifest>
