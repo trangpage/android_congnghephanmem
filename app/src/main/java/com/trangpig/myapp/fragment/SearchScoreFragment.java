@@ -99,10 +99,10 @@ public class SearchScoreFragment extends Fragment {
                             textViewSuccess.setText(getResources().getString(R.string.search_success));
                             tableRow.setVisibility(View.VISIBLE);
 
+                        }
                         studentList = Arrays.asList(list);
                         searchStudentAdapter = new StudentsForScoreAdapter(getActivity(), studentList);
                         listViewSearch.setAdapter(searchStudentAdapter);
-                        }
                         ringProgressDialog.dismiss();
                     }
                 }.execute( editSearch.getText().toString());
