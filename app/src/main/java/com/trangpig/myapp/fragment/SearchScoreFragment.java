@@ -63,6 +63,7 @@ public class SearchScoreFragment extends Fragment {
         textViewError = (TextView) v.findViewById(R.id.tv_search_error);
         textViewSuccess = (TextView) v.findViewById(R.id.tv_search_success);
         tableRow = (TableRow) v.findViewById(R.id.title_student);
+        tableRow.setVisibility(View.INVISIBLE);
         bntSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,18 +90,20 @@ public class SearchScoreFragment extends Fragment {
 
                     @Override
                     protected void onPostExecute(Void aVoid) {
-                        if (list == null) {
+                        if (list.length == 0) {
                             textViewError.setText(getResources().getString(R.string.search_error));
+                            textViewSuccess.setText("");
                             tableRow.setVisibility(View.INVISIBLE);
                         }else{
+                            textViewError.setText("");
                             textViewSuccess.setText(getResources().getString(R.string.search_success));
                             tableRow.setVisibility(View.VISIBLE);
 
                         studentList = Arrays.asList(list);
                         searchStudentAdapter = new StudentsForScoreAdapter(getActivity(), studentList);
                         listViewSearch.setAdapter(searchStudentAdapter);
-                        ringProgressDialog.dismiss();
                         }
+                        ringProgressDialog.dismiss();
                     }
                 }.execute( editSearch.getText().toString());
             }
