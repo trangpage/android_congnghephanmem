@@ -123,13 +123,16 @@
         </receiver>
 
         <activity
-            android:name=".activity.CheckRecordActivity"
-            android:label="@string/title_activity_main_activity2" >
+            android:name=".activity.ShowScoreActivity"
+            android:label="@string/title_activity_tra_cuu_thong_tin" >
         </activity>
+
         <activity
+            android:name=".activity.LockUpActivity"
+            android:label="@string/title_activity_lock_up" >
+        </activity> <activity
             android:name=".activity.DisplayInformationActivity"
             android:label="@string/title_activity_display_information" >
-        </activity>
-    </application>
+        </activity>    </application>
 
 </manifest>

@@ -1,0 +1,162 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.trangpig.myapp.activity.ShowScoreActivity">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TableRow>
+            <TextView
+                android:id="@+id/tv_ttts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="5"
+                android:text="Thông tin tuyển sinh"
+                android:textColor="#800000"
+                android:textSize="20dp" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/tv_ttts5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="SBD" />
+        </TableRow>
+        <TableRow
+            android:background="@drawable/border">
+            <TextView
+                android:id="@+id/tv_tra_cuu_sbd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="123456" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/tv_ttts1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="Họ tên" />
+        </TableRow>
+        <TableRow
+            android:background="@drawable/border">
+            <TextView
+                android:id="@+id/tv_tra_cuu_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="Nguyen Van A" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/tv_ttts3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="Năm sinh" />
+        </TableRow>
+        <TableRow
+            android:background="@drawable/border">
+            <TextView
+                android:id="@+id/tv_tra_cuu_nam_sinh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="1/1/1991" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/tv_ttts31"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="Nơi sinh" />
+        </TableRow>
+        <TableRow
+            android:background="@drawable/border">
+            <TextView
+                android:id="@+id/tv_tra_cuu_noi_sinh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="Hà Nội" />
+        </TableRow>
+
+        <TableRow
+                >
+            <TextView
+                android:id="@+id/tv_ttts7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="Mã ngành" />
+        </TableRow>
+            <TableRow
+                android:background="@drawable/border">
+                <TextView
+                    android:id="@+id/tv_tra_cuu_ma_nganh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:text="DH1234KT" />
+            </TableRow>
+            <TableRow
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Danh sách diểm"
+                    android:id="@+id/tv_i"
+                    android:textSize="18dp"
+                    android:textColor="#008000"
+                    />
+            </TableRow>
+        <TableRow
+            android:layout_weight="1" >
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lv_score"
+                android:choiceMode="singleChoice" />
+        </TableRow>
+        <TableRow
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tổng diểm"
+                android:id="@+id/tv_1"
+                android:textSize="18dp"
+                android:textColor="#008000"
+                />
+        </TableRow>
+        <TableRow
+            android:background="@drawable/border">
+            <TextView
+                android:id="@+id/tv_tra_cuu_tong_diem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="12345" />
+        </TableRow>
+        <TableRow
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chúc mừng bạn đã trúng tuyển"
+                android:id="@+id/tv_thong_bao"
+                android:textSize="18dp"
+                android:textStyle="italic"
+                android:textColor="#ff0000"
+                />
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

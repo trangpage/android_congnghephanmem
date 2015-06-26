@@ -1,0 +1,112 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.trangpig.myapp.fragment.SearchScoreFragment">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    <TableRow>
+        <TextView
+            android:id="@+id/tv_search_tt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="5"
+            android:text="Tìm kiếm thông tin"
+            android:textColor="#800000"
+            android:textSize="20dp" />
+
+    </TableRow>
+    <TableRow>
+        <EditText
+    android:id="@+id/edit_search"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:hint="Nhập tên hoặc SBD"
+    android:inputType="textPersonName" />
+</TableRow>
+        <TableRow
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="         Search         "
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/bnt_search"
+            android:background="@color/actionbar"
+            android:textColor="#ffffff"
+            android:textSize="20dp" />
+    </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/tv_search_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textStyle="italic"
+                android:textColor="#ff0000"
+                 />
+        </TableRow>
+        <TableRow
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_search_success"
+            android:textSize="20dp"
+            android:textColor="#008000"
+            />
+    </TableRow>
+        <TableRow
+            android:id="@+id/title_student"
+            android:background="@drawable/postborder"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="5dp">
+            <LinearLayout>
+            <TextView
+                android:id="@+id/tv_ttts6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="SBD"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:id="@+id/tv_ttts2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="Tên"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/tv_ttts4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="Năm sinh"
+                android:layout_weight="0.5"/>
+
+            <TextView
+                android:id="@+id/tv_ttts41"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="Nơi sinh"
+                android:layout_weight="0.2"/>
+            </LinearLayout>
+        </TableRow>
+        <TableRow
+            android:layout_weight="1" >
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lv_student"
+                android:choiceMode="singleChoice" />
+        </TableRow>
+    </TableLayout>
+</RelativeLayout>

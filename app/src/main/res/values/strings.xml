@@ -27,6 +27,8 @@
     <string name="title_activity_news">NewsActivity</string>
 <string name="login_unsucess">Đăng nhập không thành công</string>
     <string name="login_error">Không thể kết nối tới máy chủ!</string>
+    <string name="search_error">"không tìm thấy thông tin"</string>
+    <string name="search_success">"Danh sách thông tin"</string>
     <string name="wait">Xin chờ ...</string>
     <string name="conecting">Đang kết nối ...</string>
     <string name="no_upload_img">Không thể load Image!</string>
@@ -50,6 +52,7 @@
 
     //bài đăng
     <string name="btn_post">Đăng</string>
+    <string name="tra_cuu"><u>Tra cứu hồ sơ tuyển sinh</u></string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -76,6 +79,5 @@
     </string-array>
     <string name="title_activity_group_chat">GroupChatActivity</string>
     <string name="title_activity_public_post">PublicPost</string>
-    <string name="title_activity_port">PortActivity</string>
-    <string name="title_activity_main_activity2">MainActivity2Activity</string>
-    <string name="title_activity_display_information">DisplayInformationActivity</string></resources>
+hong_tin">TraCuuThongTin</string>
+    <string name="title_activity_search_thon    <string name="title_activity_display_information">DisplayInformationActivity</string></resources>

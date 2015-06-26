@@ -5,7 +5,7 @@ package com.trangpig.until;
  */
 public class MyUri {
 
-    public static String IP = "192.168.117.154";
+    public static String IP = "192.168.117.191";
     public static final String URL_WEBSOCKET = "ws://%s:8080/tuyensinhchat/chat?id=%s";
     public static final String LOGIN = "http://%s:8080/tuyensinh/login?username=%s&password=%s";
     public static final String CONVERSATION = "http://%s:8080/tuyensinh/getconversation";
@@ -23,6 +23,8 @@ public class MyUri {
     public static final String URL_CREATE_TOPIC = "http://%s:8080/tuyensinh/createtopic";
     public static final String URL_SIGN_UP = "http://%s:8080/tuyensinh/signup";
     public static final String URL_UPDATE_LIKE = "http://%s:8080/tuyensinh/updatelike";
+    public static final String URL_FIND_STUDENT = "http://%s:8080/tuyensinh/findstudent?value=%s";
+    public static final String URL_FIND_STUDENT_BY_SBD = "http://%s:8080/tuyensinh/findbysbd?sbd=%s";
 
 
 }
