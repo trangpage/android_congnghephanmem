@@ -116,8 +116,9 @@ public class ChatRoomActivity extends Activity {
 
         setTitle(rooms[getIntent().getIntExtra(ROOM_ID, 0)]);
         newMes = new MessageChat();
-        newMes.setIdSender(account.getIdAcc());
-        newMes.setFromName(account.getName());
+        newMes.setSender(account.retrieveAccountAsFriend());
+//        newMes.setIdSender(account.getIdAcc());
+//        newMes.setFromName(account.getName());
         newMes.setIdConversation(-1);
 
         //broadcastReceiver
