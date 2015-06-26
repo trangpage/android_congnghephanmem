@@ -115,11 +115,22 @@
         <receiver
             android:name=".broadcast.BroadcastMessage"
             android:enabled="true"
-            android:exported="true" >'
+            android:exported="true" >
+'
             <intent-filter>
                 <action android:name="com.trangpig.message.notify" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".activity.ShowScoreActivity"
+            android:label="@string/title_activity_tra_cuu_thong_tin" >
+        </activity>
+
+        <activity
+            android:name=".activity.LockUpActivity"
+            android:label="@string/title_activity_lock_up" >
+        </activity>
     </application>
 
 </manifest>
