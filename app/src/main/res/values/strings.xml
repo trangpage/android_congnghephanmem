@@ -12,7 +12,7 @@
     <string name="btn_join">JOIN</string>
     <string name="btn_send">Send</string>
     <string name="title_activity_list_conversation">ListConversation</string>
-     <string name="account">account</string>
+    <string name="account">account</string>
     <string name="accountid">accountid</string>
     <string name="accountXML">account.xml</string>
     <string name="title_activity_image_detail">ImageDetailActivity</string>
@@ -25,7 +25,7 @@
     <string name="ketban">Bạn có thể biết</string>
     <string name="title_activity_signed_up">SignedUpActivity</string>
     <string name="title_activity_news">NewsActivity</string>
-<string name="login_unsucess">Đăng nhập không thành công</string>
+    <string name="login_unsucess">Đăng nhập không thành công</string>
     <string name="login_error">Không thể kết nối tới máy chủ!</string>
     <string name="search_error">"không tìm thấy thông tin"</string>
     <string name="search_success">"Danh sách thông tin"</string>
@@ -77,7 +77,11 @@
         <item>Đăng xuất</item>
         <item>Help</item>
     </string-array>
-    <string name="title_activity_group_chat">GroupChatActivity</string>
-    <string name="title_activity_public_post">PublicPost</string>
-hong_tin">TraCuuThongTin</string>
-    <string name="title_activity_search_thon    <string name="title_activity_display_information">DisplayInformationActivity</string></resources>
+    <string name="title_activity_group_chat">Chát nhóm</string>
+    <string name="title_activity_lock_up">Tra cứu</string>
+    <string name="title_activity_port">Danh sách bài đăng</string>
+    <string name="title_activity_public_post">Đăng bài</string>
+    <string name="title_activity_search_thong_tin">Tra cứu thông tin</string>
+    <string name="title_activity_tra_cuu_thong_tin">Thông tin thí sinh</string>
+    <string name="title_activity_display_information">Hiển thị thông tin</string>
+</resources>

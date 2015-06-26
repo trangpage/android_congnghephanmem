@@ -5,8 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
+import com.romainpiel.shimmer.Shimmer;
+import com.romainpiel.shimmer.ShimmerTextView;
 import com.trangpig.myapp.R;
 
 /**
@@ -16,7 +17,8 @@ public class Logo extends Activity {
 
     Button btnDangNhap, btnDangKy ;
     Intent intent;
-    TextView textViewLinkSearch;
+    ShimmerTextView textViewLinkSearch;
+    Shimmer shimmer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +27,16 @@ public class Logo extends Activity {
 
         btnDangNhap = (Button) findViewById(R.id.btnDangNhap);
         btnDangKy = (Button) findViewById(R.id.btnDangKy);
-        textViewLinkSearch = (TextView) findViewById(R.id.tv_search);
+        textViewLinkSearch = (ShimmerTextView) findViewById(R.id.tv_search);
+//        shimmer = new Shimmer();
+//        shimmer.setRepeatCount(0)
+//                .setDuration(500)
+//                .setStartDelay(300)
+//                .setDirection(Shimmer.ANIMATION_DIRECTION_RTL)
+//                .setAnimatorListener(new Animator.AnimatorListener(){});
 
+
+    toggleAnimation();
         btnDangNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,5 +62,13 @@ public class Logo extends Activity {
             }
         });
 
+    }
+    public void toggleAnimation() {
+        if (shimmer != null && shimmer.isAnimating()) {
+            shimmer.cancel();
+        } else {
+            shimmer = new Shimmer();
+            shimmer.start(textViewLinkSearch);
+        }
     }
 }

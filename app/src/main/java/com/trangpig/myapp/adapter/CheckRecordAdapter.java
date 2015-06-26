@@ -28,8 +28,7 @@ public class CheckRecordAdapter extends ArrayAdapter<Student>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null)
-            convertView = context.getLayoutInflater().inflate(R.layout.check_record_adapter, parent);
-
+            convertView = context.getLayoutInflater().inflate(R.layout.check_record_adapter, null);
         TextView sBD, name, birthday, birthAdress;
         if (students.size() > 0 && position >= 0) {
         sBD = (TextView) convertView.findViewById(R.id.tvSBD);
@@ -37,6 +36,7 @@ public class CheckRecordAdapter extends ArrayAdapter<Student>{
         name = (TextView) convertView.findViewById(R.id.tvTenTS);
             name.setText(students.get(position).getName());
         birthday = (TextView) convertView.findViewById(R.id.tvNgaySinh);
+        birthday.setText(simpleDateFormat.format(students.get(position).getBirthday()));
 
             birthAdress = (TextView) convertView.findViewById(R.id.tvNoiSinh);
             birthAdress.setText(students.get(position).getAddress());

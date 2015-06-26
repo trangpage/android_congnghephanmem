@@ -1,13 +1,13 @@
 package com.trangpig.myapp.activity;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.trangpig.myapp.R;
 
-public class DisplayInformationActivity extends ActionBarActivity {
+public class DisplayInformationActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

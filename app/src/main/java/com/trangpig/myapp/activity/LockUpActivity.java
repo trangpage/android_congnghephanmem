@@ -1,18 +1,16 @@
 package com.trangpig.myapp.activity;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.trangpig.myapp.R;
 import com.trangpig.myapp.adapter.LockUpAdapter;
-import com.trangpig.myapp.fragment.ListFriendFragment;
+import com.trangpig.myapp.fragment.SearchInforFragment;
 import com.trangpig.myapp.fragment.SearchScoreFragment;
-import com.trangpig.myapp.fragment.TopicFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +26,7 @@ public class LockUpActivity extends FragmentActivity {
         setContentView(R.layout.activity_lock_up);
         fragmentList = new ArrayList<>();
         fragmentList.add(new SearchScoreFragment());
+        fragmentList.add(new SearchInforFragment());
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager_lock_up);
         lockUpAdapter = new LockUpAdapter(getSupportFragmentManager(),fragmentList,this);
