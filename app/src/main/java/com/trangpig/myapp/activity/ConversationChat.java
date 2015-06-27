@@ -332,6 +332,9 @@ public class ConversationChat extends ActionBarActivity {
                     contmp.setFriends(con.getFriends());
                     Data.getInstance().setAttribute(Data.ID_CON, con.getIdCon());
                     setTitle(con.selectNames());
+                    // neu list Conversation chưa có chưa conversation này thì thêm vào
+                    if(!account.getConversations().contains(con))
+                        account.getConversations().add(con);
                 }
             }
         }.execute();

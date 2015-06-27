@@ -59,7 +59,6 @@ public class MyService extends Service {
                             intentBroadcast.putExtra(REGISTRY_ROOM, mes);
                         }
                         if (mes.contains(MyConstant.MESSAGE_CHAT_ROOM)) {
-                            showTost(mes);
                             intentBroadcast.setAction(ACTION_ROOM_CHAT);
                             intentBroadcast.putExtra(MES, mes.substring(mes.indexOf(':') + 1));
                         }
