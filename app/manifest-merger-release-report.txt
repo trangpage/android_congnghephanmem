@@ -16,9 +16,11 @@ ADDED from AndroidManifest.xml:2:1
 uses-sdk
 ADDED from AndroidManifest.xml:19:5
 MERGED from com.android.support:appcompat-v7:21.0.3:15:5
-MERGED from com.android.support:support-v4:21.0.3:15:5
+MERGED from com.android.support:support-v4:22.1.1:20:5
 MERGED from com.android.support:recyclerview-v7:21.0.3:15:5
-MERGED from com.android.support:support-v4:21.0.3:15:5
+MERGED from com.android.support:support-v4:22.1.1:20:5
+MERGED from com.android.support:support-v4:22.1.1:20:5
+MERGED from com.romainpiel.shimmer:library:1.4.0:7:5
 	android:targetSdkVersion
 		ADDED from AndroidManifest.xml:21:9
 		INJECTED from AndroidManifest.xml:0:0
@@ -46,9 +48,11 @@ ADDED from AndroidManifest.xml:26:5
 application
 ADDED from AndroidManifest.xml:28:5
 MERGED from com.android.support:appcompat-v7:21.0.3:16:5
-MERGED from com.android.support:support-v4:21.0.3:16:5
+MERGED from com.android.support:support-v4:22.1.1:22:5
 MERGED from com.android.support:recyclerview-v7:21.0.3:17:5
-MERGED from com.android.support:support-v4:21.0.3:16:5
+MERGED from com.android.support:support-v4:22.1.1:22:5
+MERGED from com.android.support:support-v4:22.1.1:22:5
+MERGED from com.romainpiel.shimmer:library:1.4.0:11:5
 	android:label
 		ADDED from AndroidManifest.xml:31:9
 	android:allowBackup
@@ -125,7 +129,7 @@ ADDED from AndroidManifest.xml:84:9
 		ADDED from AndroidManifest.xml:86:13
 	android:name
 		ADDED from AndroidManifest.xml:85:13
-activity#com.trangpig.myapp.activity.NewsActivity
+activity#com.trangpig.myapp.activity.TopicActivity
 ADDED from AndroidManifest.xml:88:9
 	android:label
 		ADDED from AndroidManifest.xml:90:13
@@ -151,6 +155,50 @@ ADDED from AndroidManifest.xml:102:9
 		ADDED from AndroidManifest.xml:104:13
 	android:name
 		ADDED from AndroidManifest.xml:103:13
+activity#com.trangpig.myapp.activity.PublicPost
+ADDED from AndroidManifest.xml:106:9
+	android:label
+		ADDED from AndroidManifest.xml:108:13
+	android:name
+		ADDED from AndroidManifest.xml:107:13
+activity#com.trangpig.myapp.activity.PostActivity
+ADDED from AndroidManifest.xml:110:9
+	android:label
+		ADDED from AndroidManifest.xml:112:13
+	android:name
+		ADDED from AndroidManifest.xml:111:13
+receiver#com.trangpig.myapp.broadcast.BroadcastMessage
+ADDED from AndroidManifest.xml:115:9
+	android:exported
+		ADDED from AndroidManifest.xml:118:13
+	android:enabled
+		ADDED from AndroidManifest.xml:117:13
+	android:name
+		ADDED from AndroidManifest.xml:116:13
+intent-filter#com.trangpig.message.notify
+ADDED from AndroidManifest.xml:120:13
+action#com.trangpig.message.notify
+ADDED from AndroidManifest.xml:121:17
+	android:name
+		ADDED from AndroidManifest.xml:121:25
+activity#com.trangpig.myapp.activity.ShowScoreActivity
+ADDED from AndroidManifest.xml:125:9
+	android:label
+		ADDED from AndroidManifest.xml:127:13
+	android:name
+		ADDED from AndroidManifest.xml:126:13
+activity#com.trangpig.myapp.activity.LockUpActivity
+ADDED from AndroidManifest.xml:130:9
+	android:label
+		ADDED from AndroidManifest.xml:132:13
+	android:name
+		ADDED from AndroidManifest.xml:131:13
+activity#com.trangpig.myapp.activity.DisplayInformationActivity
+ADDED from AndroidManifest.xml:133:21
+	android:label
+		ADDED from AndroidManifest.xml:135:13
+	android:name
+		ADDED from AndroidManifest.xml:134:13
 activity#android.support.v7.widget.TestActivity
 ADDED from com.android.support:recyclerview-v7:21.0.3:18:9
 	android:label
