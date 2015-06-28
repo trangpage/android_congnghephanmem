@@ -9,28 +9,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
-        <!--<TableRow-->
-            <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:orientation="vertical"-->
-        <!--android:id="@+id/tableRow1"-->
-            <!-->-->
-        <!--android:background="#ffffff"-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                <!--android:text=" Đăng nhập"-->
-                <!--android:id="@+id/textView4"-->
-                <!--android:layout_gravity="center_horizontal"-->
-                <!--android:paddingTop="3dp"-->
-                <!--android:textAlignment="center"-->
-                <!--android:textSize="25dp"-->
-                <!--android:textColor="#ff0acb37"-->
-                <!--android:paddingBottom="5dp"-->
-                <!--android:textStyle="bold"-->
-                <!--/>-->
             <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,19 +25,13 @@
         android:layout_gravity="center_horizontal"
         android:id="@+id/login"
        >
-
-        <EditText
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tv_name_sign"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/edtIp"
-            android:layout_gravity="center_horizontal"
-            android:textSize="25dp"
-            android:layout_marginTop="15dp"
-            android:paddingBottom="10dp"
-            android:text="192.168.137.1"
-            android:visibility="invisible"
-            />
-
+            android:layout_marginTop="30dp"
+            android:textSize="20dp"
+            android:text="Tên đăng nhập: " />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,19 +39,25 @@
             android:ems="10"
             android:id="@+id/edtSdt"
             android:layout_gravity="center_horizontal"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:layout_marginTop="15dp"
             android:paddingBottom="10dp"
-            android:text="nhuocquy" />
-
+            android:hint="Tên đăng nhập" />
+        <TextView
+            android:id="@+id/tv_name_pass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Mật khẩu: " />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edtPass"
             android:layout_gravity="center_horizontal"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:layout_marginTop="15dp"
-            android:text="nhuocquy"
+            android:hint="********"
+            android:inputType="textPassword"
             android:paddingBottom="10dp" />
 
     </LinearLayout>
@@ -90,7 +68,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
-              <Button
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lưu đăng nhập"
+            android:id="@+id/checkbox_ldn"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
             android:layout_width="312dp"
             android:layout_height="wrap_content"
             android:text="Đăng nhập"
