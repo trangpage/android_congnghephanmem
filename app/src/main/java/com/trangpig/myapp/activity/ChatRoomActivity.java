@@ -138,18 +138,19 @@ public class ChatRoomActivity extends Activity {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                if (webSocketClient == null) {
+                if (webSocketClient == null || webSocketClient.isClosed() || !webSocketClient.isOpen()) {
                     webSocketClient = (WebSocketClient) Data.getInstance().getAttribute(MyService.WEB);
                 }
-                if (webSocketClient == null || webSocketClient.isClosed()) {
-                    Toast.makeText(ChatRoomActivity.this, getResources().getString(R.string.login_error), Toast.LENGTH_LONG).show();
-                    ChatRoomActivity.this.finish();
-                    return;
+                if(webSocketClient != null && (webSocketClient.isClosed() || !webSocketClient.isOpen())){
+                    startService(new Intent(ChatRoomActivity.this, MyService.class));
                 }
                 newMes.setText(msg.obj.toString());
                 try {
                     json = headerMes + objectMapper.writeValueAsString(newMes);
-                    webSocketClient.send(json);
+                    if(webSocketClient != null && webSocketClient.isOpen()) {
+                        webSocketClient.send(json);
+                        inputMsg.setText("");
+                    }
 
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
@@ -229,7 +230,6 @@ public class ChatRoomActivity extends Activity {
                 mesHandler = handlerSend.obtainMessage();
                 mesHandler.obj = inputMsg.getText().toString();
                 handlerSend.sendMessage(mesHandler);
-                inputMsg.setText("");
             }
         });
         btnIcon.setOnClickListener(new View.OnClickListener() {

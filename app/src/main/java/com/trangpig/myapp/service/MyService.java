@@ -59,14 +59,13 @@ public class MyService extends Service {
                             intentBroadcast.putExtra(REGISTRY_ROOM, mes);
                         }
                         if (mes.contains(MyConstant.MESSAGE_CHAT_ROOM)) {
-                            showTost(mes);
                             intentBroadcast.setAction(ACTION_ROOM_CHAT);
                             intentBroadcast.putExtra(MES, mes.substring(mes.indexOf(':') + 1));
                         }
                         sendBroadcast(intentBroadcast);
                         break;
                     case 0:
-                        showTost(msg.obj.toString());
+//                        showTost(msg.obj.toString());
                         break;
                     default:
                 }
@@ -111,7 +110,6 @@ public class MyService extends Service {
             webSocketClient.connect();
             Data.getInstance().setAttribute(WEB, webSocketClient);
         } catch (Exception e) {
-//            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
         return Service.START_NOT_STICKY;

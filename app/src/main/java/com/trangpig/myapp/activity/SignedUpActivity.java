@@ -31,7 +31,7 @@ public class SignedUpActivity extends Activity {
     private Button bntsignedUp;
     private EditText edtUser, edtPass, edtRePass, edtName, edtAddress, edtBirth;
     Account account;
-    String userName, pass, repass;
+    String userName, pass, repass, name;
     private int mYear;
     private int mMonth;
     private int mDay;
@@ -84,50 +84,56 @@ public class SignedUpActivity extends Activity {
                 userName = edtUser.getText().toString();
                 pass = edtPass.getText().toString();
                 repass = edtRePass.getText().toString();
+                name = edtName.getText().toString();
                 try {
                     if (userName.length() != 0) {
                         if (pass.length() > 8) {
                             if (pass.equals(repass)) {
-                                account = new Account();
-                                account.setAddress(edtAddress.getText().toString());
-                                account.setBirthday(simpleDateFormat.parse(tvBirthDisplay.getText().toString()));
-                                account.setName(edtName.getText().toString());
-                                account.setUsername(userName);
-                                account.setPassword(pass);
-                                new AsyncTask<Account, Void, MyStatus>() {
-                                    MyStatus status;
+                                if(name.length() != 0) {
+                                    account = new Account();
+                                    account.setAddress(edtAddress.getText().toString());
+                                    account.setBirthday(simpleDateFormat.parse(tvBirthDisplay.getText().toString()));
+                                    account.setName(edtName.getText().toString());
+                                    account.setUsername(userName);
+                                    account.setPassword(pass);
+                                    account.setAvatar("defaultavatar.png");
+                                    new AsyncTask<Account, Void, MyStatus>() {
+                                        MyStatus status;
 
-                                    @Override
-                                    protected void onPreExecute() {
-                                        super.onPreExecute();
-                                        ringProgressDialog = ProgressDialog.show(SignedUpActivity.this, SignedUpActivity.this.getResources().getString(R.string.wait), SignedUpActivity.this.getResources().getString(R.string.conecting), true);
-                                    }
-
-                                    @Override
-                                    protected MyStatus doInBackground(Account... params) {
-                                        Log.e("tuyet ??ng kí........",account.toString() );
-                                        status = restTemplate.postForObject(String.format(MyUri.URL_SIGN_UP, MyUri.IP), account, MyStatus.class);
-                                        return status;
-                                    }
-
-                                    @Override
-                                    protected void onPostExecute(MyStatus myStatus) {
-                                        super.onPostExecute(myStatus);
-                                        Log.e("tuyet ??ng kí........", myStatus.getObj().toString());
-                                        if (myStatus == null) {
-                                            Toast.makeText(SignedUpActivity.this, SignedUpActivity.this.getResources().getString(R.string.fail_sign_up), Toast.LENGTH_LONG).show();
-                                        } else {
-
-                                            if (myStatus.getCode() == myStatus.CODE_SUCCESS) {
-                                                Toast.makeText(SignedUpActivity.this, SignedUpActivity.this.getResources().getString(R.string.success_sign_up), Toast.LENGTH_LONG).show();
-                                                finish();
-                                            } else {
-                                                Toast.makeText(SignedUpActivity.this, status.getObj().toString(), Toast.LENGTH_LONG).show();
-                                            }
+                                        @Override
+                                        protected void onPreExecute() {
+                                            super.onPreExecute();
+                                            ringProgressDialog = ProgressDialog.show(SignedUpActivity.this, SignedUpActivity.this.getResources().getString(R.string.wait), SignedUpActivity.this.getResources().getString(R.string.conecting), true);
                                         }
-                                        ringProgressDialog.dismiss();
-                                    }
-                                }.execute();
+
+                                        @Override
+                                        protected MyStatus doInBackground(Account... params) {
+                                            Log.e("tuyet ??ng kí........", account.toString());
+                                            status = restTemplate.postForObject(String.format(MyUri.URL_SIGN_UP, MyUri.IP), account, MyStatus.class);
+                                            return status;
+                                        }
+
+                                        @Override
+                                        protected void onPostExecute(MyStatus myStatus) {
+                                            super.onPostExecute(myStatus);
+                                            Log.e("tuyet ??ng kí........", myStatus.getObj().toString());
+                                            if (myStatus == null) {
+                                                Toast.makeText(SignedUpActivity.this, SignedUpActivity.this.getResources().getString(R.string.fail_sign_up), Toast.LENGTH_LONG).show();
+                                            } else {
+
+                                                if (myStatus.getCode() == myStatus.CODE_SUCCESS) {
+                                                    Toast.makeText(SignedUpActivity.this, SignedUpActivity.this.getResources().getString(R.string.success_sign_up), Toast.LENGTH_LONG).show();
+                                                    finish();
+                                                } else {
+                                                    Toast.makeText(SignedUpActivity.this, status.getObj().toString(), Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                            ringProgressDialog.dismiss();
+                                        }
+                                    }.execute();
+                                }else{
+                                    Toast.makeText(SignedUpActivity.this, SignedUpActivity.this.getResources().getString(R.string.fail_name), Toast.LENGTH_LONG).show();
+                                }
                             } else {
                                 Toast.makeText(SignedUpActivity.this, SignedUpActivity.this.getResources().getString(R.string.fail_pass), Toast.LENGTH_LONG).show();
                             }
@@ -142,6 +148,7 @@ public class SignedUpActivity extends Activity {
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
+                    Toast.makeText(SignedUpActivity.this, SignedUpActivity.this.getResources().getString(R.string.fail_date), Toast.LENGTH_LONG).show();
                 }
             }
         });

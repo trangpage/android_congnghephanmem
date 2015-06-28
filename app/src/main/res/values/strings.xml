@@ -47,8 +47,10 @@
     <string name="fail_pass">Mật khẩu không trùng khớp!</string>
     <string name="require_pass">Mật khẩu phải lớn hơn 8 ký tự!</string>
     <string name="fail_user">Tên tài khoản không được để trống!</string>
+    <string name="fail_name">Tên hiển thị không được để trống!</string>
+    <string name="fail_date">Bạn chưa nhập ngày hoặc ngày không đúng dịnh dạng!</string>
     <string name="fail_image">Chỉ đăng tối đa 5 hình ảnh!</string>
-    <string name="fail_server">Mất kết nối server!!</string>
+    <string name="fail_server">Mất kết nối server!! Đang chờ kết nối lại...</string>
 
     //bài đăng
     <string name="btn_post">Đăng</string>
@@ -58,14 +60,30 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Chat Room</string>
     <string-array name="string_array_room">
-        <item>Khoa CNTT</item>
-        <item>Khoa Kinh Tế</item>
-        <item>Khoa Cơ Khí</item>
+        <item>Khoa Công nghệ thông tin</item>
+        <item>Khoa Kinh tế</item>
+        <item>Khoa Môi trường và tài nguyên</item>
+        <item>Khoa Cơ khí công nghệ</item>
+        <item>Khoa Ngoại ngữ</item>
+        <item>Khoa Thủy sản</item>
+        <item>Khoa Lâm Nghiệp</item>
+        <item>Khoa Nông học</item>
+        <item>Khoa Chăn nuôi thú y</item>
+        <item>Khoa Công nghệ thực phẩm</item>
+        <item>Khoa Quản lý đất đai và bất động sản</item>
     </string-array>
     <string-array name="string_array_room_key">
-        <item>cntt</item>
-        <item>kt</item>
-        <item>ck</item>
+        <item>kcntt</item>
+        <item>kkt</item>
+        <item>ktnmt</item>
+        <item>kckcn</item>
+        <item>knn</item>
+        <item>kts</item>
+        <item>kln</item>
+        <item>knh</item>
+        <item>kcnty</item>
+        <item>kcntp</item>
+        <item>kqldtbs</item>
     </string-array>
     <string-array name="string_array_planets">
         <item>Trang cá nhân</item>
