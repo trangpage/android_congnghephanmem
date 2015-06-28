@@ -35,7 +35,7 @@ public class DisplayInformationActivity extends Activity {
         tvSex = (TextView) findViewById(R.id.tvHTSex);
         tvAddress = (TextView) findViewById(R.id.tvHTNS);
         tvBirdth = (TextView) findViewById(R.id.tvNgayHienThi);
-        tvDeparment = (TextView) findViewById(R.id.tvHTNganh);
+//        tvDeparment = (TextView) findViewById(R.id.tvHTNganh);
         tvGradutedSchool = (TextView) findViewById(R.id.tvHTTrg);
         tvGradutedSchoolCode = (TextView) findViewById(R.id.tvHTMaTrg);
 
@@ -69,7 +69,7 @@ public class DisplayInformationActivity extends Activity {
                 }
                 tvAddress.setText(student.getAddress());
                 tvBirdth.setText(f.format(student.getBirthday()));
-                tvDeparment.setText(student.getSchoolRegisterCode());
+//                tvDeparment.setText(student.getSchoolRegisterCode());
                 tvGradutedSchool.setText(student.getSchoolName());
                 tvGradutedSchoolCode.setText(student.getSchoolCode());
             }
