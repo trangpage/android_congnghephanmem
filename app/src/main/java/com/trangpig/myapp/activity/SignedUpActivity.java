@@ -3,6 +3,8 @@ package com.trangpig.myapp.activity;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +45,7 @@ public class SignedUpActivity extends Activity {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
     RestTemplate restTemplate;
     ProgressDialog ringProgressDialog;
+    SharedPreferences sharedPreferences;
 
     static final int DATE_DIALOG_ID = 0;
 
@@ -50,6 +53,8 @@ public class SignedUpActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signed_up);
+        sharedPreferences = this.getSharedPreferences(
+                getString(R.string.accountXML), Context.MODE_PRIVATE);
         restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -110,6 +115,7 @@ public class SignedUpActivity extends Activity {
                                         protected MyStatus doInBackground(Account... params) {
                                             Log.e("tuyet ??ng kí........", account.toString());
                                             status = restTemplate.postForObject(String.format(MyUri.URL_SIGN_UP, MyUri.IP), account, MyStatus.class);
+                                            status.setObj(account.getUsername());
                                             return status;
                                         }
 
@@ -122,7 +128,11 @@ public class SignedUpActivity extends Activity {
                                             } else {
 
                                                 if (myStatus.getCode() == myStatus.CODE_SUCCESS) {
+                                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                    editor.putString(getString(R.string.saveuser), myStatus.getObj().toString());
+                                                    editor.commit();
                                                     Toast.makeText(SignedUpActivity.this, SignedUpActivity.this.getResources().getString(R.string.success_sign_up), Toast.LENGTH_LONG).show();
+
                                                     finish();
                                                 } else {
                                                     Toast.makeText(SignedUpActivity.this, status.getObj().toString(), Toast.LENGTH_LONG).show();

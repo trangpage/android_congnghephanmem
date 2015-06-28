@@ -60,7 +60,7 @@ public class ListConversationFragment extends Fragment {
 
     @Override
     public void onResume() {
-        super.onResume();
         adapter.notifyDataSetChanged();
+        super.onResume();
     }
 }

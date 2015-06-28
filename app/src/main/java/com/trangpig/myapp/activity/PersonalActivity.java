@@ -75,6 +75,9 @@ public static final String ID_ACC = "idacc";
         //
         intent = getIntent();
         idAcc = intent.getLongExtra(ID_ACC, 0);
+        // an nut tin nhan neu la chinh minh
+        if(account.getIdAcc() == idAcc)
+            btnTinNhan.setVisibility(View.INVISIBLE);
 
         for(int i = 0; i<account.getListFrs().size();i++){
             if(idAcc == account.getListFrs().get(i).getIdFriend())

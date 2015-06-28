@@ -96,24 +96,25 @@ public class MainActivity extends FragmentActivity {
         if (account == null) {
             id = sharedPreferences.getLong(getString(R.string.accountid), -1);
             if (id != -1) {
+                final ProgressDialog ringProgressDialog;
+                ringProgressDialog = ProgressDialog.show(MainActivity.this, MainActivity.this.getResources().getString(R.string.wait), MainActivity.this.getResources().getString(R.string.conecting), true);
                 new Thread(new Runnable() {
                     Message message = handler.obtainMessage();
-                    ProgressDialog ringProgressDialog;
 
                     @Override
                     public void run() {
                         try {
-                            ringProgressDialog = ProgressDialog.show(MainActivity.this, MainActivity.this.getResources().getString(R.string.wait), MainActivity.this.getResources().getString(R.string.conecting), true);
                             RestTemplate rest = new RestTemplate();
                             rest.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                            Account account = rest.getForObject(String.format(MyUri.LOGIN, id), Account.class);
+                            Log.e("tuyet... mainlogin",String.format(MyUri.GET_ACC,MyUri.IP, id));
+                            Account account = rest.getForObject(String.format(MyUri.GET_ACC,MyUri.IP, id), Account.class);
                             message.obj = account;
                             message.what = success;
-                            ringProgressDialog.dismiss();
                         } catch (RestClientException e) {
                             e.printStackTrace();
                             message.what = failure;
                         } finally {
+                            ringProgressDialog.dismiss();
                             handler.sendMessage(message);
                         }
                     }
@@ -150,6 +151,11 @@ public class MainActivity extends FragmentActivity {
 //                        setContentView(R.layout.activity_personal);
                     } else if (position == 6 || position == 7) {
 //                        setContentView(R.layout.login);
+                        SharedPreferences sharedPreferences = MainActivity.this.getSharedPreferences(
+                                getString(R.string.accountXML), Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putLong(getString(R.string.accountid), -1);
+                        editor.commit();
                         intent = new Intent(MainActivity.this, Login.class);
                         startActivity(intent);
                         finish();

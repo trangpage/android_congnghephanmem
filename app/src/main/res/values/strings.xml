@@ -27,7 +27,7 @@
     <string name="ketban">Bạn có thể biết</string>
     <string name="title_activity_signed_up">SignedUpActivity</string>
     <string name="title_activity_news">NewsActivity</string>
-    <string name="login_unsucess">Đăng nhập không thành công</string>
+    <string name="login_unsucess">Tài khoảng và mật khẩu không trùng khớp</string>
     <string name="login_error">Không thể kết nối tới máy chủ!</string>
     <string name="search_error">"không tìm thấy thông tin"</string>
     <string name="search_success">"Danh sách thông tin"</string>
@@ -95,7 +95,7 @@
         <item>Kết bạn</item>
         <item>Chát nhóm</item>
         <item>Đăng xuất</item>
-        <item>Help</item>
+        <item>Giúp đỡ</item>
     </string-array>
     <string name="title_activity_group_chat">Chát nhóm</string>
     <string name="title_activity_lock_up">Tra cứu</string>
